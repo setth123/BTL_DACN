@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "KhuyenMaiHoaDon")
+@Table(name = "ApDungKhuyenMai")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class KhuyenMaiHoaDon {
+public class ApDungKhuyenMai {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,6 +20,6 @@ public class KhuyenMaiHoaDon {
     private KhuyenMai khuyenMai;
 
     @ManyToOne
-    @JoinColumn(name="hoaDonID")
-    private HoaDon hoaDon;
+    @JoinColumn(name="maNguoiDung")
+    private NguoiDung nguoiDung;
 }

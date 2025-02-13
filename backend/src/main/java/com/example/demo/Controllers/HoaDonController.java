@@ -20,8 +20,8 @@ public class HoaDonController {
     HoaDonService hds;
     //datphong
     @PostMapping("/")
-    public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
-        return hds.taoHD(hoaDonDTO);
+    public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO,@PathVariable String maNguoiDung){
+        return hds.taoHD(hoaDonDTO,maNguoiDung);
     }
     //huyphong
     @DeleteMapping("/{maNguoiDung}/{maPhong}")

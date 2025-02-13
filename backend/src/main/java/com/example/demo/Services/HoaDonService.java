@@ -8,27 +8,33 @@ import java.time.temporal.ChronoUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.HoaDonDTO;
 import com.example.demo.Entities.HoaDon;
 import com.example.demo.Entities.Phong;
 import com.example.demo.Entities.KhuyenMai;
-import com.example.demo.Entities.KhuyenMaiHoaDon;
+import com.example.demo.Entities.NguoiDung;
+import com.example.demo.Entities.ApDungKhuyenMai;
 import com.example.demo.Repositories.PhongRepository;
 import com.example.demo.Repositories.HoaDonRepository;
-import com.example.demo.Repositories.KhuyenMaiHoaDonRepository;
+import com.example.demo.Repositories.ApDungKhuyenMaiRepository;
 import com.example.demo.Repositories.KhuyenMaiRepository;
+import com.example.demo.Repositories.NguoiDungRepository;
 
+@Service
 public class HoaDonService {
     @Autowired
     PhongRepository pr;
     @Autowired
     KhuyenMaiRepository kr;
     @Autowired
-    KhuyenMaiHoaDonRepository kmhdr;
+    ApDungKhuyenMaiRepository kmhdr;
     @Autowired
     HoaDonRepository hdr;
-    public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
+    @Autowired 
+    NguoiDungRepository ndr;
+    public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO,String maNguoiDung){
         HoaDon hd=new HoaDon();
         hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
         hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
@@ -40,23 +46,29 @@ public class HoaDonService {
         if(km!=null){
             Boolean dk1=true;
             Boolean dk2=true;
+            Boolean dk3=true;
             if(LocalDate.now().isBefore(km.getNgayBD())||LocalDate.now().isAfter(km.getNgayKT())){
                 dk1=false;
             }
             if(hd.getChiPhiDuTinh().compareTo(km.getGiaoDichToiThieu())<0){
                 dk2=false;
             }
-            if(dk1 && dk2){
+            
+            ApDungKhuyenMai kmhd_o=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
+            if(kmhd_o!=null)dk3=false;
+            if(dk1 && dk2 && dk3){
                  BigDecimal discount = hd.getChiPhiDuTinh()
                 .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP) // Chia 100 với 2 chữ số thập phân
                 .multiply(km.getMucKhuyenMai());
                 hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
             }
-
-            KhuyenMaiHoaDon kmhd=new KhuyenMaiHoaDon();
-            kmhd.setHoaDon(hd);
+            
+            ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
+            NguoiDung nd=ndr.findById(maNguoiDung).orElse(null);
+            kmhd.setNguoiDung(nd);
             kmhd.setKhuyenMai(km);
             kmhdr.save(kmhd);
+
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(hd);
@@ -68,7 +80,7 @@ public class HoaDonService {
         if(hd.getNgayNhanPhong().isBefore(LocalDate.now().plusDays(7))){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Khong the huy dat phong");
         }
-        KhuyenMaiHoaDon kmhd=kmhdr.findByHoaDonID(hd.getHoaDonID()).orElse(null);
+        ApDungKhuyenMai kmhd=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
         if(kmhd!=null){
             kmhdr.delete(kmhd);
         }

@@ -2,12 +2,15 @@ package com.example.demo.Services;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.PhongDTO;
 import com.example.demo.Entities.KhachSan;
 import com.example.demo.Entities.Phong;
 import com.example.demo.Repositories.KhachSanRepository;
 import com.example.demo.Repositories.PhongRepository;
+
+@Service
 public class PhongService {
     @Autowired
     PhongRepository pr;
