@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import './App.css'
+import HomePage from './Pages/HomePage'
 
 const App=()=>{
   return(
     <>
-      <div>ạkdhajh</div>
+      <HomePage/>
     </>
   )
 }

@@ -1,0 +1,9 @@
+li {
+    font-size: 30px;
+    list-style: none;
+    margin-left: 50px;
+}
+li>a{
+    color:red;
+    text-decoration: none;
+}
