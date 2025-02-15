@@ -1,11 +1,19 @@
-import { useState } from 'react'
 import './App.css'
-import HomePage from './Pages/HomePage'
+import NavBar from './Components/NavBar/NavBar'
+import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react-router-dom";
+import HomePage from './Pages/HomePage/HomePage';
+import KhuyenMai from './Pages/KhuyenMai/KhuyenMai';
 
 const App=()=>{
   return(
     <>
-      <HomePage/>
+      <Router>
+      <NavBar user={true}/>
+        <Routes>
+          <Route path="/" element={<HomePage/>}/>
+          <Route path="/khuyenMai" element={<KhuyenMai/>}/>
+        </Routes>
+      </Router>
     </>
   )
 }

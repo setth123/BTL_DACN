@@ -1,22 +1,32 @@
 import './NavBar.css'
+import userAvatar from '../../../assets/userAvatar.svg';
+import { useNavigate } from 'react-router-dom';
 
-const NavBar = () => {
+const NavBar = ({user}) => {
+    const navigate=useNavigate();
     return (
-        <div style={{display:"flex",marginTop:'10px',marginLeft:'30px'}}>
-            {/* logo */}
-            <div id="logo" style={{fontFamily:'Tahoma',color:'Red',fontSize:'45px',fontWeight:'bold'}}>
-                Travel
-            </div>
-            {/* pages nav */}
-            <div id="nav" style={{display:'flex'}}>
-                <li><a href="#">Khuyen mai</a></li>
-                <li><a href="#">Dat cho cua toi</a></li>
-                <li><a href="#">Dang ky</a></li>
-            </div>
-            {/* login or username */}
-            <button style={{backgroundColor:'blue',color:'white',fontSize:'20px',fontWeight:'bold',textAlign:'center'}}>
-                Dang nhap
-            </button>
+        <div className="navbar">
+            {/* Logo */}
+            <div id="logo" onClick={()=>navigate("/")}>Travel</div>
+
+            {/* Navbar */}
+            <ul>
+                <li><a href="/khuyenMai">Khuyến mãi</a></li>
+                <li><a href="#">Đặt chỗ của tôi</a></li>
+                <li><a href="#">Đăng ký</a></li>
+            </ul>
+            {user?(
+                <div style={{display:"flex",gap:"2vw",alignItems: "center" }}>
+                    <div id="avatar">
+                        <img src={userAvatar} alt="User Logo"/>
+                        <div>username</div>
+                    </div>
+                    <button>Đăng xuất</button>
+                </div>
+                ):(
+                    <button>Đăng nhập</button>
+                )
+            }
         </div>
     )
 }

@@ -1,9 +1,69 @@
-li {
-    font-size: 30px;
-    list-style: none;
-    margin-left: 50px;
+.navbar {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: space-between; /* Dàn đều các phần */
+    height: 12vh; /* Giữ nguyên chiều cao */
+    padding: 0 5%; /* Khoảng cách hai bên */
+    border-bottom: 1px solid rgb(184, 182, 182);
+    background-color: white;
 }
-li>a{
-    color:red;
+
+.navbar #logo {
+    font-family: Tahoma;
+    color: rgb(0, 140, 255);
+    font-size: 3vw;
+    font-weight: lighter;
+}
+
+.navbar #logo:hover{
+    cursor: pointer;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 3vw;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar ul li {
+    padding: 1vh 2vw; /* Tạo vùng click lớn hơn */
+    border-radius: 5px; /* Bo góc */
+    transition: background-color 0.3s ease; /* Hiệu ứng mượt */
+}
+
+.navbar ul li:hover {
+    background-color: rgb(213, 215, 216);
+}
+
+.navbar ul li a {
+    text-decoration: non;
+    color:black;
     text-decoration: none;
+    font-size:larger;
+}
+
+.navbar button {
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    background-color: rgb(0, 140, 255);
+    color: white;
+    font-size: 3vh; /* Kích thước chữ theo chiều cao màn hình */
+    font-weight: bold;
+    padding: 1vh 2vw; /* Padding theo đơn vị viewport */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 6vh; /* Chiều cao theo % của viewport */
+}
+.navbar button:hover{
+    background-color: rgb(12, 94, 161);;
+}
+.avatar{
+    display:flex;
+    flex-direction:column;
+    align-items: center;
+    text-align: center;
 }
