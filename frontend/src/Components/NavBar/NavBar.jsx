@@ -12,7 +12,7 @@ const NavBar = ({user}) => {
             {/* Navbar */}
             <ul>
                 <li><a href="/khuyenMai">Khuyến mãi</a></li>
-                <li><a href="#">Đặt chỗ của tôi</a></li>
+                <li><a href="/mydc">Đặt chỗ của tôi</a></li>
                 <li><a href="#">Đăng ký</a></li>
             </ul>
             {user?(
