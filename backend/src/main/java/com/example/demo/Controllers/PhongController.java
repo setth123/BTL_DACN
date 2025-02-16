@@ -30,18 +30,30 @@ public class PhongController {
     //get all
     @GetMapping("/")
     public ResponseEntity<List<Phong>> getPhongs(){
-        List<Phong> ps=pr.findAll();
-        if(ps.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        return ResponseEntity.status(HttpStatus.OK).body(ps);
+        try{
+            List<Phong> ps=pr.findAll();
+            if(ps.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.OK).body(ps);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     } 
     //delete    
     @DeleteMapping("/{maPhong}")
     public ResponseEntity<List<Phong>> deletePhong(@PathVariable String maPhong){
-        if(!pr.existsById(maPhong)){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pr.findAll());
+        try{
+            if(!pr.existsById(maPhong)){
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pr.findAll());
+            }
+            pr.deleteById(maPhong);
+            return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
         }
-        pr.deleteById(maPhong);
-        return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     //add
     @PostMapping("/")

@@ -35,56 +35,67 @@ public class HoaDonService {
     @Autowired 
     NguoiDungRepository ndr;
     public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO,String maNguoiDung){
-        HoaDon hd=new HoaDon();
-        hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
-        hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
-
-        Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
-        hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
-
-        KhuyenMai km=kr.findById(hoaDonDTO.getMaKhuyenMai()).orElse(null);
-        if(km!=null){
-            Boolean dk1=true;
-            Boolean dk2=true;
-            Boolean dk3=true;
-            if(LocalDate.now().isBefore(km.getNgayBD())||LocalDate.now().isAfter(km.getNgayKT())){
-                dk1=false;
+        try{
+            HoaDon hd=new HoaDon();
+            hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
+            hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
+    
+            Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
+            hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
+    
+            KhuyenMai km=kr.findById(hoaDonDTO.getMaKhuyenMai()).orElse(null);
+            if(km!=null){
+                Boolean dk1=true;
+                Boolean dk2=true;
+                Boolean dk3=true;
+                if(LocalDate.now().isBefore(km.getNgayBD())||LocalDate.now().isAfter(km.getNgayKT())){
+                    dk1=false;
+                }
+                if(hd.getChiPhiDuTinh().compareTo(km.getGiaoDichToiThieu())<0){
+                    dk2=false;
+                }
+                
+                ApDungKhuyenMai kmhd_o=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
+                if(kmhd_o!=null)dk3=false;
+                if(dk1 && dk2 && dk3){
+                     BigDecimal discount = hd.getChiPhiDuTinh()
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP) // Chia 100 với 2 chữ số thập phân
+                    .multiply(km.getMucKhuyenMai());
+                    hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
+                }
+                
+                ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
+                NguoiDung nd=ndr.findById(maNguoiDung).orElse(null);
+                kmhd.setNguoiDung(nd);
+                kmhd.setKhuyenMai(km);
+                kmhdr.save(kmhd);
+    
             }
-            if(hd.getChiPhiDuTinh().compareTo(km.getGiaoDichToiThieu())<0){
-                dk2=false;
-            }
-            
-            ApDungKhuyenMai kmhd_o=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
-            if(kmhd_o!=null)dk3=false;
-            if(dk1 && dk2 && dk3){
-                 BigDecimal discount = hd.getChiPhiDuTinh()
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP) // Chia 100 với 2 chữ số thập phân
-                .multiply(km.getMucKhuyenMai());
-                hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
-            }
-            
-            ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
-            NguoiDung nd=ndr.findById(maNguoiDung).orElse(null);
-            kmhd.setNguoiDung(nd);
-            kmhd.setKhuyenMai(km);
-            kmhdr.save(kmhd);
-
+            return ResponseEntity.status(HttpStatus.OK).body(hd);
         }
-
-        return ResponseEntity.status(HttpStatus.OK).body(hd);
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     //huy phong
     public ResponseEntity<String> huyPhong(String maNguoiDung,String maPhong){
-        HoaDon hd=hdr.findByMaNguoiDungAndMaPhong(maNguoiDung, maPhong).orElse(null);
-        if(hd.getNgayNhanPhong().isBefore(LocalDate.now().plusDays(7))){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Khong the huy dat phong");
+        try{
+            HoaDon hd=hdr.findByMaNguoiDungAndMaPhong(maNguoiDung, maPhong).orElse(null);
+            if(hd.getNgayNhanPhong().isBefore(LocalDate.now().plusDays(7))){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Khong the huy dat phong");
+            }
+            ApDungKhuyenMai kmhd=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
+            if(kmhd!=null){
+                kmhdr.delete(kmhd);
+            }
+            hdr.delete(hd);
+            return ResponseEntity.status(HttpStatus.OK).body("Xoa thanh cong");
         }
-        ApDungKhuyenMai kmhd=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
-        if(kmhd!=null){
-            kmhdr.delete(kmhd);
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-        hdr.delete(hd);
-        return ResponseEntity.status(HttpStatus.OK).body("Xoa thanh cong");
     }
 }

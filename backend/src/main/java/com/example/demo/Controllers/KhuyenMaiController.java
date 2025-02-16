@@ -22,8 +22,27 @@ public class KhuyenMaiController {
     //get all khuyen mai
     @GetMapping("/")
     public ResponseEntity<List<KhuyenMai>> getKhuyenMais(){
-        List<KhuyenMai> kms=kmr.findAll();
-        if(kms.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        else return ResponseEntity.status(HttpStatus.OK).body(kms);
+        try{
+            List<KhuyenMai> kms=kmr.findAll();
+            if(kms.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            else return ResponseEntity.status(HttpStatus.OK).body(kms);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    //get top 4 khuyen mai
+    @GetMapping("/userHome")
+    public ResponseEntity<List<Object[]>> get4KhuyenMais(){
+        try{
+            List<Object[]> kms=kmr.findLatestKm();
+            if(kms.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            else return ResponseEntity.status(HttpStatus.OK).body(kms);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }

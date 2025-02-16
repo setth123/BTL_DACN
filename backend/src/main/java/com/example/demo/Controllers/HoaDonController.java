@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,11 +22,23 @@ public class HoaDonController {
     //datphong
     @PostMapping("/")
     public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO,@PathVariable String maNguoiDung){
-        return hds.taoHD(hoaDonDTO,maNguoiDung);
+        try{
+            return hds.taoHD(hoaDonDTO,maNguoiDung);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     //huyphong
     @DeleteMapping("/{maNguoiDung}/{maPhong}")
     public ResponseEntity<String> deleteHoaDon(@PathVariable String maNguoiDung,@PathVariable String maPhong){
-        return hds.huyPhong(maNguoiDung,maPhong);
+        try{
+            return hds.huyPhong(maNguoiDung,maPhong);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 }
