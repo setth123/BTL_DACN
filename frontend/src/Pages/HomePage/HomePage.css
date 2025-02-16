@@ -1,0 +1,27 @@
+#voucher{
+    margin-top: 2vh;
+    margin-left: 2vw;
+
+}
+#voucher a{
+    color:rgb(0, 140, 255);
+    font-size: x-large;
+    margin-left:70vw;
+    margin-top:5vh;
+}
+#kmBoxs{
+    display:flex;
+    gap:2vw;
+}
+#kmBoxs img{
+    width: 22vw;
+    height:25vh;
+}
+#htBoxs{
+    display:flex;
+    gap:2vw;
+}
+#hotel img{
+    width: 22vw;
+    height:25vh;
+}
