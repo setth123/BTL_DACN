@@ -1,13 +1,16 @@
-#voucher{
+#home{
     margin-top: 2vh;
     margin-left: 2vw;
 
 }
-#voucher a{
+#home a{
     color:rgb(0, 140, 255);
     font-size: x-large;
     margin-left:70vw;
     margin-top:5vh;
+}
+#home a:hover{
+    color: rgb(1, 34, 63);
 }
 #kmBoxs{
     display:flex;
