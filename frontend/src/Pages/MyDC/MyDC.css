@@ -1,13 +1,19 @@
 #room{
     display:flex;
-    border: 1px solid;
     width:max-content;
     border-top-left-radius: 50%;
     border-bottom-left-radius: 50%;
 }
+
 #room #rp2,#room #rp3{
     color:rgba(10, 10, 10, 0.911);
-    border-right: 1px solid;
+    border: 1px solid rgb(88, 87, 87);
+    border-radius: 0px;
+}
+#room #rp1{
+    border:1px solid;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
 }
 #roomContainer{
     display: flex;
@@ -21,7 +27,8 @@
     height: 25vh;
     border-top-left-radius: 50%;
     border-bottom-left-radius: 50%;
-} 
+}
+
 button{
     display: flex;
     align-items: center; /* Căn giữa theo chiều dọc */
