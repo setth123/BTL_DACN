@@ -5,4 +5,16 @@ body {
     margin:0;
     padding:0;
   }
-  
+
+::-webkit-scrollbar {
+    height: 10px; /* Độ cao của thanh cuộn ngang */
+}
+
+/* Tùy chỉnh thanh cuộn kéo ngang */
+::-webkit-scrollbar-thumb:horizontal {
+    background: rgb(47, 151, 236); /* Màu của thanh cuộn */
+    border-radius: 5px; /* Bo tròn các góc của thanh cuộn */
+}
+::-webkit-scrollbar-thumb:vertical{
+    background: rgb(185, 185, 185);
+}

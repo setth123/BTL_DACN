@@ -1,0 +1,38 @@
+#room{
+    display:flex;
+    border: 1px solid;
+    width:max-content;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
+#room #rp2,#room #rp3{
+    color:rgba(10, 10, 10, 0.911);
+    border-right: 1px solid;
+}
+#roomContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    margin-top: 5vh;
+    align-items: center;
+}
+#room img{
+    width: 10vw;
+    height: 25vh;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+} 
+button{
+    display: flex;
+    align-items: center; /* Căn giữa theo chiều dọc */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    background-color: rgb(0, 140, 255);
+    color: white;
+    font-size: 3vh; /* Kích thước chữ theo chiều cao màn hình */
+    font-weight: bold;
+    padding: 1vh 2vw; /* Padding theo đơn vị viewport */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 6vh; /* Chiều cao theo % của viewport */
+}

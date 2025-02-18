@@ -1,0 +1,18 @@
+#kmBoxs{
+    margin-left: 1vw;
+    display:flex;
+    gap:2vw;
+    overflow-x: auto;
+    white-space: nowrap;
+    margin-right: 1vw;
+}
+#km{
+    margin-bottom: 3vh;
+}
+#kmBoxs img{
+    width: 22vw;
+    height:25vh;
+}
+h2{
+    margin-left: 2vw;
+}
