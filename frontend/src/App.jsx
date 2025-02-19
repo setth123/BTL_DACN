@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from "react
 import HomePage from './Pages/HomePage/HomePage';
 import KhuyenMai from './Pages/KhuyenMai/KhuyenMai';
 import MyDC from './Pages/MyDC/MyDC';
+import DatPhong from './Pages/DatPhong/DatPhong';
 
 const App=()=>{
   return(
@@ -14,6 +15,7 @@ const App=()=>{
           <Route path="/" element={<HomePage/>}/>
           <Route path="/khuyenMai" element={<KhuyenMai/>}/>
           <Route path="/mydc" element={<MyDC/>}/>
+          <Route path="/datPhong" element={<DatPhong/>}/>
         </Routes>
       </Router>
     </>

@@ -5,7 +5,7 @@ const SearchBar = () => {
     const [location,setLocation]=useState("");
     const [checkIn,setCheckIn]=useState(new Date());
     const [checkOut,setCheckOut]=useState(new Date());
-    const locations=["Hà Nội", "Đà Nẵng"];
+    const locations=["Hà Nội", "Đà Nẵng","TP Hồ Chí Minh","Huế","Quảng Ninh", "Ninh Bình"];
     return (
         <div id="container">
             <div id="location" className="search-box">

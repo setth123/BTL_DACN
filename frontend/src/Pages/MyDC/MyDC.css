@@ -4,17 +4,50 @@
     border-top-left-radius: 50%;
     border-bottom-left-radius: 50%;
 }
+h2,h3{
+    color: rgb(0, 140, 255);
+}
 
 #room #rp2,#room #rp3{
     color:rgba(10, 10, 10, 0.911);
-    border: 1px solid rgb(88, 87, 87);
+    border: 1px solid rgb(88, 87, 87); 
+    border-left: 0;
     border-radius: 0px;
+    padding-right: 1vw;
+    padding-left: 1vw;
+}
+#rp3{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+#rp2 span img{
+    width: 3vw;
+    height: 3vh;
+    vertical-align: middle;
+}
+
+#rp3 i{
+    font-size: small;
 }
 #room #rp1{
-    border:1px solid;
+    border:1px solid rgb(88, 87, 87);;
     border-top-left-radius: 50%;
     border-bottom-left-radius: 50%;
 }
+#room #rp4{
+    border: 1px solid rgb(88, 87, 87);
+    border-left: 0;
+    border-top-right-radius: 25%;
+    border-bottom-right-radius: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1vw;
+}
+
 #roomContainer{
     display: flex;
     flex-direction: column;
@@ -25,21 +58,23 @@
 #room img{
     width: 10vw;
     height: 25vh;
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
+    border-top-left-radius: 25%;
+    border-bottom-left-radius: 25%;
 }
 
-button{
+#rp4 button{
     display: flex;
     align-items: center; /* Căn giữa theo chiều dọc */
     justify-content: center; /* Căn giữa theo chiều ngang */
     background-color: rgb(0, 140, 255);
     color: white;
-    font-size: 3vh; /* Kích thước chữ theo chiều cao màn hình */
+    font-size: 2vh; /* Kích thước chữ theo chiều cao màn hình */
     font-weight: bold;
-    padding: 1vh 2vw; /* Padding theo đơn vị viewport */
     border: none;
     border-radius: 5px;
     cursor: pointer;
     height: 6vh; /* Chiều cao theo % của viewport */
+}
+#rp4 button:hover{
+    background-color: rgb(0, 108, 196);;
 }
