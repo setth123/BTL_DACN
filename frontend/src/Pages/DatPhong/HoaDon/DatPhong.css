@@ -1,11 +1,11 @@
-#container{
+#dpContainer{
     margin-top: 5vh;
     display:flex;
     justify-content: space-between;
     padding-left: 2vw;
     padding-right: 2vw;
 }
-#container h2,#container h3{
+#dpContainer h2,#container h3{
     color: black;
 }
 span img{
@@ -20,7 +20,7 @@ span img{
 #warning{
     background-color: rgb(241, 189, 180);
     box-shadow: 0px 4px 5px rgba(0,0,0,0.2);
-    padding:1vh;
+    padding: 1vw;
 }
 #form{
     background-color: white;
@@ -47,8 +47,8 @@ span img{
     margin-bottom: 1vh;
 }
 #inp input{
-    padding: 1vh;
-    font-size: xx-large;
+    padding: 2vh;
+    font-size: x-large;
     border: 1px solid #ccc;
     border-radius: 10px;
 }
@@ -68,4 +68,13 @@ span img{
     margin-top: 5vh;
     padding: 1vw;
     margin-bottom: 3vh;
+}
+
+#dpHt,#dpR{
+    background-color: white;
+    box-shadow: 0px 4px 5px rgba(0,0,0,0.2);
+    padding: 5vh;
+}
+#sec2{
+    font-size: 3vh;
 }

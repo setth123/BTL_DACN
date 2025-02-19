@@ -1,0 +1,35 @@
+#dptc{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin:auto;
+    width: fit-content;
+}
+#bill{
+    margin-top: 5vh;
+    border: 1px solid black;
+    padding: 2vh;
+    border-radius: 5%;
+    margin-bottom: 5vh;
+    background-color: white;
+}
+#bill p{
+    font-size: larger;
+}
+
+#roomBill th{
+    background-color: rgb(179, 176, 176);
+}
+#roomBill th, #roomBill td{
+    padding: 2vh;
+    border-bottom: 1px solid rgb(73, 73, 73);
+    font-size: larger   ;
+}
+
+
+#bp{
+    display:flex;
+    justify-content: space-between;
+    border-bottom: 1px solid rgb(73, 73, 73);
+}
