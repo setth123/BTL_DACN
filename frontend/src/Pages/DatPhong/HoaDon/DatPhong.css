@@ -20,7 +20,7 @@ span img{
 #warning{
     background-color: rgb(241, 189, 180);
     box-shadow: 0px 4px 5px rgba(0,0,0,0.2);
-    padding: 1vw;
+    padding-bottom: 1vw;
 }
 #form{
     background-color: white;

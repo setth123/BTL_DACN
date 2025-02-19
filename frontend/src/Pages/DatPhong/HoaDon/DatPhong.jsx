@@ -35,7 +35,7 @@ const DatPhong = () => {
                         <div id="form">
                             <div id="inp" >
                                 <label for="fullName">Tên đầy đủ (Nhâp tên như trên CMND/hộ chiếu)</label>
-                                <input style={{width:"100%"}} type="text" id="fullName" placeholder="VD: Nguyễn Văn A" />
+                                <input style={{width:"95%"}} type="text" id="fullName" placeholder="VD: Nguyễn Văn A" />
                             </div>
                             <div id="fRow" style={{display:"flex",gap:"1vw"}}>
                                 <div id="inp">
@@ -49,7 +49,7 @@ const DatPhong = () => {
                             </div>
                             <div id="inp" >
                                 <label for="km">Mã khuyến mãi (Nếu có)</label>
-                                <input style={{width:"100%"}} type="text" id="fullName" placeholder="Ví dụ: KM0123" />
+                                <input style={{width:"95%"}} type="text" id="fullName" placeholder="Ví dụ: KM0123" />
                             </div>
                         </div>
                     </div>
