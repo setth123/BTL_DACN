@@ -7,13 +7,15 @@ import MyDC from './Pages/MyDC/MyDC';
 import DatPhong from './Pages/DatPhong/HoaDon/DatPhong';
 import DPTC from './Pages/DatPhong/DPTC/DPTC';
 import AHomePage from './Pages/Admin/HomePage/HomePage';
+import Room from './Pages/Admin/Room/Room';
+import ANavBar from './Components/ANavBar/ANavBar';
 
 const App=()=>{
   const location=useLocation();
   const hide=location.pathname.startsWith("/admin")||location.pathname.startsWith("/login")||location.pathname.startsWith("/register");
   return(
     <>
-      {!hide && <NavBar user={true}/>}
+      {!hide &&<NavBar user={true}/>}
       <Routes>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/khuyenMai" element={<KhuyenMai/>}/>
@@ -21,6 +23,7 @@ const App=()=>{
         <Route path="/datPhong" element={<DatPhong/>}/>
         <Route path="/dptc" element={<DPTC/>}/>
         <Route path="/admin" element={<AHomePage/>}/>
+        <Route path="/admin/room" element={<Room/>}/>
       </Routes>
     </>
   )
