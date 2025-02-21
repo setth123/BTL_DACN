@@ -8,7 +8,7 @@ import DatPhong from './Pages/DatPhong/HoaDon/DatPhong';
 import DPTC from './Pages/DatPhong/DPTC/DPTC';
 import AHomePage from './Pages/Admin/HomePage/HomePage';
 import Room from './Pages/Admin/Room/Room';
-import ANavBar from './Components/ANavBar/ANavBar';
+import RoomForm from './Components/RoomForm/RoomForm';
 
 const App=()=>{
   const location=useLocation();
@@ -24,6 +24,8 @@ const App=()=>{
         <Route path="/dptc" element={<DPTC/>}/>
         <Route path="/admin" element={<AHomePage/>}/>
         <Route path="/admin/room" element={<Room/>}/>
+        <Route path="/admin/room/add" element={<RoomForm title={"Thêm phòng mới"} btn={"Thêm"}/>}/>
+        <Route path="/admin/room/update" element={<RoomForm title={"Cập nhật thông tin phòng"} btn={"Lưu"} type='t2'/>}/>
       </Routes>
     </>
   )

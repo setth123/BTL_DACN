@@ -1,0 +1,32 @@
+#roomForm{
+    display:flex;
+    height:100vh;
+    gap:10vw;
+}
+
+#roomForm h1{
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+#roomForm #rInp label{
+    display:block;
+    font-size: x-large;
+    margin-bottom: 1vh;
+}
+#roomForm #rInp input,#roomForm #rInp textarea{
+    padding: 2vh;
+    font-size: x-large;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+#roomForm #rInp input:focus,#roomForm #rInp textarea:focus{
+    border-color: rgb(6, 107, 189);
+    outline: none;
+}
+
+#rooms1,#rooms2{
+    display:flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
