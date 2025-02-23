@@ -29,4 +29,5 @@ public class HoaDon {
     private LocalDate ngayTraPhong;
     private BigDecimal chiPhiDuTinh;
     private BigDecimal tongChiPhi;
+    private String hoTenKH;
 }

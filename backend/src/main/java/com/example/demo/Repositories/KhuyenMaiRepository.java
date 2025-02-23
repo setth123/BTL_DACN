@@ -10,8 +10,9 @@ import org.springframework.data.jpa.repository.Query;
 
 
 @Repository
-public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai,String>{
-    @Query("SELECT k.maKhuyenMai, k.ngayBD,k.ngayKT FROM KhuyenMai k ORDER BY k.ngayBD DESC LIMIT 4")
-    List<Object[]> findLatestKm();
-
+public interface KhuyenMaiRepository extends JpaRepository<KhuyenMai, String> {
+    @Query(value="SELECT maKhuyenMai,ngayBD, ngayKT FROM KhuyenMai ORDER BY ngayBD DESC LIMIT 4",nativeQuery = true)
+    List<Object[]> findLatestKM();
+    List<KhuyenMai> findAllByOrderByNgayBDDesc();
 }
+

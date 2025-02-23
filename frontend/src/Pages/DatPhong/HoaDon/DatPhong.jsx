@@ -79,13 +79,6 @@ const DatPhong = () => {
                         </div>
                     </div>
 
-                    <div id="cpdt" style={{marginTop:"3vh"}}>
-                        <h2 >Chi phí dự tính</h2>
-                        <div id="cp" >
-                            <p style={{fontWeight:"normal"}}>{data.loaiPhong} ({data.soNgay} đêm)</p>
-                            <p>{chiPhi.toLocaleString("vn-VN")} VNĐ</p>
-                        </div>
-                    </div>
                     <button id="dpBtn" onClick={handleDP}>Đặt phòng</button>
                 </div>
                 {/* sec2 */}

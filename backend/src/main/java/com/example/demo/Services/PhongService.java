@@ -18,21 +18,21 @@ public class PhongService {
     KhachSanRepository ksr;
     //add
     public void addPhong(PhongDTO phongDTO){
-        Phong p=new Phong();
-        p.setMaPhong("P"+System.currentTimeMillis());
-        p.setLoaiPhong(phongDTO.getLoaiPhong());
-        p.setDienTich(phongDTO.getDienTich());
-        p.setGiaPhong(phongDTO.getGiaPhong());
-        p.setHinhAnh(phongDTO.getHinhAnh());
-
-        KhachSan ks=ksr.findById(phongDTO.getMaKhachSan()).orElseThrow();
-        p.setKhachSan(ks);
-
-        p.setSoNguoi(phongDTO.getSoNguoi());
-        p.setSoPhongTrong(phongDTO.getSoPhongTrong());
-        p.setTienIch(phongDTO.getTienIch());
-        pr.save(p);
-    }
+            Phong p=new Phong();
+            p.setMaPhong("P"+System.currentTimeMillis());
+            p.setLoaiPhong(phongDTO.getLoaiPhong());
+            p.setDienTich(phongDTO.getDienTich());
+            p.setGiaPhong(phongDTO.getGiaPhong());
+            p.setHinhAnh(phongDTO.getHinhAnh());
+    
+            KhachSan ks=ksr.findById(phongDTO.getMaKhachSan()).orElseThrow();
+            p.setKhachSan(ks);
+    
+            p.setSoNguoi(phongDTO.getSoNguoi());
+            p.setSoPhongTrong(phongDTO.getSoPhongTrong());
+            p.setTienIch(phongDTO.getTienIch());
+            pr.save(p);
+        }
     //update
     public void updatePhong(String maPhong,PhongDTO phongDTO){
         Phong p=pr.findById(maPhong).orElseThrow();

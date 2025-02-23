@@ -1,18 +1,34 @@
 import './HomePage.css'
 import SearchBar from '../../Components/SearchBar/SearchBar'
+import { useEffect, useState } from 'react'
+import { dateConnect } from '../../utils/dtOutput'
 const HomePage = () => {
-    const ksData=[
-        {hinhAnh:"",tenKhachSan:"KhachSan1",diemSoTB:"7.5"},
-        {hinhAnh:"",tenKhachSan:"KhachSan1",diemSoTB:"7.5"},
-        {hinhAnh:"",tenKhachSan:"KhachSan1",diemSoTB:"7.5"},
-        {hinhAnh:"",tenKhachSan:"KhachSan1",diemSoTB:"7.5"}
-    ]
-    const kmData=[
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024"},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024"},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024"},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024"}
-    ]
+    const [htData,setHtData]=useState([]);
+    const [vData,setVData]=useState([]);
+    useEffect(()=>{
+        const fetchData=async()=>{
+            try{
+                const ksResponse= (await fetch("http://localhost:8080/api/khach-san/most-rated"));
+                const kmResponse= (await fetch("http://localhost:8080/api/khuyen-mai/userHome"));
+                if(!ksResponse.ok || !kmResponse.ok){
+                    throw new Error(`Error API: ${ksResult.status} ${ksResult.statusText}`);
+                }
+                const ksResult=await ksResponse.json();
+                const kmResult=await kmResponse.json();
+                setHtData(ksResult)
+                setVData(kmResult.map(item=>({
+                    ...item,
+                    thoiGian:dateConnect(item.ngayBD,item.ngayKT)
+                })));
+            }
+            catch(err){
+                console.log("Error fetching", err);
+                setHtData([]);
+                setVData([]);
+            }
+        }
+        fetchData();
+    },[])
     return (
         <div id="home">
             <SearchBar/>
@@ -22,7 +38,7 @@ const HomePage = () => {
             </div>
             <div id="kmBoxs">
                 {
-                    kmData.map((item,index)=>(
+                    vData.map((item,index)=>(
                         <div key={index}>
                             <img src="/assets/khuyenmai.webp" alt="km"/>
                             <p style={{fontWeight:"bold"}}>{item.maKhuyenMai}</p>
@@ -36,7 +52,7 @@ const HomePage = () => {
                 <h1>Khách sạn nổi bật</h1>
                 <div id="htBoxs">
                     {
-                        ksData.map((item,index)=>(
+                        htData.map((item,index)=>(
                             <div key={index} id="ht">
                                 <img src={item.hinhAnh} alt="khachsan" />
                                 <p style={{fontWeight:"bold"}}>{item.tenKhachSan}</p>

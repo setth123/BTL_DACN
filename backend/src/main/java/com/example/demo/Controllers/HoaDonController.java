@@ -21,9 +21,9 @@ public class HoaDonController {
     HoaDonService hds;
     //datphong
     @PostMapping("/")
-    public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO,@PathVariable String maNguoiDung){
+    public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
         try{
-            return hds.taoHD(hoaDonDTO,maNguoiDung);
+            return hds.taoHD(hoaDonDTO);
         }
         catch(Exception e){
             e.printStackTrace();

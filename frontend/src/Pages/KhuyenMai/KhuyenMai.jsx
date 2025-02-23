@@ -1,4 +1,5 @@
 
+import { useEffect, useState } from 'react'
 import './KhuyenMai.css'
 const KhuyenMai = () => {
     const kmData=[
@@ -11,13 +12,24 @@ const KhuyenMai = () => {
         {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
         {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000}
     ]
+    const [km,setKM]=useState(kmData);
+    useEffect(()=>{
+        const getKM=async()=>{
+            try{
+
+            }
+            catch(err){
+                
+            }
+        }
+    },[])
     //const reverse=
     return (
         <div>
             <h2 >Khuyến mãi mới nhất</h2>
             <div id="kmBoxs">
                 {
-                    kmData.map((item,index)=>(
+                    km.map((item,index)=>(
                         <div key={index} id='km'>
                             <img src="/assets/khuyenmai.webp" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>

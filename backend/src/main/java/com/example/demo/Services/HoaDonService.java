@@ -34,12 +34,12 @@ public class HoaDonService {
     HoaDonRepository hdr;
     @Autowired 
     NguoiDungRepository ndr;
-    public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO,String maNguoiDung){
+    public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
         try{
             HoaDon hd=new HoaDon();
             hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
             hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
-    
+            hd.setHoTenKH(hoaDonDTO.getHoTenKH());
             Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
             hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
     
@@ -55,7 +55,7 @@ public class HoaDonService {
                     dk2=false;
                 }
                 
-                ApDungKhuyenMai kmhd_o=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
+                ApDungKhuyenMai kmhd_o=kmhdr.findByMaNguoiDung(hoaDonDTO.getMaNguoiDung()).orElse(null);
                 if(kmhd_o!=null)dk3=false;
                 if(dk1 && dk2 && dk3){
                      BigDecimal discount = hd.getChiPhiDuTinh()
@@ -65,7 +65,7 @@ public class HoaDonService {
                 }
                 
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
-                NguoiDung nd=ndr.findById(maNguoiDung).orElse(null);
+                NguoiDung nd=ndr.findById(hoaDonDTO.getMaNguoiDung()).orElse(null);
                 kmhd.setNguoiDung(nd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);

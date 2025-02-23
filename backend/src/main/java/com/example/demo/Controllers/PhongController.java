@@ -1,6 +1,8 @@
 package com.example.demo.Controllers;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,14 +60,48 @@ public class PhongController {
     //add
     @PostMapping("/")
     public ResponseEntity<List<Phong>>addPhong(@RequestBody PhongDTO phongDTO){
-        ps.addPhong(phongDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+        try{
+            ps.addPhong(phongDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
     //update
     @PatchMapping("/")
     public ResponseEntity<List<Phong>>updatePhong(@RequestParam String maPhong,@RequestBody PhongDTO phongDTO){
-        ps.updatePhong(maPhong,phongDTO);
-        return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+        try{
+            ps.updatePhong(maPhong,phongDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
-
+    //huyPhong 
+    @GetMapping("/userHuy/{maNguoiDung}")
+    public ResponseEntity<List<PhongDTO>> getUserHuy(@PathVariable String maNguoiDung){
+        try{
+            List<Object[]> result=pr.findAllPhongByND(maNguoiDung);
+            List<PhongDTO> ps=result.stream().map(obj->{
+                PhongDTO dto=new PhongDTO();
+                dto.setMaPhong((String)obj[0]);
+                dto.setLoaiPhong((String)obj[1]);
+                dto.setHinhAnh((String )obj[2]);
+                dto.setSoNguoi((int)obj[3]);
+                dto.setDienTich((BigDecimal) obj[4]);
+                dto.setTienIch((String)obj[5]);
+                dto.setGiaPhong((BigDecimal) obj[6]);
+                return dto;
+            }).collect(Collectors.toList());
+            return ResponseEntity.status(HttpStatus.OK).body(ps);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }
