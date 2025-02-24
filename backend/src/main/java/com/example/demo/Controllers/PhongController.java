@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.DTO.PhongDTO;
 import com.example.demo.Entities.Phong;
+import com.example.demo.DTO.PhongDTO;
 import com.example.demo.Repositories.PhongRepository;
 import com.example.demo.Services.PhongService;
 
@@ -70,8 +69,8 @@ public class PhongController {
         }
     }
     //update
-    @PatchMapping("/")
-    public ResponseEntity<List<Phong>>updatePhong(@RequestParam String maPhong,@RequestBody PhongDTO phongDTO){
+    @PatchMapping("/{maPhong}")
+    public ResponseEntity<List<Phong>>updatePhong(@PathVariable String maPhong,@RequestBody PhongDTO phongDTO){
         try{
             ps.updatePhong(maPhong,phongDTO);
             return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());

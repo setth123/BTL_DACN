@@ -1,6 +1,9 @@
 package com.example.demo.Entities;
 
 import java.math.BigDecimal;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +30,7 @@ public class Phong {
     private Integer soPhongTrong;
 
     @ManyToOne
-    @JoinColumn(name = "maKhachSan")
+    @JoinColumn(name = "maKhachSan",referencedColumnName = "maKhachSan")
+    @JsonIgnore
     private KhachSan khachSan;
 }

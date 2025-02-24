@@ -19,13 +19,13 @@ const App=()=>{
       <Routes>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/khuyenMai" element={<KhuyenMai/>}/>
-        <Route path="/mydc" element={<MyDC/>}/>
-        <Route path="/datPhong" element={<DatPhong/>}/>
-        <Route path="/dptc" element={<DPTC/>}/>
+        <Route path="/mydc/:nguoiDungID" element={<MyDC/>}/>
+        <Route path="/datPhong/:phongID" element={<DatPhong/>}/>
+        <Route path="/dptc/:hoaDonID" element={<DPTC/>}/>
         <Route path="/admin" element={<AHomePage/>}/>
         <Route path="/admin/room" element={<Room/>}/>
         <Route path="/admin/room/add" element={<RoomForm title={"Thêm phòng mới"} btn={"Thêm"}/>}/>
-        <Route path="/admin/room/update" element={<RoomForm title={"Cập nhật thông tin phòng"} btn={"Lưu"} type='t2'/>}/>
+        <Route path="/admin/room/update/:roomId" element={<RoomForm title={"Cập nhật thông tin phòng"} btn={"Lưu"} type='t2'/>}/>
       </Routes>
     </>
   )

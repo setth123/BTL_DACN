@@ -17,11 +17,11 @@ public class DanhGia {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "maNguoiDung")
+    @JoinColumn(name = "maNguoiDung",referencedColumnName = "maNguoiDung")
     private NguoiDung nguoiDung;
 
     @ManyToOne
-    @JoinColumn(name = "maKhachSan")
+    @JoinColumn(name = "maKhachSan",referencedColumnName = "maKhachSan")
     private KhachSan khachSan;
 
     @Column(columnDefinition = "TEXT")

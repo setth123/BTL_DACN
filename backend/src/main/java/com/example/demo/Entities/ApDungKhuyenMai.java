@@ -16,10 +16,10 @@ public class ApDungKhuyenMai {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="maKhuyenMai")
+    @JoinColumn(name="maKhuyenMai",referencedColumnName = "maKhuyenMai")
     private KhuyenMai khuyenMai;
 
     @ManyToOne
-    @JoinColumn(name="maNguoiDung")
+    @JoinColumn(name="maNguoiDung",referencedColumnName = "maNguoiDung")
     private NguoiDung nguoiDung;
 }

@@ -2,34 +2,26 @@ import { useState } from 'react';
 import ANavBar from '../ANavBar/ANavBar';
 import EditBtn from '../editBtn/editBtn';
 import './RoomForm.css';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const RoomForm = ({title,btn,data={},type="t1"}) => {
-    data={
-        maPhong:"P001",
-        loaiPhong:"ABC",
-        hinhAnh:"XYZ",
-        soNguoi:3,
-        dienTich:5.4,
-        tienIch:"ákdjada",
-        giaPhong:5000000,
-        soPhongTrong:2,
-        maKhachSan:"kh001"
-    }
+    const navigate=useNavigate();
+    const {roomId}=useParams();
     const [formDT,setFormData]=useState({
-        maPhong:data.maPhong,
-        loaiPhong:data.loaiPhong,
-        hinhAnh:data.hinhAnh,
-        soNguoi:data.soNguoi,
-        dienTich:data.dienTich,
-        tienIch:data.tienIch,
-        giaPhong:data.giaPhong,
-        soPhongTrong:data.soPhongTrong,
-        maKhachSan:data.maKhachSan
+        loaiPhong:data.loaiPhong||"",
+        hinhAnh:data.hinhAnh||"",
+        soNguoi:data.soNguoi||"",
+        dienTich:data.dienTich||"",
+        tienIch:data.tienIch||"",
+        giaPhong:data.giaPhong||"",
+        soPhongTrong:data.soPhongTrong||"",
+        maKhachSan:data.maKhachSan||""
     })
     const handleChange=(e)=>{
         setFormData({
             ...formDT,
             [e.target.name]:e.target.value,
+            maKhachSan:"KS45600000000001"
         })
     }
     const restart=()=>{
@@ -44,6 +36,49 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             soPhongTrong:data.soPhongTrong,
             maKhachSan:data.maKhachSan
         })
+    }
+    const handleAdd=async(e)=>{
+        e.preventDefault();
+        console.log(JSON.stringify(formDT));
+        console.log(formDT);
+        try{
+            const res=await fetch("http://localhost:8080/api/phong/",{
+                method: "POST",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify(formDT)
+            })
+            if(!res.ok){
+                throw new Error(`Error API: ${res.status} ${res.statusText}`);
+            }
+            alert("Thêm thành công");
+            navigate("/admin/room")
+        }
+        catch(e){
+            console.log("Error while fetching: ",e);
+            restart();
+        }
+    }
+    const handleUpdate=async(maPhong)=>{
+        try{
+            const res=await fetch(`http://localhost:8080/api/phong/${maPhong}`,{
+                method:"PATCH",
+                headers:{
+                    "Content-Type": "application/json"
+                },
+                body:JSON.stringify(formDT)
+            })
+            if(!res.ok){
+                throw new Error(`Error API: ${res.status} ${res.statusText}`);
+            }
+            alert("Cập nhật thành công");
+            navigate("/admin/room")
+        }
+        catch(e){
+            console.log("Error while fetching: ",e);
+            restart();
+        }
     }
     return (
         <div id="roomForm">
@@ -93,7 +128,11 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
                     </div>
             </div>
                 <div style={{display:"flex", gap:"3vw",marginTop:"3vh",marginLeft:"23vw",paddingBottom:"2vh"}}>
-                    <EditBtn text={btn} color={"rgb(67, 106, 233)"} hoverColor={"rgb(32, 79, 233)"} fontSize='x-large' func={()=>{console.log(formDT)}}/>
+                    {type==="t1"?(
+                        <EditBtn text={btn} color={"rgb(67, 106, 233)"} hoverColor={"rgb(32, 79, 233)"} fontSize='x-large' func={handleAdd}/>
+                    ):(
+                        <EditBtn text={btn} color={"rgb(67, 106, 233)"} hoverColor={"rgb(32, 79, 233)"} fontSize='x-large' func={()=>handleUpdate(roomId)}/>
+                    )}
                     <EditBtn text="Đặt lại" color={"red"} hoverColor={"rgb(82, 3, 3)"} fontSize='x-large' func={restart}/>
                 </div>
             </div>
