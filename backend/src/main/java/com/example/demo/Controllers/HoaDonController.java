@@ -45,6 +45,7 @@ public class HoaDonController {
                 dto.setNgayTraPhong(((Date) obj[7]).toLocalDate());
                 dto.setTongChiPhi((BigDecimal) obj[8]);
                 dto.setKhuyenMaiState((Boolean) obj[9]);
+                dto.setMaNguoiDung((String) obj[10]);
                 return dto;
             }).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(hd);
