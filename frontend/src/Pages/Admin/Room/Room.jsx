@@ -2,26 +2,32 @@ import StaticTable from "../../../Components/StaticTable/StaticTable";
 import ANavBar from "../../../Components/ANavBar/ANavBar";
 import "./Room.css";
 import EditBtn from "../../../Components/editBtn/editBtn";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 const Room = () => {
-    const [data,setData]=useState([]);
-    const navigate=useNavigate();
-    useEffect(() =>{
-        const fetchData=async()=>{
-            try{
-                const res=await fetch("http://localhost:8080/api/phong/");
-                if(!res.ok){
-                    throw new Error(`Error API: ${res.status} ${res.statusText}`);
-                }
-                setData(await res.json());
+    const fetchData=async()=>{
+        try{
+            const res=await fetch("http://localhost:8080/api/phong/");
+            if(!res.ok){
+                throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
-            catch(err){
-                console.log("Error while fetching: ",err);
-            }
+            return res.json();
         }
-        fetchData();
-    },[]);
+        catch(err){
+            console.log("Error while fetching: ",err);
+        }
+    }
+
+    const {hotelId}=useParams();
+    const navigate=useNavigate();
+    const queryClient=useQueryClient();
+
+    const {data,error,isLoading}=useQuery({
+        queryKey:["adminRooms"],
+        queryFn:fetchData,
+    })
+    if(isLoading) return <p>Loading...</p>
+    if(error)return <p>Error while fetching: {error.message}</p>
     const confirmDel=async(row)=>{
         var cDel=confirm("Bạn có chắc chắn muốn xoá phòng này");
         if(cDel){
@@ -31,15 +37,19 @@ const Room = () => {
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
-            setData(await res.json())
+            queryClient.setQueryData(["adminRooms"],(oldData)=>{
+                if(!oldData)return [];
+                return oldData.filter((item)=>item.maPhong!=row.maPhong);
+            })
             alert("Xoá thành công");
         }
     }
     const handleUpdate=(row)=>{
-        navigate(`/admin/room/update/${row.maPhong}`);
+        queryClient.setQueryData(['adminCurRoom',row.maPhong],row);
+        navigate(`/admin/hotel/${hotelId}/room/update/${row.maPhong}`);
     }
     const handleAdd=()=>{
-        navigate("/admin/room/add");
+        navigate(`/admin/hotel/${hotelId}/room/add`);
     }
     return (
         <div style={{display:"flex",height:"100vh",gap:"2vw"}}>

@@ -41,15 +41,28 @@ public class PhongController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     } 
+    //get on makhachsan
+    @GetMapping("/{maKhachSan}")
+    public ResponseEntity<List<Phong>> getKSPhongs(@PathVariable String maKhachSan){
+        try{
+            List<Phong> ps=pr.findAllByMaKhachSan(maKhachSan);
+            if(ps.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return ResponseEntity.status(HttpStatus.OK).body(ps);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    } 
     //delete    
     @DeleteMapping("/{maPhong}")
-    public ResponseEntity<List<Phong>> deletePhong(@PathVariable String maPhong){
+    public ResponseEntity<String> deletePhong(@PathVariable String maPhong){
         try{
             if(!pr.existsById(maPhong)){
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pr.findAll());
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Không tìm thấy phòng cần xoá");
             }
             pr.deleteById(maPhong);
-            return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+            return ResponseEntity.status(HttpStatus.OK).body("Xoá thành công");
         }
         catch(Exception e){
             e.printStackTrace();
@@ -58,10 +71,10 @@ public class PhongController {
     }
     //add
     @PostMapping("/")
-    public ResponseEntity<List<Phong>>addPhong(@RequestBody PhongDTO phongDTO){
+    public ResponseEntity<Phong>addPhong(@RequestBody PhongDTO phongDTO){
         try{
-            ps.addPhong(phongDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+            Phong p=ps.addPhong(phongDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(p);
         }
         catch(Exception e){
             e.printStackTrace();
@@ -70,10 +83,10 @@ public class PhongController {
     }
     //update
     @PatchMapping("/{maPhong}")
-    public ResponseEntity<List<Phong>>updatePhong(@PathVariable String maPhong,@RequestBody PhongDTO phongDTO){
+    public ResponseEntity<Phong>updatePhong(@PathVariable String maPhong,@RequestBody PhongDTO phongDTO){
         try{
-            ps.updatePhong(maPhong,phongDTO);
-            return ResponseEntity.status(HttpStatus.OK).body(pr.findAll());
+            Phong p=ps.updatePhong(maPhong,phongDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(p);
         }
         catch(Exception e){
             e.printStackTrace();

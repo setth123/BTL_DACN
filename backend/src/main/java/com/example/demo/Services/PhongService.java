@@ -17,7 +17,7 @@ public class PhongService {
     @Autowired
     KhachSanRepository ksr;
     //add
-    public void addPhong(PhongDTO phongDTO){
+    public Phong addPhong(PhongDTO phongDTO){
             Phong p=new Phong();
             p.setMaPhong("P"+System.currentTimeMillis());
             p.setLoaiPhong(phongDTO.getLoaiPhong());
@@ -32,9 +32,10 @@ public class PhongService {
             p.setSoPhongTrong(phongDTO.getSoPhongTrong());
             p.setTienIch(phongDTO.getTienIch());
             pr.save(p);
+            return p;
         }
     //update
-    public void updatePhong(String maPhong,PhongDTO phongDTO){
+    public Phong updatePhong(String maPhong,PhongDTO phongDTO){
         Phong p=pr.findById(maPhong).orElseThrow();
         p.setDienTich(phongDTO.getDienTich());
         p.setGiaPhong(phongDTO.getGiaPhong());
@@ -44,5 +45,6 @@ public class PhongService {
         p.setSoPhongTrong(phongDTO.getSoPhongTrong());
         p.setTienIch(phongDTO.getTienIch());
         pr.save(p);
+        return p;
     }
 }

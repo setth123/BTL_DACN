@@ -1,4 +1,5 @@
 import "./MyDC.css";
+import {useQuery} from "@tanstack/react-query"
 const MyDC = () => {
     const data=[
         {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3},
@@ -6,7 +7,23 @@ const MyDC = () => {
         {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3},
         {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3}
     ]
+    const fetchData=async()=>{
+        try{
+            const res=await fetch("http://localhost:8080/api/phong/userHuy/");
+            if(!res.ok){
+                throw new Error(`Error API: ${res.status} ${res.statusText}`);
+            }
+            return res.json();
+        }
+        catch(err){
+            console.log("Error while fetching: ",err);
+        }
+    }
     const isKM=true;
+    const {data,error,isLoading}=useQuery({
+        queryKey:["ndMyDC"],
+        queryFn:fetchData
+    })
     const handleDel=(e)=>{
         e.preventDefault();
         var isDel=confirm("Are you sure you want to delete");

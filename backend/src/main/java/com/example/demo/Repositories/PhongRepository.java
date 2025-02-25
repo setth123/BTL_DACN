@@ -17,4 +17,5 @@ public interface PhongRepository extends JpaRepository<Phong,String>{
                 "AND h.ngayNhanPhong>=CURRENT_DATE",
             nativeQuery=true)
     List<Object[]>findAllPhongByND(@Param("maNguoiDung") String maNguoiDung);
+    List<Phong> findAllByMaKhachSan(String maKhachSan);
 }

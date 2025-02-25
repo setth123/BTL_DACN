@@ -1,42 +1,41 @@
 
 import { useEffect, useState } from 'react'
 import './KhuyenMai.css'
+import { dateConnect, splitKMArr } from '../../utils/dtOutput';
 const KhuyenMai = () => {
-    const kmData=[
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000},
-        {maKhuyenMai:"0123525",thoiGian:"20-12-2024 to 22-12-2024",mucKhuyenMai:50,giaoDichToiThieu:5000000}
-    ]
-    const [km,setKM]=useState(kmData);
+    const [oldKm,setOldKm]=useState([]);
+    const [newKm,setNewKm]=useState([]);
     useEffect(()=>{
         const getKM=async()=>{
             try{
-
+                const res=await fetch("http://localhost:8080/api/khuyen-mai/")
+                if(!res.ok){
+                    throw new Error(`Error API: ${res.status} ${res.statusText}`);
+                }
+                const data=await res.json();
+                const {l,r}=splitKMArr(data);
+                setOldKm(r);
+                setNewKm(l);
             }
-            catch(err){
-                
+            catch(e){
+                console.log("Error while fetching: ",e);
             }
         }
+        getKM();
     },[])
-    //const reverse=
     return (
         <div>
-            <h2 >Khuyến mãi mới nhất</h2>
+            <h2 style={{marginBottom:"2vh",marginTop:"1vh"}}>Khuyến mãi mới nhất</h2>
             <div id="kmBoxs">
                 {
-                    km.map((item,index)=>(
+                    newKm.map((item,index)=>(
                         <div key={index} id='km'>
                             <img src="/assets/khuyenmai.webp" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>
                             <div style={{display:"flex",gap:"1vw"}}>
                                 <div>
                                     <p>Thời gian khuyến mãi</p>
-                                    <p style={{fontWeight:"bold"}}>{item.thoiGian}</p>
+                                    <p style={{fontWeight:"bold"}}>{dateConnect(item.ngayBD,item.ngayKT)}</p>
                                 </div>
                                 <div>
                                     <p>Giao dịch tối thiểu</p>
@@ -49,17 +48,17 @@ const KhuyenMai = () => {
                 }
             </div>
    
-            <h2>Khuyến mãi sắp hết hạn</h2>
+            <h2 style={{marginBottom:"2vh"}}>Khuyến mãi sắp hết hạn</h2>
             <div id="kmBoxs">
                 {
-                    kmData.map((item,index)=>(
+                    oldKm.map((item,index)=>(
                         <div key={index} id='km'>
                             <img src="/assets/khuyenmai.webp" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>
                             <div style={{display:"flex",gap:"1vw"}}>
                                 <div>
                                     <p>Thời gian khuyến mãi</p>
-                                    <p style={{fontWeight:"bold"}}>{item.thoiGian}</p>
+                                    <p style={{fontWeight:"bold"}}>{dateConnect(item.ngayBD,item.ngayKT)}</p>
                                 </div>
                                 <div>
                                     <p>Giao dịch tối thiểu</p>

@@ -3,20 +3,17 @@ import ANavBar from '../ANavBar/ANavBar';
 import EditBtn from '../editBtn/editBtn';
 import './RoomForm.css';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import {useQueryClient } from '@tanstack/react-query';
 const RoomForm = ({title,btn,data={},type="t1"}) => {
     const navigate=useNavigate();
-    const {roomId}=useParams();
-    const [formDT,setFormData]=useState({
-        loaiPhong:data.loaiPhong||"",
-        hinhAnh:data.hinhAnh||"",
-        soNguoi:data.soNguoi||"",
-        dienTich:data.dienTich||"",
-        tienIch:data.tienIch||"",
-        giaPhong:data.giaPhong||"",
-        soPhongTrong:data.soPhongTrong||"",
-        maKhachSan:data.maKhachSan||""
-    })
+    const queryClient=useQueryClient();
+    const {hotelId,roomId}=useParams();
+    let curRoom={maPhong:"",loaiPhong:"",hinhAnh:"",soNguoi:0,dienTich:0,tienIch:"",giaPhong:0,soPhongTrong:0,maKhachSan:""};
+    if(type==="t2"){
+        const room=queryClient.getQueryData(['adminCurRoom',roomId]);
+        curRoom=room;
+    }
+    const [formDT,setFormData]=useState(curRoom);
     const handleChange=(e)=>{
         setFormData({
             ...formDT,
@@ -26,21 +23,19 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     }
     const restart=()=>{
         setFormData({
-            maPhong:data.maPhong,
-            loaiPhong:data.loaiPhong,
-            hinhAnh:data.hinhAnh,
-            soNguoi:data.soNguoi,
-            dienTich:data.dienTich,
-            tienIch:data.tienIch,
-            giaPhong:data.giaPhong,
-            soPhongTrong:data.soPhongTrong,
-            maKhachSan:data.maKhachSan
+            maPhong:curRoom.maPhong,
+            loaiPhong:curRoom.loaiPhong,
+            hinhAnh:curRoom.hinhAnh,
+            soNguoi:curRoom.soNguoi,
+            dienTich:curRoom.dienTich,
+            tienIch:curRoom.tienIch,
+            giaPhong:curRoom.giaPhong,
+            soPhongTrong:curRoom.soPhongTrong,
+            maKhachSan:curRoom.maKhachSan
         })
     }
     const handleAdd=async(e)=>{
         e.preventDefault();
-        console.log(JSON.stringify(formDT));
-        console.log(formDT);
         try{
             const res=await fetch("http://localhost:8080/api/phong/",{
                 method: "POST",
@@ -52,17 +47,21 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
+            const newRoom=await res.json();
+            queryClient.setQueryData(["adminRooms",(oldData)=>{
+                if(!oldData){return [newRoom]};
+            }])
             alert("Thêm thành công");
-            navigate("/admin/room")
+            navigate(`/admin/hotel/${hotelId}/room`)
         }
         catch(e){
             console.log("Error while fetching: ",e);
             restart();
         }
     }
-    const handleUpdate=async(maPhong)=>{
+    const handleUpdate=async()=>{
         try{
-            const res=await fetch(`http://localhost:8080/api/phong/${maPhong}`,{
+            const res=await fetch(`http://localhost:8080/api/phong/${roomId}`,{
                 method:"PATCH",
                 headers:{
                     "Content-Type": "application/json"
@@ -72,8 +71,13 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
+            const newPhong=await res.json();
+            queryClient.setQueryData(["adminRooms"],(oldData)=>{
+                if(!oldData) return [newRoom];
+                return [...oldData,newRoom];
+            })
             alert("Cập nhật thành công");
-            navigate("/admin/room")
+            navigate(`/admin/hotel/${hotelId}/room`)
         }
         catch(e){
             console.log("Error while fetching: ",e);
@@ -131,7 +135,7 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
                     {type==="t1"?(
                         <EditBtn text={btn} color={"rgb(67, 106, 233)"} hoverColor={"rgb(32, 79, 233)"} fontSize='x-large' func={handleAdd}/>
                     ):(
-                        <EditBtn text={btn} color={"rgb(67, 106, 233)"} hoverColor={"rgb(32, 79, 233)"} fontSize='x-large' func={()=>handleUpdate(roomId)}/>
+                        <EditBtn text={btn} color={"rgb(67, 106, 233)"} hoverColor={"rgb(32, 79, 233)"} fontSize='x-large' func={handleUpdate}/>
                     )}
                     <EditBtn text="Đặt lại" color={"red"} hoverColor={"rgb(82, 3, 3)"} fontSize='x-large' func={restart}/>
                 </div>
