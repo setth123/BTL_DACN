@@ -1,4 +1,5 @@
 package com.example.demo.DTO;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,4 +15,11 @@ public class HoaDonDTO {
     private String maPhong;
     private String maKhuyenMai;
     private String hoTenKH;
+    private BigDecimal tongChiPhi;
+    private String loaiPhong;
+    private String hinhAnh;
+    private Integer soNguoi;
+    private BigDecimal dienTich;
+    private String tienIch;
+    private Boolean khuyenMaiState;
 }

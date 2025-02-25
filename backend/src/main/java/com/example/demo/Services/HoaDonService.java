@@ -14,7 +14,6 @@ import com.example.demo.DTO.HoaDonDTO;
 import com.example.demo.Entities.HoaDon;
 import com.example.demo.Entities.Phong;
 import com.example.demo.Entities.KhuyenMai;
-import com.example.demo.Entities.NguoiDung;
 import com.example.demo.Entities.ApDungKhuyenMai;
 import com.example.demo.Repositories.PhongRepository;
 import com.example.demo.Repositories.HoaDonRepository;
@@ -65,8 +64,7 @@ public class HoaDonService {
                 }
                 
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
-                NguoiDung nd=ndr.findById(hoaDonDTO.getMaNguoiDung()).orElse(null);
-                kmhd.setNguoiDung(nd);
+                kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);
     

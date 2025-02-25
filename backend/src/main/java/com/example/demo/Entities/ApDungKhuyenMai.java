@@ -20,6 +20,6 @@ public class ApDungKhuyenMai {
     private KhuyenMai khuyenMai;
 
     @ManyToOne
-    @JoinColumn(name="maNguoiDung",referencedColumnName = "maNguoiDung")
-    private NguoiDung nguoiDung;
+    @JoinColumn(name="hoaDonID",referencedColumnName = "hoaDonID")
+    private HoaDon hoaDon;
 }

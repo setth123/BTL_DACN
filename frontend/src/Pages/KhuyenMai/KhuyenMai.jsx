@@ -2,33 +2,38 @@
 import { useEffect, useState } from 'react'
 import './KhuyenMai.css'
 import { dateConnect, splitKMArr } from '../../utils/dtOutput';
+import { useQuery } from '@tanstack/react-query';
 const KhuyenMai = () => {
-    const [oldKm,setOldKm]=useState([]);
-    const [newKm,setNewKm]=useState([]);
-    useEffect(()=>{
-        const getKM=async()=>{
-            try{
-                const res=await fetch("http://localhost:8080/api/khuyen-mai/")
-                if(!res.ok){
-                    throw new Error(`Error API: ${res.status} ${res.statusText}`);
-                }
-                const data=await res.json();
-                const {l,r}=splitKMArr(data);
-                setOldKm(r);
-                setNewKm(l);
+    const [oldKM,setOldKM]=useState([])
+    const [newKM,setNewKM]=useState([])
+    const getKM=async()=>{
+        try{
+            const res=await fetch("http://localhost:8080/api/khuyen-mai/")
+            if(!res.ok){
+                throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
-            catch(e){
-                console.log("Error while fetching: ",e);
-            }
+            const data=await res.json();
+            const {l,r}=splitKMArr(data);
+            setOldKM(r);
+            setNewKM(l);
+            return data;
         }
-        getKM();
-    },[])
+        catch(e){
+            console.log("Error while fetching: ",e);
+        }
+    }
+    const {data,error,isLoading}=useQuery({
+        queryKey:["ndKM"],
+        queryFn:getKM
+    })
+    if(isLoading) return <p>Loading...</p>
+    if(error)return <p>Error while fetching: {error.message}</p>
     return (
         <div>
             <h2 style={{marginBottom:"2vh",marginTop:"1vh"}}>Khuyến mãi mới nhất</h2>
             <div id="kmBoxs">
                 {
-                    newKm.map((item,index)=>(
+                    newKM.map((item,index)=>(
                         <div key={index} id='km'>
                             <img src="/assets/khuyenmai.webp" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>
@@ -51,7 +56,7 @@ const KhuyenMai = () => {
             <h2 style={{marginBottom:"2vh"}}>Khuyến mãi sắp hết hạn</h2>
             <div id="kmBoxs">
                 {
-                    oldKm.map((item,index)=>(
+                    oldKM.map((item,index)=>(
                         <div key={index} id='km'>
                             <img src="/assets/khuyenmai.webp" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>

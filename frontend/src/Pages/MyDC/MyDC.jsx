@@ -1,19 +1,14 @@
 import "./MyDC.css";
 import {useQuery} from "@tanstack/react-query"
 const MyDC = () => {
-    const data=[
-        {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3},
-        {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3},
-        {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3},
-        {loaiPhong:"ABC",hinhAnh:"https://s3.eu-west-2.amazonaws.com/staticgh.gentinghotel.co.uk/uploads/hero/SuiteNov2022_0008_1920.jpg",thoiGian:"20-12-2024 to 22-12-2024",tongChiPhi:1000000,dienTich:5.6,tienIch:"abc",soNguoi:3}
-    ]
     const fetchData=async()=>{
         try{
-            const res=await fetch("http://localhost:8080/api/phong/userHuy/");
+            const res=await fetch("http://localhost:8080/api/hoa-don/");
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
-            return res.json();
+            const data=await res.json();
+            return data;
         }
         catch(err){
             console.log("Error while fetching: ",err);
@@ -24,11 +19,21 @@ const MyDC = () => {
         queryKey:["ndMyDC"],
         queryFn:fetchData
     })
-    const handleDel=(e)=>{
+    const handleDel=async(e)=>{
         e.preventDefault();
         var isDel=confirm("Are you sure you want to delete");
-        if(isDel)alert("Huỷ thành công");
+        if(isDel){
+            try{
+                const res=await fetch(`http://localhost:8080/hoa-don/${''}/${''}`)
+                alert("Xoá thành công");
+            }
+            catch(err){
+                console.log("Error while fetching: ",err);
+            }
+        }
     }
+    if(isLoading) return <p>Loading...</p>
+    if(error)return <p>Error while fetching: {error.message}</p>
     return (
         <div>
             <h2>Các phòng đã đặt</h2>
