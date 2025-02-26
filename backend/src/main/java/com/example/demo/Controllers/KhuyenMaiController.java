@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,7 +60,7 @@ public class KhuyenMaiController {
     @GetMapping("/userKM")
     public ResponseEntity<List<KhuyenMai>> getUserKM(){
         try{
-            return ResponseEntity.status(HttpStatus.OK).body(kmr.findAllByOrderByNgayBDDesc());
+            return ResponseEntity.status(HttpStatus.OK).body(kmr.findAllByNgayKTLessThanEqualOrderByNgayBDDesc(LocalDate.now()));
         }
         catch(Exception e){
             e.printStackTrace();

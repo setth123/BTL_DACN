@@ -1,9 +1,11 @@
 import "./MyDC.css";
-import {useQuery} from "@tanstack/react-query"
+import {useQuery, useQueryClient} from "@tanstack/react-query"
 const MyDC = () => {
+    const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
+    const queryClient=useQueryClient();
     const fetchData=async()=>{
         try{
-            const res=await fetch("http://localhost:8080/api/hoa-don/");
+            const res=await fetch(`http://localhost:8080/api/hoa-don/${user.maNguoiDung}`);
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
@@ -17,14 +19,25 @@ const MyDC = () => {
     const isKM=true;
     const {data,error,isLoading}=useQuery({
         queryKey:["ndMyDC"],
-        queryFn:fetchData
+        queryFn:fetchData,
+        refetchOnWindowFocus:true
     })
-    const handleDel=async(e)=>{
-        e.preventDefault();
+    const handleDel=async(hoaDonID,maPhong)=>{
         var isDel=confirm("Are you sure you want to delete");
         if(isDel){
             try{
-                const res=await fetch(`http://localhost:8080/hoa-don/${''}/${''}`)
+                const res=await fetch(`http://localhost:8080/api/hoa-don/${hoaDonID}/${maPhong}`,{
+                    method:"DELETE"
+                })
+                if(!res.ok){
+                    if(res.status===400)alert("Không thể huỷ đặt phòng");
+                    throw new Error(`Error API: ${res.status} ${res.statusText}`);
+                }
+                const data=await res.json();
+                queryClient.setQueryData(["ndMyDC"],(oldData)=>{
+                    if(!oldData){return []};
+                    return oldData.filter((item)=>item.maHoaDon!=maHoaDon)
+                })
                 alert("Xoá thành công");
             }
             catch(err){
@@ -40,25 +53,25 @@ const MyDC = () => {
             <i style={{marginTop:"1vh",marginLeft:"1vw"}}>*Các phòng có thể được huỷ miễn phí trước 1 tuần</i>
             <div id="roomContainer">
                 {data.map((item,index)=>(<div key={index} id="room">
-                        <div id="rp1">
+                        {/* <div id="rp1"> */}
                             <img src={item.hinhAnh} alt="room" />
-                        </div>
+                        {/* </div> */}
                         <div id="rp2">
                             <h2>{item.loaiPhong}</h2>
                             <div >
-                                <span><img src="./Assets/area.svg" alt="area" /></span>
+                                <span><img src="/assets/area.svg" alt="area" /></span>
                                 Diện tích: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{item.dienTich}</span>
                             </div>
                             <div>
-                                <span><img src="./Assets/comfort.svg" alt="comfort" /></span>
+                                <span><img src="/assets/comfort.svg" alt="comfort" /></span>
                                 Tiện nghi: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{item.tienIch}</span>
                             </div>
                             <div>
-                                <span><img src="./Assets/user-blue.svg" alt="num" /></span>
+                                <span><img src="/assets/user-blue.svg" alt="num" /></span>
                                 Số người: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{item.soNguoi}</span>
                             </div>
                             <div>
-                                <span><img src="./Assets/date.svg" alt="date" /></span>
+                                <span><img src="/assets/date.svg" alt="date" /></span>
                                 Thời gian: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{item.thoiGian}</span>
                             </div>
                         </div>
@@ -69,7 +82,7 @@ const MyDC = () => {
                             <h3>{item.tongChiPhi.toLocaleString("vi-VN")} VNĐ</h3>
                         </div>
                         <div id="rp4">
-                            <button onClick={handleDel}>Huỷ đặt phòng</button>
+                            <button onClick={()=>handleDel(item.hoaDonID,item.maPhong)}>Huỷ đặt phòng</button>
                         </div>
                     </div>
                 ))}

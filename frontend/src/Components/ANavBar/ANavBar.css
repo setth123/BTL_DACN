@@ -4,6 +4,7 @@
     flex-direction: column;
     gap:5vh;
     width: fit-content;
+    height: 100%;
 }
 *{
     margin:0;

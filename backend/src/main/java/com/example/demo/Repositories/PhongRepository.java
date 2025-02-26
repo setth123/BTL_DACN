@@ -9,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface PhongRepository extends JpaRepository<Phong,String>{
-    List<Phong> findAllByMaKhachSan(String maKhachSan);
+    List<Phong> findAllByKhachSan_maKhachSan(String maKhachSan);
 }

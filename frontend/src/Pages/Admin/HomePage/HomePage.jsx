@@ -13,19 +13,19 @@ const AHomePage = () => {
             <ANavBar/>
             <div>
                 <div style={{display:"flex",gap:"5vw"}}>
-                    <StaticNum icon={"./Assets/user-blue.svg"} number={30} description={"Người đã đăng ký"}/>
-                    <StaticNum icon={"./Assets/warning.svg"}number={30} description={"abc"}/>
-                    <StaticNum icon={"./Assets/user-blue.svg"} number={30} description={"abc"}/>
-                    <StaticNum icon={"./Assets/user-blue.svg"} number={30} description={"abc"}/>
+                    <StaticNum icon={"./Assets/user-blue.svg"} number={30} description={"Số người dùng"}/>
+                    <StaticNum icon={"./Assets/warning.svg"}number={30} description={"Số khách sạn"}/>
+                    <StaticNum icon={"./Assets/user-blue.svg"} number={30} description={"Số phòng"}/>
+                    <StaticNum icon={"./Assets/user-blue.svg"} number={30} description={"Số khuyến mãi"}/>
                 </div>
                 <div id="tableBox">
                     <div style={{display:"flex",gap:"5vw",marginBottom:"5vh"}}>
                         <StaticTable title={"Số người dùng"} col={["ABC","XYZ","MNP"]} data={data}/>
-                        <StaticTable title={"Số người dùng"} col={["ABC","XYZ","MNP"]} data={data}/>
+                        <StaticTable title={"Số khách sạn"} col={["ABC","XYZ","MNP"]} data={data}/>
                     </div>
                     <div style={{display:"flex",gap:"5vw",marginBottom:"5vh"}}>
-                        <StaticTable title={"Số người dùng"} col={["ABC","XYZ","MNP"]} data={data}/>
-                        <StaticTable title={"Số người dùng"} col={["ABC","XYZ","MNP"]} data={data}/>
+                        <StaticTable title={"Số phòng"} col={["ABC","XYZ","MNP"]} data={data}/>
+                        <StaticTable title={"Số khuyến mãi"} col={["ABC","XYZ","MNP"]} data={data}/>
                     </div>
                 </div>
 

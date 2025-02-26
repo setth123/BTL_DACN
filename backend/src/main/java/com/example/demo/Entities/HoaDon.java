@@ -15,7 +15,7 @@ import lombok.AllArgsConstructor;
 public class HoaDon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long hoaDonID;
+    private Integer hoaDonID;
 
     @ManyToOne
     @JoinColumn(name = "maNguoiDung",referencedColumnName = "maNguoiDung")

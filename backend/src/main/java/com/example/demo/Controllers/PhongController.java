@@ -43,7 +43,7 @@ public class PhongController {
     @GetMapping("/{maKhachSan}")
     public ResponseEntity<List<Phong>> getKSPhongs(@PathVariable String maKhachSan){
         try{
-            List<Phong> ps=pr.findAllByMaKhachSan(maKhachSan);
+            List<Phong> ps=pr.findAllByKhachSan_maKhachSan(maKhachSan);
             if(ps.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
             return ResponseEntity.status(HttpStatus.OK).body(ps);
         }

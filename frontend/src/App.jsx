@@ -19,7 +19,7 @@ const App=()=>{
       <Routes>
         <Route path="/" element={<HomePage/>}/>
         <Route path="/khuyenMai" element={<KhuyenMai/>}/>
-        <Route path="/mydc/:nguoiDungID" element={<MyDC/>}/>
+        <Route path="/mydc" element={<MyDC/>}/>
         <Route path="/datPhong/:phongID" element={<DatPhong/>}/>
         <Route path="/dptc/:hoaDonID" element={<DPTC/>}/>
         <Route path="/admin" element={<AHomePage/>}/>

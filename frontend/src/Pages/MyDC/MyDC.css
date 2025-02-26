@@ -37,6 +37,11 @@ h2,h3{
     border-top-left-radius: 50%;
     border-bottom-left-radius: 50%;
 }
+#room #img{
+    border:1px solid rgb(14, 13, 13);;
+    border-top-left-radius: 50%;
+    border-bottom-left-radius: 50%;
+}
 #room #rp4{
     border: 1px solid rgb(88, 87, 87);
     border-left: 0;
@@ -73,6 +78,7 @@ h2,h3{
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    padding: 1vw;
     height: 6vh; /* Chiều cao theo % của viewport */
 }
 #rp4 button:hover{

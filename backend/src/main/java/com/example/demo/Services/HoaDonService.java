@@ -40,7 +40,7 @@ public class HoaDonService {
             hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
             hd.setHoTenKH(hoaDonDTO.getHoTenKH());
             Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
-            hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
+            hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong())+1)));
     
             KhuyenMai km=kr.findById(hoaDonDTO.getMaKhuyenMai()).orElse(null);
             if(km!=null){
@@ -54,8 +54,8 @@ public class HoaDonService {
                     dk2=false;
                 }
                 
-                ApDungKhuyenMai kmhd_o=kmhdr.findByMaNguoiDung(hoaDonDTO.getMaNguoiDung()).orElse(null);
-                if(kmhd_o!=null)dk3=false;
+                Integer isUsed=kmhdr.existsByNguoiDungAndKhuyenMai(hoaDonDTO.getMaNguoiDung(),hoaDonDTO.getMaKhuyenMai());
+                if(isUsed==1)dk3=false;
                 if(dk1 && dk2 && dk3){
                      BigDecimal discount = hd.getChiPhiDuTinh()
                     .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP) // Chia 100 với 2 chữ số thập phân
@@ -63,6 +63,7 @@ public class HoaDonService {
                     hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
                 }
                 
+                hdr.save(hd);
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
                 kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
@@ -78,13 +79,13 @@ public class HoaDonService {
     }
 
     //huy phong
-    public ResponseEntity<String> huyPhong(String maNguoiDung,String maPhong){
+    public ResponseEntity<String> huyPhong(Integer maHoaDon,String maPhong){
         try{
-            HoaDon hd=hdr.findByMaNguoiDungAndMaPhong(maNguoiDung, maPhong).orElse(null);
+            HoaDon hd=hdr.findByHoaDonID(maHoaDon).orElse(null);
             if(hd.getNgayNhanPhong().isBefore(LocalDate.now().plusDays(7))){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Khong the huy dat phong");
             }
-            ApDungKhuyenMai kmhd=kmhdr.findByMaNguoiDung(maNguoiDung).orElse(null);
+            ApDungKhuyenMai kmhd=kmhdr.findByHoaDon_hoaDonID(maHoaDon).orElse(null);
             if(kmhd!=null){
                 kmhdr.delete(kmhd);
             }

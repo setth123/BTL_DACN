@@ -45,7 +45,7 @@ const Room = () => {
         }
     }
     const handleUpdate=(row)=>{
-        queryClient.setQueryData(['adminCurRoom',row.maPhong],row);
+        localStorage.setItem("adminCurRoom",JSON.stringify(row));
         navigate(`/admin/hotel/${hotelId}/room/update/${row.maPhong}`);
     }
     const handleAdd=()=>{

@@ -37,15 +37,16 @@ public class HoaDonController {
                 HoaDonDTO dto=new HoaDonDTO();
                 dto.setMaPhong((String) obj[0]);
                 dto.setLoaiPhong((String) obj[1]);
-                dto.setSoNguoi((Integer) obj[2]);
+                dto.setHinhAnh((String) obj[2]);
                 dto.setSoNguoi((Integer) obj[3]);
                 dto.setDienTich((BigDecimal) obj[4]);
                 dto.setTienIch((String) obj[5]);
                 dto.setNgayNhanPhong(((Date) obj[6]).toLocalDate());
                 dto.setNgayTraPhong(((Date) obj[7]).toLocalDate());
                 dto.setTongChiPhi((BigDecimal) obj[8]);
-                dto.setKhuyenMaiState((Boolean) obj[9]);
-                dto.setMaNguoiDung((String) obj[10]);
+                dto.setMaNguoiDung((String) obj[9]);
+                dto.setKhuyenMaiState(obj[10].equals(1));
+                dto.setHoaDonID((Integer) obj[11]);
                 return dto;
             }).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(hd);
@@ -67,10 +68,10 @@ public class HoaDonController {
         }
     }
     //huyphong
-    @DeleteMapping("/{maNguoiDung}/{maPhong}")
-    public ResponseEntity<String> deleteHoaDon(@PathVariable String maNguoiDung,@PathVariable String maPhong){
+    @DeleteMapping("/{maHoaDon}/{maPhong}")
+    public ResponseEntity<String> deleteHoaDon(@PathVariable Integer maHoaDon,@PathVariable String maPhong){
         try{
-            return hds.huyPhong(maNguoiDung,maPhong);
+            return hds.huyPhong(maHoaDon,maPhong);
         }
         catch(Exception e){
             e.printStackTrace();

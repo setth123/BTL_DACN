@@ -10,7 +10,7 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     const {hotelId,roomId}=useParams();
     let curRoom={maPhong:"",loaiPhong:"",hinhAnh:"",soNguoi:0,dienTich:0,tienIch:"",giaPhong:0,soPhongTrong:0,maKhachSan:""};
     if(type==="t2"){
-        const room=queryClient.getQueryData(['adminCurRoom',roomId]);
+        const room=JSON.parse(localStorage.getItem("adminCurRoom"));
         curRoom=room;
     }
     const [formDT,setFormData]=useState(curRoom);
