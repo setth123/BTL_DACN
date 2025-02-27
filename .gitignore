@@ -1,0 +1,5 @@
+# Bỏ qua thư mục cấu hình và file của IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.xml
