@@ -1,6 +1,6 @@
 import './StaticTable.css';
 
-const StaticTable = ({title,data=[],col=[],maxHeight="50vh",maxWidth="50vw"}) => {
+const StaticTable = ({title,data=[],col=[],maxHeight="50vh",maxWidth="35vw"}) => {
     return (
         <div id="StaticTable">
             <h1>{title}</h1>

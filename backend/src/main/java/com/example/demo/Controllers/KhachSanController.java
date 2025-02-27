@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.KhachSanDTO;
+import com.example.demo.Entities.KhachSan;
 import com.example.demo.Repositories.KhachSanRepository;
 
 @RestController
@@ -19,6 +20,18 @@ import com.example.demo.Repositories.KhachSanRepository;
 public class KhachSanController {
     @Autowired
     KhachSanRepository ksr;
+    @GetMapping("/")
+    public ResponseEntity<List<KhachSan>> getAll(){
+        try{
+            List<KhachSan> ks=ksr.findAll();
+            if(ks.isEmpty())return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            else return ResponseEntity.status(HttpStatus.OK).body(ks);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     //get most rated hotel
     @GetMapping("/most-rated")
     public ResponseEntity<List<KhachSanDTO>> getTopRated(){

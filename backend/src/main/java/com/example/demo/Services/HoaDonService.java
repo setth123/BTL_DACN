@@ -40,7 +40,7 @@ public class HoaDonService {
             hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
             hd.setHoTenKH(hoaDonDTO.getHoTenKH());
             Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
-            hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong())+1)));
+            hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
     
             KhuyenMai km=kr.findById(hoaDonDTO.getMaKhuyenMai()).orElse(null);
             if(km!=null){

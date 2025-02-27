@@ -5,9 +5,10 @@ import EditBtn from "../../../Components/editBtn/editBtn";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 const Room = () => {
+    const {hotelID}=useParams();
     const fetchData=async()=>{
         try{
-            const res=await fetch("http://localhost:8080/api/phong/");
+            const res=await fetch(`http://localhost:8080/api/phong/${hotelID}`);
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
@@ -31,17 +32,22 @@ const Room = () => {
     const confirmDel=async(row)=>{
         var cDel=confirm("Bạn có chắc chắn muốn xoá phòng này");
         if(cDel){
-            const res=await fetch(`http://localhost:8080/api/phong/${row.maPhong}`,{
-                method: "DELETE"
-            })
-            if(!res.ok){
-                throw new Error(`Error API: ${res.status} ${res.statusText}`);
+            try{
+                const res=await fetch(`http://localhost:8080/api/phong/${row.maPhong}`,{
+                    method: "DELETE"
+                })
+                if(!res.ok){
+                    throw new Error(`Error API: ${res.status} ${res.statusText}`);
+                }
+                queryClient.setQueryData(["adminRooms"],(oldData)=>{
+                    if(!oldData)return [];
+                    return oldData.filter((item)=>item.maPhong!=row.maPhong);
+                })
+                alert("Xoá thành công");
             }
-            queryClient.setQueryData(["adminRooms"],(oldData)=>{
-                if(!oldData)return [];
-                return oldData.filter((item)=>item.maPhong!=row.maPhong);
-            })
-            alert("Xoá thành công");
+            catch(e){
+                console.log("Error while fetching: ",e);
+            }
         }
     }
     const handleUpdate=(row)=>{
