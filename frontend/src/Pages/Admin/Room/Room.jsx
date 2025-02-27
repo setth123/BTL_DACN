@@ -5,10 +5,10 @@ import EditBtn from "../../../Components/editBtn/editBtn";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 const Room = () => {
-    const {hotelID}=useParams();
-    const fetchData=async()=>{
+    const {hotelId}=useParams();
+   const fetchData=async()=>{
         try{
-            const res=await fetch(`http://localhost:8080/api/phong/${hotelID}`);
+            const res=await fetch(`http://localhost:8080/api/phong/${hotelId}`);
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
@@ -18,8 +18,6 @@ const Room = () => {
             console.log("Error while fetching: ",err);
         }
     }
-
-    const {hotelId}=useParams();
     const navigate=useNavigate();
     const queryClient=useQueryClient();
 
@@ -58,7 +56,7 @@ const Room = () => {
         navigate(`/admin/hotel/${hotelId}/room/add`);
     }
     return (
-        <div style={{display:"flex",height:"100vh",gap:"2vw"}}>
+        <div style={{display:"flex",height:"100vh",gap:"1vw"}}>
             <ANavBar/>
             <div style={{marginTop:"10vh"}}>
             <div style={{marginBottom:"5vh"}}>

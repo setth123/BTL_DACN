@@ -1,3 +1,4 @@
+import { dateConnect } from "../../utils/dtOutput";
 import "./MyDC.css";
 import {useQuery, useQueryClient} from "@tanstack/react-query"
 const MyDC = () => {
@@ -22,6 +23,7 @@ const MyDC = () => {
         queryFn:fetchData,
         refetchOnWindowFocus:true
     })
+     
     const handleDel=async(hoaDonID,maPhong)=>{
         var isDel=confirm("Are you sure you want to delete");
         if(isDel){
@@ -30,21 +32,21 @@ const MyDC = () => {
                     method:"DELETE"
                 })
                 if(!res.ok){
-                    if(res.status===400)alert("Không thể huỷ đặt phòng");
+                    if(res.status===400)alert("Không thể huỷ đặt phòng vì đã quá thời gian");
                     throw new Error(`Error API: ${res.status} ${res.statusText}`);
                 }
-                const data=await res.json();
+                alert("Xoá thành công");
                 queryClient.setQueryData(["ndMyDC"],(oldData)=>{
                     if(!oldData){return []};
-                    return oldData.filter((item)=>item.maHoaDon!=maHoaDon)
+                    return oldData.filter((item)=>item.hoaDonID!=hoaDonID)
                 })
-                alert("Xoá thành công");
             }
             catch(err){
                 console.log("Error while fetching: ",err);
             }
         }
     }
+    
     if(isLoading) return <p>Loading...</p>
     if(error)return <p>Error while fetching: {error.message}</p>
     return (
@@ -72,11 +74,11 @@ const MyDC = () => {
                             </div>
                             <div>
                                 <span><img src="/assets/date.svg" alt="date" /></span>
-                                Thời gian: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{item.thoiGian}</span>
+                                Thời gian: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{dateConnect(item.ngayNhanPhong,item.ngayTraPhong)}</span>
                             </div>
                         </div>
                         <div id="rp3">
-                            {isKM&&(
+                            {item.khuyenMaiState&&(
                                 <div><i>*Đã áp dụng khuyến mãi</i></div>
                             )}
                             <h3>{item.tongChiPhi.toLocaleString("vi-VN")} VNĐ</h3>

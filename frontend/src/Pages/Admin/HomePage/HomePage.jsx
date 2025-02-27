@@ -55,13 +55,13 @@ const AHomePage = () => {
                     <StaticNum icon={"./Assets/voucher.svg"} number={kmData.length} description={"Số khuyến mãi"}/>
                 </div>
                 <div id="tableBox">
-                    <div style={{display:"flex",gap:"5vw",marginBottom:"5vh"}}>
+                    <div style={{display:"flex",gap:"5vw",marginBottom:"2vh"}}>
                         <StaticTable title={"Số người dùng"} col={["Mã người dùng","Tên đăng nhập","Email","Số điện thoại"]} data={ndData}/>
-                        <StaticTable title={"Số khuyến mãi"} col={["Mã khuyến mãi","Ngày bắt đầu","Ngày kết thúc","Mức khuyến mãi","Giao dịch tối thiểu"]} data={kmData}/>
+                        <StaticTable title={"Số phòng"} col={["Mã phòng","Loại phòng","Hình ảnh","Số người","Diện tích","Tiện ích","Giá phòng","Số phòng trống"]} data={roomData}/>
                     </div>
                     <div style={{display:"flex",gap:"5vw",marginBottom:"5vh"}}>
                         <StaticTable title={"Số khách sạn"} col={["Mã khách sạn","Tên khách sạn","Hình ảnh","Điểm số trung bình","Địa chị chi tiết","Thông tin giới thiệu","Tiện ích"]} data={hotelData}/>
-                        <StaticTable title={"Số phòng"} col={["Mã phòng","Loại phòng","Hình ảnh","Số người","Diện tích","Tiện ích","Giá phòng","Số phòng trống"]} data={roomData}/>
+                        <StaticTable title={"Số khuyến mãi"} col={["Mã khuyến mãi","Ngày bắt đầu","Ngày kết thúc","Mức khuyến mãi","Giao dịch tối thiểu"]} data={kmData}/>
                     </div>
                 </div>
 

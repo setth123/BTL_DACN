@@ -50,6 +50,11 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             const newRoom=await res.json();
             queryClient.setQueryData(["adminRooms",(oldData)=>{
                 if(!oldData){return [newRoom]};
+                return [...oldData,newRoom];
+            }])
+            queryClient.setQueryData(["adminAllRooms",(oldData)=>{
+                if(!oldData){return [newRoom]};
+                return [...oldData,newRoom];
             }])
             alert("Thêm thành công");
             navigate(`/admin/hotel/${hotelId}/room`)
@@ -73,8 +78,16 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             }
             const newPhong=await res.json();
             queryClient.setQueryData(["adminRooms"],(oldData)=>{
-                if(!oldData) return [newRoom];
-                return [...oldData,newRoom];
+                if(!oldData) return [newPhong];
+                return oldData.map(room =>
+                    room.id === newPhong.id ? newPhong : room
+                );
+            })
+            queryClient.setQueryData(["adminAllRooms"],(oldData)=>{
+                if(!oldData) return [newPhong];
+                return oldData.map(room =>
+                    room.id === newPhong.id ? newPhong : room
+                );
             })
             alert("Cập nhật thành công");
             navigate(`/admin/hotel/${hotelId}/room`)

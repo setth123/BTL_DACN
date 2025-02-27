@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,12 +34,20 @@ public class HoaDonService {
     HoaDonRepository hdr;
     @Autowired 
     NguoiDungRepository ndr;
+    public Boolean isEmptyRoom(String maPhong,LocalDate ngayNhanPhong ,LocalDate ngayTraPhong){
+        return pr.isEmptyRoom(maPhong, ngayNhanPhong, ngayTraPhong).equals(1);
+    }
     public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
         try{
+            if(!isEmptyRoom(hoaDonDTO.getMaPhong(), hoaDonDTO.getNgayNhanPhong(), hoaDonDTO.getNgayTraPhong())){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
             HoaDon hd=new HoaDon();
             hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
             hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
             hd.setHoTenKH(hoaDonDTO.getHoTenKH());
+            hd.setNguoiDung(ndr.findById(hoaDonDTO.getMaNguoiDung()).orElse(null));
+            hd.setPhong(pr.findById(hoaDonDTO.getMaPhong()).orElse(null));
             Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
             hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
     
@@ -55,13 +64,13 @@ public class HoaDonService {
                 }
                 
                 Integer isUsed=kmhdr.existsByNguoiDungAndKhuyenMai(hoaDonDTO.getMaNguoiDung(),hoaDonDTO.getMaKhuyenMai());
-                if(isUsed==1)dk3=false;
-                if(dk1 && dk2 && dk3){
-                     BigDecimal discount = hd.getChiPhiDuTinh()
-                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP) // Chia 100 với 2 chữ số thập phân
-                    .multiply(km.getMucKhuyenMai());
-                    hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
+                if(Objects.equals(isUsed, 1))dk3=false;
+                BigDecimal discount = BigDecimal.ZERO;
+                if (dk1 && dk2 && dk3) {
+                    discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
                 }
+                System.out.println(discount);
+                hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
                 
                 hdr.save(hd);
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();

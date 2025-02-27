@@ -1,11 +1,12 @@
 #StaticTable table,#StaticTable th,#StaticTable td{
     border: 1px solid rgb(145, 145, 145);
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 #StaticTable th,#StaticTable td{
-    padding: 1vw;
+    padding: 1vh;
     text-align: center;
-    font-size: larger;
+    font-size: large;
 }
 #StaticTable tr:nth-child(odd){
     background-color: #f2f2f2;
@@ -18,4 +19,13 @@
     top:0;
     background:  #f2f2f2;;
     z-index: 100;
+}
+
+#staticTableContainer{
+    border: 1px solid rgb(145, 145, 145);
+}
+#staticTableContainer::-webkit-scrollbar-thumb:vertical{
+    background: rgb(47, 151, 236);
+    border-radius: 5px; 
+    width: "2vw";
 }

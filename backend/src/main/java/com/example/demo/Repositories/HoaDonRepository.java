@@ -22,7 +22,6 @@ public interface HoaDonRepository extends JpaRepository<HoaDon,Integer>{
             FROM Phong p
             JOIN HoaDon hd ON p.maPhong=hd.maPhong
             WHERE hd.maNguoiDung =:maNguoiDung
-            AND hd.ngayNhanPhong>=CURRENT_DATE
             """,nativeQuery = true)
     List<Object[]> findHDKMStatus(@Param("maNguoiDung") String maNguoiDung);
 }

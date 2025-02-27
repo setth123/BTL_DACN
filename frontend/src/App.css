@@ -11,7 +11,7 @@ body {
 }
 
 /* Tùy chỉnh thanh cuộn kéo ngang */
-::-webkit-scrollbar-thumb:horizontal {
+::-webkit-scrollbar-thumb {
     background: rgb(47, 151, 236); /* Màu của thanh cuộn */
     border-radius: 5px; /* Bo tròn các góc của thanh cuộn */
 }
