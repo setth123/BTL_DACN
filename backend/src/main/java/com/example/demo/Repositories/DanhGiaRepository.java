@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.Entities.DanhGia;
 
 public interface DanhGiaRepository extends JpaRepository<DanhGia, Long> {
-    List<DanhGia> findDanhGiaByMaKhachSan(String maKhachSan);
+    List<DanhGia> findByKhachSan_MaKhachSan(String maKhachSan);
 }
