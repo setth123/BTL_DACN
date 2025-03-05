@@ -13,8 +13,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class DanhGia {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String maDanhGia;
 
     @ManyToOne
     @JoinColumn(name = "maNguoiDung",referencedColumnName = "maNguoiDung")
