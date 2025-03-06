@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.DanhGiaDTO;
 import com.example.demo.Entities.DanhGia;
 import com.example.demo.Services.DanhGiaService;
 
@@ -25,7 +26,7 @@ public class DanhGiaController {
     }
 
     @PostMapping("/add")
-    public DanhGia themDanhGia(@RequestBody DanhGia danhGia) {
+    public DanhGia themDanhGia(@RequestBody DanhGiaDTO danhGia) {
         return danhGiaService.themDanhGia(danhGia);
     }
 }
