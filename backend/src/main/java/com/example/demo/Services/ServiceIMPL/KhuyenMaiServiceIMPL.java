@@ -6,6 +6,7 @@ import com.example.demo.Repositories.KhuyenMaiRepository;
 import com.example.demo.Services.KhuyenMaiService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KhuyenMaiServiceIMPL implements KhuyenMaiService {
 
-    private KhuyenMaiRepository khuyenMaiRepository;
+    @Autowired
+    private  KhuyenMaiRepository khuyenMaiRepository;
     
     @Override
     public void themKhuyenMai(KhuyenMaiDTO request) {
