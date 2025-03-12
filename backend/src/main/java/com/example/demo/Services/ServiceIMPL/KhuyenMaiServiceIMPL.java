@@ -34,11 +34,18 @@ public class KhuyenMaiServiceIMPL implements KhuyenMaiService {
         KhuyenMai km = khuyenMaiRepository.findById(maKhuyenMai).orElseThrow(() -> new RuntimeException("Khuyến mãi không tồn tại"));
         khuyenMaiRepository.delete(km);
 
-        log.info("Xóa thành công khuyến mai có Id : {}" , maKhuyenMai);
+        log.info("--->>> Xóa thành công khuyến mãi có Id : {}" , maKhuyenMai);
     }
 
     @Override
     public void suaKhuyenMai(String maKhuyenMai, KhuyenMaiDTO request) {
+        KhuyenMai km = khuyenMaiRepository.findById(maKhuyenMai).orElseThrow(() -> new RuntimeException("Khuyến mãi không tồn tại"));
+        km.setNgayBD(request.getNgayBD());
+        km.setNgayKT(request.getNgayKT());
+        km.setMucKhuyenMai(request.getMucKhuyenMai());
+        km.setGiaoDichToiThieu(request.getGiaoDichToiThieu());
 
+        khuyenMaiRepository.save(km);
+        log.info("--->>> Sửa thành công khuyến mãi có Id : {}" , maKhuyenMai);
     }
 }
