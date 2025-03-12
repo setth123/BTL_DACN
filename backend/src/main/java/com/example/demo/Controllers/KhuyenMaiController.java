@@ -5,12 +5,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.demo.Services.KhuyenMaiService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.DTO.KhuyenMaiDTO;
 import com.example.demo.Entities.KhuyenMai;
@@ -18,10 +18,12 @@ import com.example.demo.Repositories.KhuyenMaiRepository;
 
 @RestController
 @RequestMapping("/api/khuyen-mai")
-
+@Slf4j
 public class KhuyenMaiController {
     @Autowired
     private KhuyenMaiRepository kmr;
+
+    private KhuyenMaiService khuyenMaiService ;
     
     //get all khuyen mai
     @GetMapping("/")
@@ -56,6 +58,36 @@ public class KhuyenMaiController {
         }
         catch(Exception e){
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // API thêm khuyến mãi
+    @PostMapping("/addKM")
+    public ResponseEntity<KhuyenMaiDTO> addKhuyenMai(@RequestBody KhuyenMaiDTO khuyenMaiDTO) {
+        try
+        {
+            log.info("Request thêm thông tin khuyến mãi !!! ");
+            khuyenMaiService.themKhuyenMai(khuyenMaiDTO);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        catch (Exception e)
+        {
+            log.error("--->>> Không thể thêm được thông tin khuyến mãi vì : {}" , e.getMessage() , e.getCause());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    //API xóa khuyến mãi
+    @DeleteMapping("/{maKhuyenMai}")
+    public ResponseEntity<KhuyenMaiDTO> xoaKhuyenMai(@PathVariable String maKhuyenMai) {
+        try {
+            log.info("Request xóa thông tin khuyến mãi !!! ");
+            khuyenMaiService.xoaKhuyenMai(maKhuyenMai);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        catch (Exception e) {
+            log.info("--->>> Không thể xóa được thông tin khuyến mãi vì : {}" , e.getMessage() , e.getCause());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
