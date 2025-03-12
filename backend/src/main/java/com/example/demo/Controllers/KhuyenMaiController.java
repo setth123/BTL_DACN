@@ -36,6 +36,8 @@ public class KhuyenMaiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
     //get top 4 khuyen mai
     @GetMapping("/userHome")
     public ResponseEntity<List<KhuyenMaiDTO>> get4KhuyenMais(){
@@ -57,6 +59,8 @@ public class KhuyenMaiController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
     @GetMapping("/userKM")
     public ResponseEntity<List<KhuyenMai>> getUserKM(){
         try{
