@@ -92,6 +92,20 @@ public class KhuyenMaiController {
         }
     }
 
+    //API sửa khuyến mãi
+    @PutMapping("/{maKhuyenMai}")
+    public ResponseEntity<KhuyenMaiDTO> xoaKhuyenMai(@PathVariable String maKhuyenMai , @RequestBody KhuyenMaiDTO khuyenMaiDTO) {
+        try {
+            log.info("Request sửa thông tin khuyến mãi !!! ");
+            khuyenMaiService.suaKhuyenMai(maKhuyenMai , khuyenMaiDTO);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        catch (Exception e) {
+            log.info("--->>> Không thể sửa được thông tin khuyến mãi vì : {}" , e.getMessage() , e.getCause());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
     @GetMapping("/userKM")
     public ResponseEntity<List<KhuyenMai>> getUserKM(){
