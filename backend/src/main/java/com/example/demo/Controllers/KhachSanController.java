@@ -70,7 +70,7 @@ public class KhachSanController {
     }
 
     @PutMapping("/edit/{maKhachSan}")
-    public ResponseEntity<KhachSan> suaKhachSan(String maKhachSan, @RequestBody KhachSanDTO khachsan){
+    public ResponseEntity<KhachSan> suaKhachSan(@PathVariable String maKhachSan, @RequestBody KhachSanDTO khachsan){
         try {
             KhachSan ks = qlks.suaKhachSan(maKhachSan, khachsan);
             if(ks != null){
@@ -83,7 +83,7 @@ public class KhachSanController {
     }
 
     @DeleteMapping("/delete/{maKhachSan}")
-    public ResponseEntity<KhachSan> xoaKhachSan(String maKhachSan){
+    public ResponseEntity<KhachSan> xoaKhachSan(@PathVariable String maKhachSan){
         try {
             qlks.xoaKhachSan(maKhachSan);
             return new ResponseEntity<>(HttpStatus.OK);
