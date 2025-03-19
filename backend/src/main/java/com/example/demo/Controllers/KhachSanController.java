@@ -5,6 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.demo.Services.KhachSanService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +25,15 @@ import com.example.demo.Entities.KhachSan;
 import com.example.demo.Repositories.KhachSanRepository;
 import com.example.demo.Services.QLKhachSanService;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/khach-san")
 public class KhachSanController {
     @Autowired
     KhachSanRepository ksr;
+
+    private final KhachSanService khachSanService ;
 
     @Autowired
     QLKhachSanService qlks;
@@ -116,4 +123,18 @@ public class KhachSanController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    // Get Detail Hotel + Room
+    @GetMapping("/detail-Hotel/{maKhachSan}")
+    public ResponseEntity<KhachSan> getDetailKS(@PathVariable String maKhachSan){
+        try {
+            log.info("Request xem chi tiết khách sạn !!! ");
+            KhachSan ksDetail = khachSanService.xemChiTiet(maKhachSan);
+            return ResponseEntity.status(HttpStatus.OK).body(ksDetail);
+        } catch (Exception e) {
+            log.error("--->>> XEM CHI TIẾT KHÁCH SẠN KHÔNG THÀNH CÔNG VÌ : {}" , e.getMessage() , e.getCause());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 }

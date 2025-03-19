@@ -34,9 +34,11 @@ public class HoaDonService {
     HoaDonRepository hdr;
     @Autowired 
     NguoiDungRepository ndr;
+
     public Boolean isEmptyRoom(String maPhong,LocalDate ngayNhanPhong ,LocalDate ngayTraPhong){
         return pr.isEmptyRoom(maPhong, ngayNhanPhong, ngayTraPhong).equals(1);
     }
+
     public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
         try{
             if(!isEmptyRoom(hoaDonDTO.getMaPhong(), hoaDonDTO.getNgayNhanPhong(), hoaDonDTO.getNgayTraPhong())){

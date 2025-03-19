@@ -1,5 +1,7 @@
 package com.example.demo.Entities;
 import java.math.BigDecimal;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +23,8 @@ public class KhachSan {
     private String diaChiCT;
     private String thongTinGT;
     private String tienIch;
+
+//    @OneToMany
+//    @JoinColumn(name = "maPhong")
+//    private List<Phong> Phongs;
 }

@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 @Repository
 public interface PhongRepository extends JpaRepository<Phong,String>{
     List<Phong> findAllByKhachSan_maKhachSan(String maKhachSan);
+
     @Query("""
             SELECT COALESCE((
             SELECT COALESCE(CASE WHEN (p.soPhongTrong-COUNT(hd))> 0 THEN 1 ELSE 0 END,1)
