@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.example.demo.DTO.KhachSanChiTietDTO;
 import com.example.demo.Services.KhachSanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -126,10 +127,10 @@ public class KhachSanController {
 
     // Get Detail Hotel + Room
     @GetMapping("/detail-Hotel/{maKhachSan}")
-    public ResponseEntity<KhachSan> getDetailKS(@PathVariable String maKhachSan){
+    public ResponseEntity<KhachSanChiTietDTO> getDetailKS(@PathVariable String maKhachSan){
         try {
             log.info("Request xem chi tiết khách sạn !!! ");
-            KhachSan ksDetail = khachSanService.xemChiTiet(maKhachSan);
+            KhachSanChiTietDTO ksDetail = khachSanService.xemChiTietKS(maKhachSan);
             return ResponseEntity.status(HttpStatus.OK).body(ksDetail);
         } catch (Exception e) {
             log.error("--->>> XEM CHI TIẾT KHÁCH SẠN KHÔNG THÀNH CÔNG VÌ : {}" , e.getMessage() , e.getCause());
