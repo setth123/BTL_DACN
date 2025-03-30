@@ -1,17 +1,16 @@
 package com.example.demo.Repositories;
 
+import java.time.LocalDate;
 import java.util.List;
 
-import com.example.demo.DTO.KhachSanChiTietDTO;
-import com.example.demo.DTO.PhongDTO;
-import com.example.demo.Entities.Phong;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.example.demo.DTO.KhachSanChiTietDTO;
+import com.example.demo.DTO.PhongDTO;
 import com.example.demo.Entities.KhachSan;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Repository
 public interface KhachSanRepository extends JpaRepository<KhachSan,String>{
@@ -26,4 +25,17 @@ public interface KhachSanRepository extends JpaRepository<KhachSan,String>{
     @Query(value = "SELECT p.maPhong AS maPhong, p.loaiPhong AS loaiPhong, p.hinhAnh AS hinhAnh, p.soNguoi AS soNguoi, p.dienTich AS dienTich, p.tienIch AS tienIch, p.giaPhong AS giaPhong, p.soPhongTrong AS soPhongTrong, p.maKhachSan AS maKhachSan FROM Phong p WHERE p.maKhachSan = :maKhachSan", nativeQuery = true)
     List<PhongDTO> findPhongsByKhachSan(@Param("maKhachSan") String maKhachSan);
 
+    @Query(value = "SELECT ks.maKhachSan, ks.tenKhachSan, ks.hinhAnh, ks.diemSoTB, ks.diaChiCT, ks.tienIch, ks.thongTinGT, p.maPhong FROM KhachSan ks " +
+               "JOIN Phong p ON ks.maKhachSan = p.maKhachSan " +
+               "WHERE ks.diaChiCT LIKE CONCAT('%', :diaChi, '%')" + 
+               "AND p.soPhongTrong > 0 " +
+               "AND p.soNguoi >= :soNguoi " +
+               "AND NOT EXISTS (" +
+               "    SELECT 1 FROM HoaDon hd " +
+               "    WHERE hd.maPhong = p.maPhong " +
+               "    AND NOT (hd.ngayTraPhong < :ngayNhanPhong OR hd.ngayNhanPhong > :ngayTraPhong))", nativeQuery = true)
+
+    List<Object[]> findAvailableHotelsWithRooms(@Param("diaChi") String diaChi, 
+    @Param("soNguoi") int soNguoi, @Param("ngayNhanPhong") LocalDate ngayNhanPhong, 
+    @Param("ngayTraPhong") LocalDate ngayTraPhong);
 }
