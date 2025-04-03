@@ -2,6 +2,10 @@ package com.example.demo.Controllers;
 
 import java.util.List;
 
+import com.example.demo.Services.ServiceIMPL.TimKiemDSPhongServiceIMPL;
+import com.example.demo.Services.TimKiemDSPhongService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +23,8 @@ import com.example.demo.DTO.PhongDTO;
 import com.example.demo.Repositories.PhongRepository;
 import com.example.demo.Services.PhongService;
 
+@RequiredArgsConstructor
+@Slf4j
 @RestController
 @RequestMapping("api/phong")
 public class PhongController {
@@ -26,6 +32,9 @@ public class PhongController {
     PhongRepository pr;
     @Autowired 
     PhongService ps;
+
+    private final TimKiemDSPhongService timKiemDSPhongService;
+
     //get all
     @GetMapping("/")
     public ResponseEntity<List<Phong>> getPhongs(){
@@ -88,6 +97,19 @@ public class PhongController {
         }
         catch(Exception e){
             e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+    // get all room follow search
+    @PostMapping("/searchDSPhongTheoTimKiem")
+    public ResponseEntity<List<Phong>> getDetailPhongTheoTimKiem(@RequestBody List<String> roomsIds) {
+        try {
+            log.info("Request xem chi tiết danh sách phòng theo danh sách tìm kiếm !!! ");
+            List<Phong> listRoom = timKiemDSPhongService.getRoomsByIds(roomsIds);
+            return ResponseEntity.status(HttpStatus.OK).body(listRoom);
+        } catch (Exception e) {
+            log.error("--->>> Không thể lấy được danh sách phòng dựa trên danh sách id tìm kiếm vì : {}" , e.getMessage() , e.getCause());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
