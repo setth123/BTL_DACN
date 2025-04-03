@@ -12,15 +12,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.HoaDonDTO;
-import com.example.demo.Entities.HoaDon;
-import com.example.demo.Entities.Phong;
-import com.example.demo.Entities.KhuyenMai;
 import com.example.demo.Entities.ApDungKhuyenMai;
-import com.example.demo.Repositories.PhongRepository;
-import com.example.demo.Repositories.HoaDonRepository;
+import com.example.demo.Entities.HoaDon;
+import com.example.demo.Entities.KhuyenMai;
+import com.example.demo.Entities.Phong;
 import com.example.demo.Repositories.ApDungKhuyenMaiRepository;
+import com.example.demo.Repositories.HoaDonRepository;
 import com.example.demo.Repositories.KhuyenMaiRepository;
 import com.example.demo.Repositories.NguoiDungRepository;
+import com.example.demo.Repositories.PhongRepository;
 
 @Service
 public class HoaDonService {
@@ -79,7 +79,8 @@ public class HoaDonService {
                 kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);
-    
+                p.setSoPhongTrong(p.getSoPhongTrong()-1);
+                pr.save(p);
             }
             return ResponseEntity.status(HttpStatus.OK).body(hd);
         }
@@ -93,6 +94,7 @@ public class HoaDonService {
     public ResponseEntity<String> huyPhong(Integer maHoaDon,String maPhong){
         try{
             HoaDon hd=hdr.findByHoaDonID(maHoaDon).orElse(null);
+            Phong p=pr.findById(maPhong).orElseThrow();
             if(hd.getNgayNhanPhong().isBefore(LocalDate.now().plusDays(7))){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Khong the huy dat phong");
             }
@@ -101,6 +103,8 @@ public class HoaDonService {
                 kmhdr.delete(kmhd);
             }
             hdr.delete(hd);
+            p.setSoPhongTrong(p.getSoPhongTrong()+1);
+            pr.save(p);
             return ResponseEntity.status(HttpStatus.OK).body("Xoa thanh cong");
         }
         catch(Exception e){
