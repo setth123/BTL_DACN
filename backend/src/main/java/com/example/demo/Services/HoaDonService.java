@@ -71,7 +71,6 @@ public class HoaDonService {
                 if (dk1 && dk2 && dk3) {
                     discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
                 }
-                System.out.println(discount);
                 hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
                 
                 hdr.save(hd);
@@ -79,7 +78,6 @@ public class HoaDonService {
                 kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);
-                p.setSoPhongTrong(p.getSoPhongTrong()-1);
                 pr.save(p);
             }
             return ResponseEntity.status(HttpStatus.OK).body(hd);
@@ -103,7 +101,6 @@ public class HoaDonService {
                 kmhdr.delete(kmhd);
             }
             hdr.delete(hd);
-            p.setSoPhongTrong(p.getSoPhongTrong()+1);
             pr.save(p);
             return ResponseEntity.status(HttpStatus.OK).body("Xoa thanh cong");
         }
