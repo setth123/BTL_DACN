@@ -25,15 +25,24 @@ public interface KhachSanRepository extends JpaRepository<KhachSan,String>{
     @Query(value = "SELECT p.maPhong AS maPhong, p.loaiPhong AS loaiPhong, p.hinhAnh AS hinhAnh, p.soNguoi AS soNguoi, p.dienTich AS dienTich, p.tienIch AS tienIch, p.giaPhong AS giaPhong, p.soPhongTrong AS soPhongTrong, p.maKhachSan AS maKhachSan FROM Phong p WHERE p.maKhachSan = :maKhachSan", nativeQuery = true)
     List<PhongDTO> findPhongsByKhachSan(@Param("maKhachSan") String maKhachSan);
 
-    @Query(value = "SELECT ks.maKhachSan, ks.tenKhachSan, ks.hinhAnh, ks.diemSoTB, ks.diaChiCT, ks.tienIch, ks.thongTinGT, p.maPhong FROM KhachSan ks " +
-               "JOIN Phong p ON ks.maKhachSan = p.maKhachSan " +
-               "WHERE ks.diaChiCT LIKE CONCAT('%', :diaChi, '%')" + 
-               "AND p.soPhongTrong > 0 " +
-               "AND p.soNguoi >= :soNguoi " +
-               "AND NOT EXISTS (" +
-               "    SELECT 1 FROM HoaDon hd " +
-               "    WHERE hd.maPhong = p.maPhong " +
-               "    AND NOT (hd.ngayTraPhong < :ngayNhanPhong OR hd.ngayNhanPhong > :ngayTraPhong))", nativeQuery = true)
+    @Query(value = """
+    SELECT ks.maKhachSan, ks.tenKhachSan, ks.hinhAnh, ks.diemSoTB, ks.diaChiCT, ks.tienIch, ks.thongTinGT, p.maPhong
+    FROM KhachSan ks
+    JOIN Phong p ON ks.maKhachSan = p.maKhachSan
+    WHERE ks.diaChiCT LIKE CONCAT('%', :diaChi, '%')
+    AND p.soNguoi >= :soNguoi
+    AND (
+        SELECT COUNT(hd.hoaDonID)
+        FROM HoaDon hd
+        WHERE hd.maPhong = p.maPhong
+        AND (
+            (:ngayNhanPhong BETWEEN hd.ngayNhanPhong AND hd.ngayTraPhong) OR
+            (:ngayTraPhong BETWEEN hd.ngayNhanPhong AND hd.ngayTraPhong) OR
+            (hd.ngayNhanPhong BETWEEN :ngayNhanPhong AND :ngayTraPhong) OR
+            (hd.ngayTraPhong BETWEEN :ngayNhanPhong AND :ngayTraPhong)
+        )
+    ) < p.soPhongTrong
+    """, nativeQuery = true)
 
     List<Object[]> findAvailableHotelsWithRooms(@Param("diaChi") String diaChi, 
     @Param("soNguoi") int soNguoi, @Param("ngayNhanPhong") LocalDate ngayNhanPhong, 

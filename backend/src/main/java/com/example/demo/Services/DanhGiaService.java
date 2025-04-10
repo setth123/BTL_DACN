@@ -2,6 +2,7 @@ package com.example.demo.Services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.DTO.DanhGiaDTO;
@@ -14,16 +15,13 @@ import com.example.demo.Repositories.NguoiDungRepository;
 
 @Service
 public class DanhGiaService {
-    private final DanhGiaRepository danhGiaRepository;
-    private final KhachSanRepository ksr;
-    private final NguoiDungRepository ndr;
-
-    public DanhGiaService(DanhGiaRepository danhGiaRepository, KhachSanRepository ksr, NguoiDungRepository ndr){
-        this.danhGiaRepository = danhGiaRepository;
-        this.ksr = ksr;
-        this.ndr = ndr;
-    }
-
+    @Autowired
+    private DanhGiaRepository danhGiaRepository;
+    @Autowired
+    private KhachSanRepository ksr;
+    @Autowired
+    private NguoiDungRepository ndr;
+    
     public List<DanhGia> getDanhGiaByKhachSan(String maKhachSan) {
         return danhGiaRepository.findByKhachSan_MaKhachSan(maKhachSan);
     }
