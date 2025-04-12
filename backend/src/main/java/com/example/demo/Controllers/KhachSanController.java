@@ -1,14 +1,12 @@
 package com.example.demo.Controllers;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.example.demo.DTO.KhachSanChiTietDTO;
-import com.example.demo.Services.KhachSanService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +19,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.DTO.KhachSanChiTietDTO;
 import com.example.demo.DTO.KhachSanDTO;
 import com.example.demo.Entities.KhachSan;
 import com.example.demo.Repositories.KhachSanRepository;
+import com.example.demo.Services.KhachSanService;
 import com.example.demo.Services.QLKhachSanService;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
@@ -65,41 +68,54 @@ public class KhachSanController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<KhachSan> themKhachSan(@RequestBody KhachSanDTO khachsan) {
+    public ResponseEntity<Map<String, Object>> themKhachSan(@RequestBody KhachSanDTO khachsan) {
         try {
             KhachSan ks = qlks.themKhachSan(khachsan);
             if(ks != null){
-                return new ResponseEntity<>(HttpStatus.CREATED);
+                return ResponseEntity.status(HttpStatus.CREATED)
+                        .body(Map.of("message", "Thêm thành công!", "detail", ks));
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Thêm thất bại! Dữ liệu không hợp lệ."));
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("message", "Lỗi hệ thống khi thêm khách sạn."));
         }
     }
 
     @PutMapping("/edit/{maKhachSan}")
-    public ResponseEntity<KhachSan> suaKhachSan(@PathVariable String maKhachSan, @RequestBody KhachSanDTO khachsan){
+    public ResponseEntity<Map<String, Object>> suaKhachSan(@PathVariable String maKhachSan, @RequestBody KhachSanDTO khachsan) {
         try {
             KhachSan ks = qlks.suaKhachSan(maKhachSan, khachsan);
-            if(ks != null){
-                return new ResponseEntity<>(HttpStatus.OK);
+            if (ks != null) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("message", "Sửa thành công!");
+                response.put("detail", ks);
+                return ResponseEntity.ok(response);
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest()
+                    .body(Map.of("message", "Sửa thất bại! Dữ liệu không hợp lệ."));
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(500)
+                    .body(Map.of("message", "Lỗi hệ thống khi sửa khách sạn."));
         }
     }
 
     @DeleteMapping("/delete/{maKhachSan}")
-    public ResponseEntity<KhachSan> xoaKhachSan(@PathVariable String maKhachSan){
+    public ResponseEntity<Map<String, String>> xoaKhachSan(@PathVariable String maKhachSan){
         try {
             qlks.xoaKhachSan(maKhachSan);
-            return new ResponseEntity<>(HttpStatus.OK);
+            String message = "Xóa thành công khách sạn " + maKhachSan;
+            return ResponseEntity.ok(Map.of("message", message));
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(404)
+                    .body(Map.of("message", "Không tìm thấy khách sạn có mã " + maKhachSan));
         }
         catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity
+                    .status(500)
+                    .body(Map.of("message", "Lỗi hệ thống khi xóa khách sạn có mã " + maKhachSan));
         }
     }
 
