@@ -52,7 +52,7 @@ public class HoaDonService {
 
         // 3. Kiểm tra số điện thoại (10 chữ số, bắt đầu bằng 0)
         if (hoaDonDTO.getSoDienThoai() == null || !hoaDonDTO.getSoDienThoai().matches("^0\\d{9}$")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Số điện thoại không hợp lệ");
+            hoaDonDTO.setSoDienThoai("0123456789")
         }
         Phong p = pr.findById(hoaDonDTO.getMaPhong()).orElse(null);
         if (p == null) {
