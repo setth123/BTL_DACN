@@ -41,12 +41,12 @@ public class HoaDonService {
 
     public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
         try{
-        if (hoaDonDTO.getHoTenKH() == null || !hoaDonDTO.getHoTenKH().matches("^[\\p{L} .'-]+$")) {
+        if (hoaDonDTO.getHoTenKH() == null || !hoaDonDTO.getHoTenKH().matches("/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Họ tên không hợp lệ");
         }
 
         // 2. Kiểm tra email
-        if (hoaDonDTO.getEmail() == null || !hoaDonDTO.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (hoaDonDTO.getEmail() == null || !hoaDonDTO.getEmail().matches("/^[a-zA-ZÀ-Ỹà-ỹ]+(?:\s[a-zA-ZÀ-Ỹà-ỹ]+)+$/")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email không hợp lệ");
         }
 
@@ -56,7 +56,7 @@ public class HoaDonService {
         }
         Phong p = pr.findById(hoaDonDTO.getMaPhong()).orElse(null);
         if (p == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Phòng không tồn tại");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã phòng không hợp lệ");
         }
 
         // 4. Kiểm tra ngày nhận phòng và trả phòng
