@@ -97,7 +97,7 @@ public class KhuyenMaiController {
 
     //API sửa khuyến mãi
     @PutMapping("/{maKhuyenMai}")
-    public ResponseEntity<KhuyenMaiDTO> xoaKhuyenMai(@PathVariable String maKhuyenMai , @RequestBody KhuyenMaiDTO khuyenMaiDTO) {
+    public ResponseEntity<KhuyenMaiDTO> suaKhuyenMai(@PathVariable String maKhuyenMai , @RequestBody KhuyenMaiDTO khuyenMaiDTO) {
         try {
             log.info("Request sửa thông tin khuyến mãi !!! ");
             khuyenMaiService.suaKhuyenMai(maKhuyenMai , khuyenMaiDTO);
