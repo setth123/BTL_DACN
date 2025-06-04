@@ -41,30 +41,6 @@ public class HoaDonService {
 
     public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
         try{
-//        if (hoaDonDTO.getHoTenKH() == null || !hoaDonDTO.getHoTenKH().matches("/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/")) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Họ tên không hợp lệ");
-//        }
-
-        // 2. Kiểm tra email
-//        if (hoaDonDTO.getEmail() == null || !hoaDonDTO.getEmail().matches("/^[a-zA-ZÀ-Ỹà-ỹ]+(?:\s[a-zA-ZÀ-Ỹà-ỹ]+)+$/")) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email không hợp lệ");
-//        }
-//
-//        // 3. Kiểm tra số điện thoại (10 chữ số, bắt đầu bằng 0)
-//        if (hoaDonDTO.getSoDienThoai() == null || !hoaDonDTO.getSoDienThoai().matches("^0\\d{9}$")) {
-//            hoaDonDTO.setSoDienThoai("0123456789")
-//        }
-//        Phong p = pr.findById(hoaDonDTO.getMaPhong()).orElse(null);
-//        if (p == null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã phòng không hợp lệ");
-//        }
-//
-//        // 4. Kiểm tra ngày nhận phòng và trả phòng
-//        if (hoaDonDTO.getNgayNhanPhong() == null || hoaDonDTO.getNgayTraPhong() == null ||
-//                hoaDonDTO.getNgayNhanPhong().isAfter(hoaDonDTO.getNgayTraPhong()) ||
-//                hoaDonDTO.getNgayNhanPhong().isBefore(LocalDate.now())) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ngày nhận/trả phòng không hợp lệ");
-//        }
             if(!isEmptyRoom(hoaDonDTO.getMaPhong(), hoaDonDTO.getNgayNhanPhong(), hoaDonDTO.getNgayTraPhong())){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
@@ -78,10 +54,11 @@ public class HoaDonService {
             hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
 
             KhuyenMai km=kr.findById(hoaDonDTO.getMaKhuyenMai()).orElse(null);
+            Boolean dk1=false,dk2=false,dk3=false;
             if(km!=null){
-                Boolean dk1=true;
-                Boolean dk2=true;
-                Boolean dk3=true;
+                dk1=true;
+                dk2=true;
+                dk3=true;
                 if(LocalDate.now().isBefore(km.getNgayBD())||LocalDate.now().isAfter(km.getNgayKT())){
                     dk1=false;
                 }
@@ -91,19 +68,21 @@ public class HoaDonService {
 
                 Integer isUsed=kmhdr.existsByNguoiDungAndKhuyenMai(hoaDonDTO.getMaNguoiDung(),hoaDonDTO.getMaKhuyenMai());
                 if(Objects.equals(isUsed, 1))dk3=false;
-                BigDecimal discount = BigDecimal.ZERO;
-                if (dk1 && dk2 && dk3) {
-                    discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-                }
-                hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
-
-                hdr.save(hd);
+            }
+            BigDecimal discount = BigDecimal.ZERO;
+            if (dk1 && dk2 && dk3) {
+                discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            }
+            hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
+            hdr.save(hd);
+            if (dk1 && dk2 && dk3) {
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
                 kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);
-                pr.save(p);
             }
+           
+            pr.save(p);
             return ResponseEntity.status(HttpStatus.OK).body(hd);
         }
         catch(Exception e){
