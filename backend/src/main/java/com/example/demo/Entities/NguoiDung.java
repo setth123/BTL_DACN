@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "NguoiDung")
 @Data
@@ -11,16 +13,20 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NguoiDung {
     @Id
+    @Column(name = "manguoidung")
     private String maNguoiDung;
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, name = "tendangnhap")
     private String tenDangNhap;
 
-    @Column(nullable = false, length = 70)
+    @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 10)
+    @Column(nullable = false, name = "sodienthoai")
     private String soDienThoai;
 
-    @Column(nullable = false, length = 40)
+    @Column(nullable = false, name = "matkhau")
     private String matKhau;
+
+
+
 }

@@ -41,7 +41,7 @@ public class KhachSanController {
 
     @Autowired
     QLKhachSanService qlks;
-    @GetMapping("/")
+    @GetMapping()
     public ResponseEntity<List<KhachSan>> getAll(){
         try{
             List<KhachSan> ks=ksr.findAll();

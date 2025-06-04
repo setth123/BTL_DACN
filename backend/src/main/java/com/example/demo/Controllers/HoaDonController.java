@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +30,7 @@ public class HoaDonController {
     @Autowired
     HoaDonRepository hdr;
     //get all
+
     @GetMapping("/{maNguoiDung}")
     public ResponseEntity<List<HoaDonDTO>> getAllHD(@PathVariable String maNguoiDung){
         try{
@@ -57,7 +59,7 @@ public class HoaDonController {
         }
     }
     //datphong
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
         try{
             return hds.taoHD(hoaDonDTO);
