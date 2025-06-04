@@ -16,6 +16,7 @@ const NavBar = () => {
             <ul>
                 <li><a href="/khuyenMai">Khuyến mãi</a></li>
                 <li><a href="/mydc">Đặt chỗ của tôi</a></li>
+                <li><a href="/hotel/KS45600000000002">Khách sạn chi tiết</a></li>
                 <li><a href="#">Đăng ký</a></li>
             </ul>
             {user?(

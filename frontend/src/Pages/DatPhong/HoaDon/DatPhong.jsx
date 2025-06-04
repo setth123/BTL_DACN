@@ -1,6 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import "./DatPhong.css"
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
+
+// const { state } = useLocation();
 
 const DatPhong = () => {
     const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};

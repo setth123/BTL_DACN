@@ -20,7 +20,8 @@ public class KhachSanServiceIMPL implements KhachSanService {
 
     public KhachSanChiTietDTO xemChiTietKS(String maKhachSan) {
         // Lấy thông tin khách sạn
-        KhachSanChiTietDTO khachSanChiTiet = khachSanRepository.findKhachSanById(maKhachSan);
+        KhachSanChiTietDTO khachSanChiTiet = khachSanRepository.findKhachSanById1(maKhachSan);
+
         if (khachSanChiTiet == null) {
             return null; // Trả về null nếu không tìm thấy khách sạn
         }

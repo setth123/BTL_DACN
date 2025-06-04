@@ -9,6 +9,7 @@ import DPTC from './Pages/DatPhong/DPTC/DPTC';
 import AHomePage from './Pages/Admin/HomePage/HomePage';
 import Room from './Pages/Admin/Room/Room';
 import RoomForm from './Components/RoomForm/RoomForm';
+import HotelDetail from './Pages/HotelDetail/HotelDetail';
 
 const App=()=>{
   const location=useLocation();
@@ -18,6 +19,7 @@ const App=()=>{
       {!hide &&<NavBar user={true}/>}
       <Routes>
         <Route path="/" element={<HomePage/>}/>
+        <Route path="/hotel/:hotelId" element={<HotelDetail/>}/>
         <Route path="/khuyenMai" element={<KhuyenMai/>}/>
         <Route path="/mydc" element={<MyDC/>}/>
         <Route path="/datPhong/:phongID" element={<DatPhong/>}/>
