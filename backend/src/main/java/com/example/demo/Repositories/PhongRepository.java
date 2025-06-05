@@ -33,4 +33,5 @@ public interface PhongRepository extends JpaRepository<Phong,String>{
 THEN 1 ELSE 0 END
             """)
     Integer isEmptyRoom(@Param("maPhong") String maPhong,@Param("ngayNhanPhong") LocalDate ngayNhanPhong,@Param("ngayTraPhong") LocalDate ngayTraPhong);
+    List<Phong> findByMaPhongIn(List<String> ids);
 }

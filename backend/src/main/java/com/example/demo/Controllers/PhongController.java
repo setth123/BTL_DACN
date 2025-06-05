@@ -48,6 +48,20 @@ public class PhongController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     } 
+    @PostMapping("/getlistroom")
+    public ResponseEntity<List<Phong>> getListRoom(@RequestBody List<String> roomsIds) {
+        try {
+            log.info("Request xem danh sách phòng theo danh sách id tìm kiếm !!! ");
+            List<Phong> listRoom = pr.findByMaPhongIn(roomsIds);
+            if (listRoom.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(listRoom);
+        } catch (Exception e) {
+            log.error("--->>> Không thể lấy được danh sách phòng dựa trên danh sách id tìm kiếm vì : {}" , e.getMessage() , e.getCause());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
     //get on makhachsan
     @GetMapping("/{maKhachSan}")
     public ResponseEntity<List<Phong>> getKSPhongs(@PathVariable String maKhachSan){

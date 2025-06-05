@@ -9,7 +9,6 @@ import DPTC from './Pages/DatPhong/DPTC/DPTC';
 import AHomePage from './Pages/Admin/HomePage/HomePage';
 import Room from './Pages/Admin/Room/Room';
 import RoomForm from './Components/RoomForm/RoomForm';
-import HotelDetail from './Pages/HotelDetail/HotelDetail';
 
 const App=()=>{
   const location=useLocation();
@@ -24,6 +23,7 @@ const App=()=>{
         <Route path="/mydc" element={<MyDC/>}/>
         <Route path="/datPhong/:phongID" element={<DatPhong/>}/>
         <Route path="/dptc/:hoaDonID" element={<DPTC/>}/>
+        <Route path="/search-result" element={<SearchResult/>}/>
         <Route path="/admin" element={<AHomePage/>}/>
         <Route path="/admin/hotel/:hotelId/room" element={<Room/>}/>
         <Route path="/admin/hotel/:hotelId/room/add" element={<RoomForm title={"Thêm phòng mới"} btn={"Thêm"}/>}/>
