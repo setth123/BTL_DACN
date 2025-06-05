@@ -12,9 +12,22 @@ import './HotelDetail.css'; // Assuming you have a CSS file for styling
 //     return res.json();
 // };
 
-const fetchHotel = async (id) => {
-    const res = await fetch(`http://localhost:8080/api/khach-san/detail-Hotel/${id}`);
+const fetchHotelInfo = async (id) => {
+    const res = await fetch(`http://localhost:8080/api/khach-san/${id}`);
     if (!res.ok) throw new Error("Không tìm thấy khách sạn");
+    return res.json();
+};
+
+const fetchHotel = async (roomIds) => {
+    const res = await fetch("http://localhost:8080/api/phong/searchDSPhongTheoTimKiem", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(roomIds),
+    });
+    if (!res.ok) throw new Error("Không tìm thấy danh sách phòng");
+    console.log("Received hotel data:", roomIds);
     return res.json();
 };
 
@@ -22,14 +35,26 @@ const HotelDetail = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dqReceived = location.state?.dateAndQuantity || [];
-    console.log("Received hotel data:", dqReceived);
-    const { hotelId } = useParams();
-    const { data, isLoading, error } = useQuery({
-        queryKey: ["hotelDetail", hotelId],
-        queryFn: () => fetchHotel(hotelId),
-        enabled: !!hotelId,
+    const roomIds = location.state?.roomIds || null;
+    console.log("Received hotel data:", roomIds);
+    
+
+    const id = location.state?.id || null;
+    console.log("Received hotel ID:", id);
+    const { data: hotelInfo, isLoading: loadingHotel, error: errorHotel } = useQuery({
+        queryKey: ["hotelInfo", id],
+        queryFn: () => fetchHotelInfo(id),
+        enabled: !!id,
     });
 
+    const { data, isLoading, error } = useQuery({
+        queryKey: ["hotelDetail", roomIds],
+        queryFn: () => fetchHotel(roomIds),
+        enabled: Array.isArray(roomIds) && roomIds.length > 0,
+    });
+    
+    if (loadingHotel) return <p>Đang tải thông tin khách sạn...</p>;
+    if (errorHotel) return <p>Lỗi khi tải thông tin khách sạn.</p>;
     if (isLoading) return <p>Đang tải...</p>;
     if (error) return <p>Lỗi khi tải dữ liệu khách sạn.</p>;
 
@@ -37,48 +62,48 @@ const HotelDetail = () => {
 
     return (
     <div>
-        <h2>{data.tenKhachSan}</h2>
+        <h2>{hotelInfo.tenKhachSan}</h2>
         <div className="hotel-detail-row">
-            <img src="/assets/khuyenmai.webp" alt={data.tenKhachSan} />
+            <img src="/assets/khuyenmai.webp" alt={hotelInfo.tenKhachSan} />
             <div className="hotel-detail-info diaChiCT">
-                <p>Địa chỉ: <span>{data.diaChiCT}</span></p>
+                <p>Địa chỉ: <span>{hotelInfo.diaChiCT}</span></p>
             </div>
             <div className="hotel-detail-info diemSoTB">
-                <p>Điểm số TB: <span>{data.diemSoTB}</span></p>
+                <p>Điểm số TB: <span>{hotelInfo.diemSoTB}</span></p>
             </div>
             <div className="hotel-detail-info tienIch">
-                <p>Tiện ích: <span>{data.tienIch}</span></p>
+                <p>Tiện ích: <span>{hotelInfo.tienIch}</span></p>
             </div>
         </div>
         <div className="hotel-detail-intro">
-            Thông tin giới thiệu: {data.thongTinGT}
+            Thông tin giới thiệu: {hotelInfo.thongTinGT}
         </div>
 
         {/* Hiển thị danh sách phòng */}
-        <h3>Danh sách phòng</h3>
-        <div className="hotel-rooms-list">
-            {data.phongs && data.phongs.length > 0 ? (
-                data.phongs.map((phong) => (
-                    <div className="hotel-room-item" key={phong.maPhong}>
-                        <img
-                            src={phong.hinhAnh}
-                            alt={phong.loaiPhong}
-                            style={{ width: 240, height: 160, objectFit: "cover", borderRadius: 8 }}
-                        />
-                        <div className="hotel-room-info">
-                            <div className="room-info-col">
-                                <p><strong>Loại phòng:</strong> {phong.loaiPhong}</p>
-                                <p><strong>Số người:</strong> {phong.soNguoi}</p>
+        <h2>Danh sách phòng</h2>
+            <div className="hotel-rooms-list">
+                {data && data.length > 0 ? (
+                    data.map((phong) => (
+                        <div className="hotel-room-item" key={phong.maPhong}>
+                            <img
+                                src={phong.hinhAnh}
+                                alt={phong.loaiPhong}
+                                style={{ width: 240, height: 160, objectFit: "cover", borderRadius: 8 }}
+                            />
+                            <div className="hotel-room-info">
+                                <div className="room-info-col">
+                                    <p><strong>Loại phòng:</strong> {phong.loaiPhong}</p>
+                                    <p><strong>Số người:</strong> {phong.soNguoi}</p>
+                                </div>
+                                <div className="room-info-col">
+                                    <p><strong>Diện tích:</strong> {phong.dienTich} m²</p>
+                                    <p><strong>Tiện ích:</strong> {phong.tienIch}</p>
+                                </div>
+                                <div className="room-info-col">
+                                    <p><strong>Giá phòng:</strong> {phong.giaPhong.toLocaleString()} VNĐ</p>
+                                    <p><strong>Số phòng trống:</strong> {phong.soPhongTrong}</p>
+                                </div>
                             </div>
-                            <div className="room-info-col">
-                                <p><strong>Diện tích:</strong> {phong.dienTich} m²</p>
-                                <p><strong>Tiện ích:</strong> {phong.tienIch}</p>
-                            </div>
-                            <div className="room-info-col">
-                                <p><strong>Giá phòng:</strong> {phong.giaPhong.toLocaleString()} VNĐ</p>
-                                <p><strong>Số phòng trống:</strong> {phong.soPhongTrong}</p>
-                            </div>
-                        </div>
 
                         <button
                             className="btn-dat-phong"

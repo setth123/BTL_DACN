@@ -88,7 +88,7 @@ const SearchResult = () => {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {hotels.map((hotel, index) => (
               <li
-              onClick={() => navigate(`/hotel/${hotel.maKhachSan}`, { state: { dateAndQuantity } })}
+              onClick={() => navigate(`/hotel/${hotel.maKhachSan}`, { state: { dateAndQuantity , roomIds: hotel.roomIds, id: hotel.maKhachSan } })}
                 key={hotel.maKhachSan || index}
                 style={{
                   cursor: "pointer", 
