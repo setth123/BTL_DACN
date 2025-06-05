@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import SearchBar from "../Components/SearchBar/SearchBar.jsx";
+import { useNavigate } from "react-router-dom";
 
 const SearchResult = () => {
   const [hotels, setHotels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchParams] = useSearchParams();
+  const [dateAndQuantity, setDQ] = useState([]);
 
   useEffect(() => {
     const fetchHotels = async () => {
@@ -19,6 +20,7 @@ const SearchResult = () => {
         const soNguoi = searchParams.get("guests");
 
         const formatDate = (dateString) => dateString?.split("T")[0];
+        setDQ([formatDate(checkIn), formatDate(checkOut), soNguoi]);
         const params = new URLSearchParams({
           diaChi,
           soNguoi,
@@ -33,7 +35,8 @@ const SearchResult = () => {
         // Với mỗi khách sạn, gọi POST /api/rooms/by-ids để lấy thông tin phòng
         const hotelsWithPrices = await Promise.all(
           hotelData.map(async (hotel) => {
-              const roomIds = hotel.roomIds || [];
+            console.log(hotel);
+            const roomIds = hotel.roomIds || [];
             if (roomIds.length === 0) {
               return { ...hotel, giaThapNhat: null };
             }
@@ -49,7 +52,6 @@ const SearchResult = () => {
             if (!resRooms.ok) throw new Error("Failed to fetch rooms");
 
             const rooms = await resRooms.json();
-            console.log(rooms);
             const prices = rooms.map((room) => room.giaPhong).filter(Boolean);
             const giaThapNhat = prices.length > 0 ? Math.min(...prices) : null;
 
@@ -69,11 +71,13 @@ const SearchResult = () => {
     fetchHotels();
   }, [searchParams]);
 
+  const navigate = useNavigate();
+
   if (loading) return <div>Đang tải...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div style={{ padding: 24 }}>
+    <div style={{ padding: 20 }}>
       <div style={{ width: "60%", margin: "auto" }}>
         <h5 style={{ marginTop: "40px" }}>
           Kết quả tìm kiếm cho khu vực {searchParams.get("location")}
@@ -84,46 +88,75 @@ const SearchResult = () => {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {hotels.map((hotel, index) => (
               <li
+              onClick={() => navigate(`/hotel/${hotel.maKhachSan}`, { state: { dateAndQuantity } })}
                 key={hotel.maKhachSan || index}
                 style={{
+                  cursor: "pointer", 
                   display: "flex",
                   border: "1px solid #ccc",
-                  borderRadius: 8,
-                  padding: 16,
-                  marginBottom: 16,
-                  boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+                  borderRadius: 12,
+                  padding: 15,
+                  marginBottom: 20,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                  backgroundColor: "#fff",
+                  alignItems: "center",
                 }}
               >
-                <img
-                  src={hotel.hinhAnh || "https://via.placeholder.com/160x120?text=No+Image"}
-                  alt={hotel.tenKhachSan}
-                  style={{
-                    width: 160,
-                    height: 120,
-                    objectFit: "cover",
-                    borderRadius: 8,
-                    marginRight: 16,
-                  }}
-                />
+                <div style={{ flex: "0 0 240px", marginRight: 32 }}>
+                  <img
+                    src={
+                      hotel.imageUrl ||
+                      "https://a25hotel.com/files/images/khach-san-tai-ha-noi/khach-san-tai-quan-hai-ba-trung/khach-san-minh-khai/NHH_4395.jpg"
+                    }
+                    alt={hotel.tenKhachSan}
+                    style={{
+                      width: "100%",
+                      height: 160,
+                      objectFit: "cover",
+                      borderRadius: 12,
+                    }}
+                  />
+                </div>
 
-                <div style={{ flex: 1 }}>
-                  <h3 style={{ margin: 0 }}>{hotel.tenKhachSan}</h3>
-                  <div style={{ color: "#555", marginBottom: 4 }}>
-                    📍 {hotel.diaChi}
+                <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "left" }}>
+                  <span style={{ margin: "0 0 16px 25px", padding: 0, fontSize: 20, color: "#333" }}>
+                    <strong>{hotel.tenKhachSan}</strong>
+                  </span>
+
+                  <div style={{ color: "#666", marginBottom: 16 }}>
+                    📌 <strong>Địa chỉ:</strong> {hotel.diaChi}
                   </div>
-                  <div style={{ color: "#007BFF", fontWeight: "bold" }}>
-                    ⭐ {hotel.diemSoTB || "Chưa có đánh giá"}
+
+                  <div style={{ color: "#444", marginBottom: 16 }}>
+                    ⭐ <strong>Điểm đánh giá:</strong> {hotel.diemSoTB} / 10
                   </div>
-                  <div style={{ marginTop: 4, color: "green" }}>
-                    💰 Giá thấp nhất:{" "}
+
+                  {hotel.tienIch.length > 0 && (
+                    <div style={{ marginTop: 2 }}>
+                      🧰 <strong>Tiện ích:</strong>{" "}
+                      <span style={{ color: "#555" }}>
+                        {hotel.tienIch}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <div style={{ textAlign: "right", minWidth: 180 }}>
+                  <div style={{ color: "green", fontWeight: "bold", fontSize: 18, marginBottom: 6 }}>
+                    💰{" "}
                     {hotel.giaThapNhat !== null
-                      ? hotel.giaThapNhat.toLocaleString() + "₫"
+                      ? hotel.giaThapNhat.toLocaleString() + " VND / đêm"
                       : "Không có phòng"}
+                  </div>
+                  <div style={{ fontSize: 12, color: "#888" }}>
+                    * Chưa bao gồm thuế và khuyến mãi
                   </div>
                 </div>
               </li>
             ))}
           </ul>
+
+
         )}
       </div>
     </div>

@@ -2,6 +2,7 @@
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "react-router-dom";
 import './HotelDetail.css'; // Assuming you have a CSS file for styling
 
 // const fetchHotel = async (id) => {
@@ -19,6 +20,9 @@ const fetchHotel = async (id) => {
 
 const HotelDetail = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const dqReceived = location.state?.dateAndQuantity || [];
+    console.log("Received hotel data:", dqReceived);
     const { hotelId } = useParams();
     const { data, isLoading, error } = useQuery({
         queryKey: ["hotelDetail", hotelId],
@@ -79,7 +83,10 @@ const HotelDetail = () => {
                         <button
                             className="btn-dat-phong"
                             onClick={() => {
-                                // Tạo object chứa thông tin cần lưu
+                                const ngayNhan = dqReceived ? dqReceived[0] : new Date().toISOString().slice(0, 10);
+                                const ngayTra = dqReceived ? dqReceived[1] : new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10);
+                                const soNgay = Math.ceil(
+                                (new Date(ngayTra) - new Date(ngayNhan)) / (1000 * 60 * 60 * 24));
                                 const datPhongInfo = {
                                     makhachSan: data.maKhachSan,
                                     maPhong: phong.maPhong,
@@ -91,16 +98,14 @@ const HotelDetail = () => {
                                     loaiPhong: phong.loaiPhong,
                                     tenPhong: phong.loaiPhong,
                                     tienNghi: phong.tienIch,
-                                    soNguoi: phong.soNguoi,
+                                    soNguoi: dqReceived? +dqReceived[2] : 1,
                                     giaPhong: phong.giaPhong,
-                                    ngayNhan: "",   // Bạn cần lấy giá trị thực tế từ input hoặc context
-                                    ngayTra: "",    // Bạn cần lấy giá trị thực tế từ input hoặc context
-                                    soNgay: "",     // Bạn cần lấy giá trị thực tế từ input hoặc context
+                                    ngayNhan: dqReceived? dqReceived[0] : new Date().toISOString().slice(0, 10),
+                                    ngayTra: dqReceived? dqReceived[1] : new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10),
+                                    soNgay: soNgay,
                                 };
-                                // Lưu vào localStorage
-                                localStorage.setItem("datPhongInfo", JSON.stringify(datPhongInfo));
                                 // Chuyển trang
-                                navigate(`/datPhong/${phong.maPhong}`);
+                                navigate(`/datPhong/${phong.maPhong}`, {state: { datPhongInfo }});
                             }}
                         >
                             Đặt phòng
