@@ -9,6 +9,8 @@ import DPTC from './Pages/DatPhong/DPTC/DPTC';
 import AHomePage from './Pages/Admin/HomePage/HomePage';
 import Room from './Pages/Admin/Room/Room';
 import RoomForm from './Components/RoomForm/RoomForm';
+import HotelDetail from './Pages/HotelDetail/HotelDetail';
+import SearchResult from './Pages/SearchResult';
 
 const App=()=>{
   const location=useLocation();

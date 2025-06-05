@@ -1,5 +1,6 @@
 //// filepath: frontend/src/Pages/HotelDetail/HotelDetail.jsx
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import './HotelDetail.css'; // Assuming you have a CSS file for styling
 
@@ -17,6 +18,7 @@ const fetchHotel = async (id) => {
 };
 
 const HotelDetail = () => {
+    const navigate = useNavigate();
     const { hotelId } = useParams();
     const { data, isLoading, error } = useQuery({
         queryKey: ["hotelDetail", hotelId],
@@ -76,21 +78,30 @@ const HotelDetail = () => {
 
                         <button
                             className="btn-dat-phong"
-                            onClick={() =>
-                                navigate("/datPhong", {
-                                    state: {
-                                        tenKhachSan: data.tenKhachSan,
-                                        tenPhong: phong.loaiPhong,
-                                        tienNghi: phong.tienIch,
-                                        soNguoi: phong.soNguoi,
-                                        giaPhong: phong.giaPhong,
-                                        // Bạn cần lấy ngày nhận/trả phòng, số ngày từ input hoặc context, ở đây để trống
-                                        ngayNhan: "",
-                                        ngayTra: "",
-                                        soNgay: "",
-                                    },
-                                })
-                            }
+                            onClick={() => {
+                                // Tạo object chứa thông tin cần lưu
+                                const datPhongInfo = {
+                                    makhachSan: data.maKhachSan,
+                                    maPhong: phong.maPhong,
+                                    tenKhachSan: data.tenKhachSan,
+                                    hinhAnh: phong.hinhAnh,
+                                    diaChiCT: data.diaChiCT,
+                                    diemSoTB: data.diemSoTB,
+                                    thongTinGT: data.thongTinGT,
+                                    loaiPhong: phong.loaiPhong,
+                                    tenPhong: phong.loaiPhong,
+                                    tienNghi: phong.tienIch,
+                                    soNguoi: phong.soNguoi,
+                                    giaPhong: phong.giaPhong,
+                                    ngayNhan: "",   // Bạn cần lấy giá trị thực tế từ input hoặc context
+                                    ngayTra: "",    // Bạn cần lấy giá trị thực tế từ input hoặc context
+                                    soNgay: "",     // Bạn cần lấy giá trị thực tế từ input hoặc context
+                                };
+                                // Lưu vào localStorage
+                                localStorage.setItem("datPhongInfo", JSON.stringify(datPhongInfo));
+                                // Chuyển trang
+                                navigate(`/datPhong/${phong.maPhong}`);
+                            }}
                         >
                             Đặt phòng
                         </button>

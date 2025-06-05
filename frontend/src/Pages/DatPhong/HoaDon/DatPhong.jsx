@@ -6,8 +6,18 @@ import { useLocation } from "react-router-dom";
 // const { state } = useLocation();
 
 const DatPhong = () => {
+    const datPhongInfo = JSON.parse(localStorage.getItem("datPhongInfo") || "{}");
     const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
-    const room=JSON.parse(localStorage.getItem('room'))||{maPhong:"P1740472908014",tenKhachSan:"Khách Sạn Ánh Dương",ngayNhanPhong:"26/02/2025",ngayTraPhong:"30/02/2025",hinhAnh:"https://www.oppeinhome.com/upload/images/ueditor/20230830/guide-to-design-luxury-bedroom-2.webp",loaiPhong:"Luxurry",tienNghi:'',soNguoi:2,soNgay:3,giaPhong:1000000};
+    const room=JSON.parse(localStorage.getItem('datPhongInfo'))||{maPhong: datPhongInfo.maPhong 
+        ,tenKhachSan: datPhongInfo.tenKhachSan 
+        ,ngayNhanPhong:"" 
+        ,ngayTraPhong:"" 
+        ,hinhAnh: datPhongInfo.hinhAnh 
+        ,loaiPhong: datPhongInfo.loaiPhong 
+        ,tienNghi:datPhongInfo.tienNghi
+        ,soNguoi: datPhongInfo.soNguoi
+        ,soNgay: ""
+        ,giaPhong: datPhongInfo.giaPhong };
     const [filled,setFilled]=useState({
         soDienThoai:true,
         email:true
@@ -116,7 +126,7 @@ const DatPhong = () => {
                         <h3><span><img src="/Assets/hotel.svg" alt="hotel" /></span>
                             {room.tenKhachSan}
                         </h3>
-                            <div>Ngày nhân phòng: <b>{room.ngayNhanPhong}</b></div>
+                            <div>Ngày nhận phòng: <b>{room.ngayNhanPhong}</b></div>
                             <div>Ngày trả phòng: <b>{room.ngayTraPhong}</b></div>
                     </div>
                     <img style={{width:"30vw",height:"25vh"}} src={room.hinhAnh} alt="room" />
@@ -125,7 +135,7 @@ const DatPhong = () => {
                         <p><span><img src="/Assets/comfort.svg" alt="comfort" /></span>Tiện nghi: <b>{room.tienNghi}</b></p>
                         <p><span><img src="/Assets/user-blue.svg" alt="num" /></span>Số người :<b>{room.soNguoi}</b></p>
                         <p><span><img src="/Assets/date.svg" alt="date" /></span>Số ngày: <b>{room.soNgay}</b></p>
-                        <p>Giá phòng: <b>{room.giaPhong.toLocaleString("vn-VN")} VNĐ</b></p>
+                        <p>Giá phòng: <b>{datPhongInfo.giaPhong.toLocaleString("vn-VN")} VNĐ</b></p>
                     </div>
                 </div>
                 
