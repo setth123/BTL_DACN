@@ -11,6 +11,7 @@ import Room from './Pages/Admin/Room/Room';
 import RoomForm from './Components/RoomForm/RoomForm';
 import HotelDetail from './Pages/HotelDetail/HotelDetail';
 import SearchResult from './Pages/SearchResult';
+import AuthForm from './Components/AuthForm/AuthForm';
 
 const App=()=>{
   const location=useLocation();
@@ -27,6 +28,9 @@ const App=()=>{
         <Route path="/dptc/:hoaDonID" element={<DPTC/>}/>
         <Route path="/search-result" element={<SearchResult/>}/>
         <Route path="/admin" element={<AHomePage/>}/>
+        <Route path="/admin/login" element={<AuthForm isLogin={true} isUser={false}/>}/>
+        <Route path="/register" element={<AuthForm isLogin={false} isUser={true}/>}/>
+        <Route path="/login" element={<AuthForm isLogin={true} isUser={true}/>}/>
         <Route path="/admin/hotel/:hotelId/room" element={<Room/>}/>
         <Route path="/admin/hotel/:hotelId/room/add" element={<RoomForm title={"Thêm phòng mới"} btn={"Thêm"}/>}/>
         <Route path="/admin/hotel/:hotelId/room/update/:roomId" element={<RoomForm title={"Cập nhật thông tin phòng"} btn={"Lưu"} type='t2'/>}/>
