@@ -3,6 +3,7 @@ import StaticNum from "../../../Components/StatticNum/StaticNum";
 import StaticTable from "../../../Components/StaticTable/StaticTable";
 import ANavBar from "../../../Components/ANavBar/ANavBar";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const fetchData = async (url) => {
     try {

@@ -12,6 +12,5 @@ public class Admin {
     @Column(name = "adminname")
     private String adminName;
     private String password;
-    private String role = "ADMIN";
 
 }

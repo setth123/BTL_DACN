@@ -7,6 +7,7 @@ const NavBar = () => {
     const token=JSON.parse(localStorage.getItem('accessToken'));
     const user=token?token.claims:null;
     const navigate=useNavigate();
+    if(admin===null)navigate("/admin/login");
     return (
         <div className="navbar">
             {/* Logo */}
