@@ -49,7 +49,7 @@ const AuthForm = ({isLogin=true,isUser=true}) => {
         else{
             //exception
             if(isUser){
-                if (!validateEmail(username)) errors.push("⚠️ Email không hợp lệ.");
+                if (!validateEmail(account)) errors.push("⚠️ Email không hợp lệ.");
             }
             if(errors.length>0){
                 alert(errors.join("\n"));
@@ -57,7 +57,7 @@ const AuthForm = ({isLogin=true,isUser=true}) => {
             }
 
             //handling
-            const authForm={username:accName,password:password};
+            const authForm={username:account,password:password};
             try{
                 const res=await fetch(`http://localhost:8080/api/auth/${isUser?"user":"admin"}/login`,{
                     method:"POST",
@@ -85,7 +85,7 @@ const AuthForm = ({isLogin=true,isUser=true}) => {
                     <span><img src="/assets/userAvatar.svg" alt="admin"/></span>
                     {isLogin?"Đăng nhập":"Đăng ký"} {!isUser?"(Quản trị viên)":""}
                 </h2>
-                <form action={handleSubmit}>
+                <form onSubmit={handleSubmit}>
                     <div id="auth-group">
                         <input type="text" name="account" placeholder={isUser?"Nhập email: ":"Nhập tên đăng nhập"} id="auth-field" required/>
                     </div>
