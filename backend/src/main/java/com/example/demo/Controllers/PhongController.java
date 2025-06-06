@@ -2,13 +2,13 @@ package com.example.demo.Controllers;
 
 import java.util.List;
 
-import com.example.demo.Services.ServiceIMPL.TimKiemDSPhongServiceIMPL;
 import com.example.demo.Services.TimKiemDSPhongService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -77,6 +77,7 @@ public class PhongController {
     } 
     //delete    
     @DeleteMapping("/{maPhong}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> deletePhong(@PathVariable String maPhong){
         try{
             if(!pr.existsById(maPhong)){
@@ -92,6 +93,7 @@ public class PhongController {
     }
     //add
     @PostMapping("/")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Phong>addPhong(@RequestBody PhongDTO phongDTO){
         try{
             Phong p=ps.addPhong(phongDTO);
@@ -104,6 +106,7 @@ public class PhongController {
     }
     //update
     @PatchMapping("/{maPhong}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Phong>updatePhong(@PathVariable String maPhong,@RequestBody PhongDTO phongDTO){
         try{
             Phong p=ps.updatePhong(maPhong,phongDTO);

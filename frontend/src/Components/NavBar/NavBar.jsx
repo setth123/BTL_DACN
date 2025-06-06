@@ -1,13 +1,11 @@
 import './NavBar.css'
 import userAvatar from '../../../assets/userAvatar.svg';
 import { useNavigate } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
 
 const NavBar = () => {
     const token=JSON.parse(localStorage.getItem('accessToken'));
     const user=token?token.claims:null;
     const navigate=useNavigate();
-    if(admin===null)navigate("/admin/login");
     return (
         <div className="navbar">
             {/* Logo */}
@@ -16,8 +14,7 @@ const NavBar = () => {
             {/* Navbar */}
             <ul>
                 <li><a href="/khuyenMai">Khuyến mãi</a></li>
-                <li><a href="/mydc">Đặt chỗ của tôi</a></li>
-                {/* <li><a href="/hotel/KS45600000000002">Khách sạn chi tiết</a></li> */}
+                {user&&<li><a href="/mydc">Đặt chỗ của tôi</a></li>}
                 <li><a href="#">Đăng ký</a></li>
             </ul>
             {user?(
@@ -27,10 +24,12 @@ const NavBar = () => {
                         <div>{user.tenDangNhap}</div>
                     </div>
                     <button onClick={()=>{
-                        localStorage.removeItem('accessToken');
-                        navigate("/login");
-                        window.location.reload();
-                    }}>Đăng xuất</button>
+                        if(user){
+                            localStorage.removeItem('accessToken');
+                        }
+                            navigate("/login");
+                            window.location.reload();
+                    }}>{user?"Đăng xuất":"Đăng nhập"}</button>
                 </div>
                 ):(
                     <button>Đăng nhập</button>

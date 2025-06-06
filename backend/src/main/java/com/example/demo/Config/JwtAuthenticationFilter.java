@@ -1,9 +1,11 @@
 package com.example.demo.Config;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
@@ -31,10 +33,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if(authorizationHeader!=null&&authorizationHeader.startsWith("Bearer ")){
             String token=authorizationHeader.substring(7);
             String username=jwtUtil.extractUsername(token);
+            String role=jwtUtil.extractRole(token);
             if(username!=null&&SecurityContextHolder.getContext().getAuthentication()==null){
                 if (jwtUtil.validateToken(token, username)) {
                     UsernamePasswordAuthenticationToken authToken = 
-                            new UsernamePasswordAuthenticationToken(username, null, null);
+                            new UsernamePasswordAuthenticationToken(username, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }

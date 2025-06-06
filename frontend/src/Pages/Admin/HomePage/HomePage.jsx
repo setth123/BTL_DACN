@@ -3,11 +3,15 @@ import StaticNum from "../../../Components/StatticNum/StaticNum";
 import StaticTable from "../../../Components/StaticTable/StaticTable";
 import ANavBar from "../../../Components/ANavBar/ANavBar";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 
 const fetchData = async (url) => {
     try {
-        const res = await fetch(url);
+        const res = await fetch(url,{
+            headers:{
+                "Content-Type": "application/json",
+                "Authorization":`Bearer ${token}`
+            },
+        });
         if (!res.ok) {
             throw new Error(`Error API: ${res.status} ${res.statusText}`);
         }

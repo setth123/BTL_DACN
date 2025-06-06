@@ -23,6 +23,7 @@ public class JwtUtil {
         Map<String,Object>claims=new HashMap<>();
         claims.put("adminId",admin.getId());
         claims.put("adminName",admin.getAdminName());
+        claims.put("role","ADMIN");
         return Jwts.builder()
             .claims(claims)
             .subject(admin.getAdminName())
@@ -37,6 +38,7 @@ public class JwtUtil {
         claims.put("tenDangNhap", user.getTenDangNhap());
         claims.put("email", user.getEmail());
         claims.put("soDienThoai", user.getSoDienThoai());
+        claims.put("role","USER");
         return Jwts.builder()
                 .claims(claims)
                 .subject(user.getTenDangNhap())
@@ -48,6 +50,15 @@ public class JwtUtil {
     public Map<String, Object> extractAllClaims(String token) {
         return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
+    public String extractRole(String token) {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role", String.class);
+    }
+
     public String extractUsername(String token) {
         return Jwts.parser()
                 .verifyWith(key)

@@ -32,6 +32,7 @@ public class HoaDonController {
     //get all
 
     @GetMapping("/{maNguoiDung}")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<HoaDonDTO>> getAllHD(@PathVariable String maNguoiDung){
         try{
             List<Object[]> result=hdr.findHDKMStatus(maNguoiDung);
@@ -60,6 +61,7 @@ public class HoaDonController {
     }
     //datphong
     @PostMapping()
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
         try{
             return hds.taoHD(hoaDonDTO);
@@ -71,6 +73,7 @@ public class HoaDonController {
     }
     //huyphong
     @DeleteMapping("/{maHoaDon}/{maPhong}")
+    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<String> deleteHoaDon(@PathVariable Integer maHoaDon,@PathVariable String maPhong){
         try{
             return hds.huyPhong(maHoaDon,maPhong);

@@ -2,15 +2,12 @@ package com.example.demo.Services.ServiceIMPL;
 
 import com.example.demo.DTO.KhachSanChiTietDTO;
 import com.example.demo.DTO.PhongDTO;
-import com.example.demo.Entities.KhachSan;
 import com.example.demo.Repositories.KhachSanRepository;
 import com.example.demo.Services.KhachSanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

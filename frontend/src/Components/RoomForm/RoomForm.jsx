@@ -36,11 +36,13 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     }
     const handleAdd=async(e)=>{
         e.preventDefault();
+        const token=localStorage.getItem("accessToken").token;
         try{
             const res=await fetch("http://localhost:8080/api/phong/",{
                 method: "POST",
                 headers:{
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization":`Bearer ${token}`
                 },
                 body:JSON.stringify(formDT)
             })
@@ -69,7 +71,8 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             const res=await fetch(`http://localhost:8080/api/phong/${roomId}`,{
                 method:"PATCH",
                 headers:{
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    "Authorization":`Bearer ${token}`
                 },
                 body:JSON.stringify(formDT)
             })

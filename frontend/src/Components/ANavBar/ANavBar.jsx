@@ -4,7 +4,10 @@ const ANavBar = () => {
     const navigate=useNavigate();
     const token=JSON.parse(localStorage.getItem('accessToken'));
     const admin=token?token.claims:null;
-    if(admin===null)navigate("/admin/login");
+    if(admin===null){
+        alert("Vui lòng đăng nhập");
+        navigate("/admin/login");
+    }
     return (
         <div id="adminNav">
             <h1 style={{display:"flex",alignItems:"center"}} onClick={()=>navigate("/admin")}><span><img src="/assets/menu-admin.svg" alt="menu" /></span>Dashboard</h1>

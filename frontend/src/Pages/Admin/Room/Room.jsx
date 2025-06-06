@@ -32,7 +32,11 @@ const Room = () => {
         if(cDel){
             try{
                 const res=await fetch(`http://localhost:8080/api/phong/${row.maPhong}`,{
-                    method: "DELETE"
+                    method: "DELETE",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Authorization":`Bearer ${token}`
+                    },
                 })
                 if(!res.ok){
                     throw new Error(`Error API: ${res.status} ${res.statusText}`);

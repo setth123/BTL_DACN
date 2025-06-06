@@ -21,6 +21,7 @@ public class NguoiDungController {
     NguoiDungRepository ndr;
     
     @GetMapping()
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<List<NguoiDungDTO>> getALLND(){
         try{
             List<Object[]> result=ndr.getAllND();

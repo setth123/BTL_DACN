@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.DTO.KhuyenMaiDTO;
@@ -67,6 +68,7 @@ public class KhuyenMaiController {
 
     // API thêm khuyến mãi
     @PostMapping("/addKM")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<KhuyenMaiDTO> addKhuyenMai(@RequestBody KhuyenMaiDTO khuyenMaiDTO) {
         try
         {
@@ -83,6 +85,7 @@ public class KhuyenMaiController {
 
     //API xóa khuyến mãi
     @DeleteMapping("/{maKhuyenMai}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<KhuyenMaiDTO> xoaKhuyenMai(@PathVariable String maKhuyenMai) {
         try {
             log.info("Request xóa thông tin khuyến mãi !!! ");
@@ -97,6 +100,7 @@ public class KhuyenMaiController {
 
     //API sửa khuyến mãi
     @PutMapping("/{maKhuyenMai}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<KhuyenMaiDTO> suaKhuyenMai(@PathVariable String maKhuyenMai , @RequestBody KhuyenMaiDTO khuyenMaiDTO) {
         try {
             log.info("Request sửa thông tin khuyến mãi !!! ");

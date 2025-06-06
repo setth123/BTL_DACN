@@ -10,10 +10,15 @@ import AHomePage from './Pages/Admin/HomePage/HomePage';
 import Room from './Pages/Admin/Room/Room';
 import RoomForm from './Components/RoomForm/RoomForm';
 import HotelDetail from './Pages/HotelDetail/HotelDetail';
-import SearchResult from './Pages/SearchResult';
+import SearchResult from './Pages/SearchResult/SearchResult';
 import AuthForm from './Components/AuthForm/AuthForm';
+import { useEffect } from 'react';
+import { checkAndRemoveExpiredToken } from './utils/auth';
 
 const App=()=>{
+  useEffect(()=>{
+    checkAndRemoveExpiredToken();
+  },[])
   const location=useLocation();
   const hide=location.pathname.startsWith("/admin")||location.pathname.startsWith("/login")||location.pathname.startsWith("/register");
   return(

@@ -1,13 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import "./DatPhong.css"
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 
-// const { state } = useLocation();
 
 const DatPhong = () => {
     const datPhongInfo = JSON.parse(localStorage.getItem("datPhongInfo") || "{}");
-    const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
+    const token=JSON.parse(localStorage.getItem('accessToken'));
+    const user=token?token.claims:null;
+    const navigate=useNavigate();
+    if(user===null){
+        alert("Vui lòng đăng nhập");
+        navigate("/login");
+    }
     const room=JSON.parse(localStorage.getItem('datPhongInfo'))||{maPhong: datPhongInfo.maPhong 
         ,tenKhachSan: datPhongInfo.tenKhachSan 
         ,ngayNhanPhong:"" 
@@ -40,7 +44,6 @@ const DatPhong = () => {
             [id]: false, 
         }));
     }
-    const navigate=useNavigate();
     const handleDP=async()=>{
         const validateEmail = (email) => /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email);
         const validatePhone = (phone) => /^(0|\+84)[0-9]{9}$/.test(phone);
@@ -58,7 +61,10 @@ const DatPhong = () => {
         try{
             const res=await fetch(`http://localhost:8080/api/hoa-don/`,{
                 method:"POST",
-                headers:{"Content-Type":"application/json"},
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":`Bearer ${token}`
+                },
                 body:JSON.stringify(dpForm)
             })
             if(!res.ok){

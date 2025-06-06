@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,6 +69,7 @@ public class KhachSanController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Map<String, Object>> themKhachSan(@RequestBody KhachSanDTO khachsan) {
         try {
             KhachSan ks = qlks.themKhachSan(khachsan);
@@ -84,6 +86,7 @@ public class KhachSanController {
     }
 
     @PutMapping("/edit/{maKhachSan}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Map<String, Object>> suaKhachSan(@PathVariable String maKhachSan, @RequestBody KhachSanDTO khachsan) {
         try {
             KhachSan ks = qlks.suaKhachSan(maKhachSan, khachsan);
@@ -102,6 +105,7 @@ public class KhachSanController {
     }
 
     @DeleteMapping("/delete/{maKhachSan}")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Map<String, String>> xoaKhachSan(@PathVariable String maKhachSan){
         try {
             qlks.xoaKhachSan(maKhachSan);

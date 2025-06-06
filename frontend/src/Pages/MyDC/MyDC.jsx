@@ -2,11 +2,22 @@ import { dateConnect } from "../../utils/dtOutput";
 import "./MyDC.css";
 import {useQuery, useQueryClient} from "@tanstack/react-query"
 const MyDC = () => {
-    const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
+    const token=JSON.parse(localStorage.getItem('accessToken'));
+    const user=token?token.claims:null;
+    const navigate=useNavigate();
+    if(user===null){
+        alert("Vui lòng đăng nhập");
+        navigate("/login");
+    }
     const queryClient=useQueryClient();
     const fetchData=async()=>{
         try{
-            const res=await fetch(`http://localhost:8080/api/hoa-don/${user.maNguoiDung}`);
+            const res=await fetch(`http://localhost:8080/api/hoa-don/${user.maNguoiDung}`,{
+                headers:{
+                    "Content-Type": "application/json",
+                    "Authorization":`Bearer ${token}`
+                },
+            });
             if(!res.ok){
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
@@ -29,7 +40,11 @@ const MyDC = () => {
         if(isDel){
             try{
                 const res=await fetch(`http://localhost:8080/api/hoa-don/${hoaDonID}/${maPhong}`,{
-                    method:"DELETE"
+                    method:"DELETE",
+                    headers:{
+                        "Content-Type": "application/json",
+                        "Authorization":`Bearer ${token}`
+                    },
                 })
                 if(!res.ok){
                     if(res.status===400)alert("Không thể huỷ đặt phòng vì đã quá thời gian");
