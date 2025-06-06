@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
 const NavBar = () => {
-    const queryClient=useQueryClient();
-    const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
+    const token=JSON.parse(localStorage.getItem('accessToken'));
+    const user=token?token.claims:null;
     const navigate=useNavigate();
     return (
         <div className="navbar">
@@ -25,7 +25,11 @@ const NavBar = () => {
                         <img src={userAvatar} alt="User Logo"/>
                         <div>{user.tenDangNhap}</div>
                     </div>
-                    <button>Đăng xuất</button>
+                    <button onClick={()=>{
+                        localStorage.removeItem('accessToken');
+                        navigate("/login");
+                        window.location.reload();
+                    }}>Đăng xuất</button>
                 </div>
                 ):(
                     <button>Đăng nhập</button>

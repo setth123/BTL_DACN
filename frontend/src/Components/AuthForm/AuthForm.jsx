@@ -68,7 +68,7 @@ const AuthForm = ({isLogin=true,isUser=true}) => {
                     throw new Error(`Error API: ${res.status} ${res.statusText}`);
                 }
                 const token=await res.json();
-                localStorage.setItem("accessToken",token);
+                localStorage.setItem("accessToken",JSON.stringify(token));
                 alert("Đăng nhập thành công");
                 navigate(isUser?"/":"/admin/");
             }
