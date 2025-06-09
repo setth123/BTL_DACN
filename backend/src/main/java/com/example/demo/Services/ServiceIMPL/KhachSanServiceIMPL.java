@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class KhachSanServiceIMPL implements KhachSanService {
+public class KhachSanServiceIMPL {
 
     private final KhachSanRepository khachSanRepository;
 
