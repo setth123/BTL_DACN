@@ -40,7 +40,7 @@ const HomePage = () => {
                 {
                     vData.map((item,index)=>(
                         <div key={index}>
-                            <img src="/assets/khuyenmai.webp" alt="km"/>
+                            <img src="/assets/sales-promotion-poster.jpg" alt="km"/>
                             <p style={{fontWeight:"bold"}}>{item.maKhuyenMai}</p>
                             <p>Thời gian khuyến mãi</p>
                             <p style={{fontWeight:"bold"}}>{item.thoiGian}</p>
