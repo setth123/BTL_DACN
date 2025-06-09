@@ -19,7 +19,7 @@ public class PhongService {
     //add
     public Phong addPhong(PhongDTO phongDTO){
             Phong p=new Phong();
-            p.setMaPhong("P"+System.currentTimeMillis());
+            p.setMaPhong("P"+java.util.UUID.randomUUID().toString().substring(0, 15));
             p.setLoaiPhong(phongDTO.getLoaiPhong());
             p.setDienTich(phongDTO.getDienTich());
             p.setGiaPhong(phongDTO.getGiaPhong());
