@@ -28,7 +28,7 @@ public class DanhGiaService {
 
     public DanhGia themDanhGia(DanhGiaDTO danhGia) {
         DanhGia dg=new DanhGia();
-        dg.setMaDanhGia("DG"+System.currentTimeMillis());
+        dg.setMaDanhGia("DG"+java.util.UUID.randomUUID().toString().substring(0, 14));
         KhachSan ks=ksr.findById(danhGia.getMaKhachSan()).orElseThrow(() -> new RuntimeException("Khách sạn không tồn tại!"));
         dg.setKhachSan(ks);
         NguoiDung nd=ndr.findById(danhGia.getMaNguoiDung()).orElseThrow(() -> new RuntimeException("Người dùng không tồn tại!"));
