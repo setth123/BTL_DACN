@@ -35,7 +35,7 @@ const KhuyenMai = () => {
                 {
                     newKM.map((item,index)=>(
                         <div key={index} id='km'>
-                            <img src="/assets/khuyenmai.webp" alt="km"/>
+                            <img src="/assets/sales-promotion-poster.jpg" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>
                             <div style={{display:"flex",gap:"1vw"}}>
                                 <div>
@@ -58,7 +58,7 @@ const KhuyenMai = () => {
                 {
                     oldKM.map((item,index)=>(
                         <div key={index} id='km'>
-                            <img src="/assets/khuyenmai.webp" alt="km"/>
+                            <img src="/assets/sales-promotion-poster.jpg" alt="km"/>
                             <div style={{fontWeight:"bold",fontSize:25}}>{item.maKhuyenMai}</div>
                             <div style={{display:"flex",gap:"1vw"}}>
                                 <div>
