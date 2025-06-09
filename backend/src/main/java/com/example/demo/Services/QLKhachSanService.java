@@ -28,7 +28,7 @@ public class QLKhachSanService {
 
     public KhachSan themKhachSan(KhachSanDTO khachsan) {
         KhachSan ks = new KhachSan();
-        ks.setMaKhachSan("KS" + System.currentTimeMillis());
+        ks.setMaKhachSan("KS" + java.util.UUID.randomUUID().toString().substring(0, 14));
         ks.setTenKhachSan(khachsan.getTenKhachSan());
         ks.setHinhAnh(khachsan.getHinhAnh());
         ks.setThongTinGT(khachsan.getThongTinGT());
