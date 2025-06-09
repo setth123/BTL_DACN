@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class NguoiDung {
     @Id
-    @Column(name = "manguoidung")
+    @Column(name = "manguoidung",columnDefinition = "bpchar(16)")
     private String maNguoiDung;
     @Column(nullable = false, name = "tendangnhap")
     private String tenDangNhap;

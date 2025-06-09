@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Phong {
     @Id
+    @Column(columnDefinition = "bpchar(16)")
     private String maPhong;
 
     @Column(nullable = false, length = 70)

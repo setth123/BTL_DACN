@@ -20,7 +20,7 @@ public class KhuyenMaiServiceIMPL implements KhuyenMaiService {
     @Override
     public void themKhuyenMai(KhuyenMaiDTO request) {
         KhuyenMai km = KhuyenMai.builder()
-                .maKhuyenMai("KM"+java.util.UUID.randomUUID().toString().substring(0, 14));
+                .maKhuyenMai("KM"+java.util.UUID.randomUUID().toString().substring(0, 14))
                 .ngayBD(request.getNgayBD())
                 .ngayKT(request.getNgayKT())
                 .mucKhuyenMai(request.getMucKhuyenMai())

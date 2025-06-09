@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class KhachSan {
     @Id
+    @Column(columnDefinition = "bpchar(16)")
     private String maKhachSan;
 
     @Column(nullable = false, length = 70)

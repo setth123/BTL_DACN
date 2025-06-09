@@ -20,7 +20,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DanhGia {
-    @Id
+    @Id 
+    @Column(columnDefinition = "bpchar(16)")
     private String maDanhGia;
 
     @ManyToOne

@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class KhuyenMai {
     @Id
+    @Column(columnDefinition = "bpchar(16)")
     private String maKhuyenMai;
 
     private LocalDate ngayBD;
