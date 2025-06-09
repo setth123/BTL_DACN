@@ -127,6 +127,7 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
                     <div id="rooms2">
                         <div id="rInp">
                             <label for="hinhAnh">URL Hình ảnh</label>
+                            <img src={formDT.hinhAnh} alt="room image"/>
                             <input type="text" name='hinhAnh' value={formDT.hinhAnh} onChange={handleChange}/>
                         </div>
                         <div id="rInp">
