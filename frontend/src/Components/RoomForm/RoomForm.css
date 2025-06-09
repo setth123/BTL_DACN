@@ -23,7 +23,10 @@
     border-color: rgb(6, 107, 189);
     outline: none;
 }
-
+#roomForm #rInp img{
+    width: 22vw;
+    height:25vh;
+}
 #rooms1,#rooms2{
     display:flex;
     flex-direction: column;
