@@ -30,20 +30,21 @@ public class DanhGiaController {
         return danhGiaService.getDanhGiaByKhachSan(maKhachSan);
     }
 
-    @PostMapping("/add")
-    public DanhGia themDanhGia(@RequestBody DanhGiaDTO danhGia) {
-        return danhGiaService.themDanhGia(danhGia);
-    }
 //    @PostMapping("/add")
-//    public ResponseEntity<?> themDanhGia(@RequestBody DanhGiaDTO danhGia) {
-//        try {
-//            DanhGia dg = danhGiaService.themDanhGia(danhGia);
-//            return ResponseEntity.ok().body(Map.of("message", "Đã thêm đánh giá thành công!", "data", dg));
-//        } catch (IllegalArgumentException ex) {
-//            return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
-//        } catch (Exception ex) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(Map.of("error", "Lỗi hệ thống: " + ex.getMessage()));
-//        }
+//    public DanhGia themDanhGia(@RequestBody DanhGiaDTO danhGia) {
+//        return danhGiaService.themDanhGia(danhGia);
 //    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> themDanhGia(@RequestBody DanhGiaDTO danhGia) {
+        try {
+            DanhGia dg = danhGiaService.themDanhGia(danhGia);
+            return ResponseEntity.ok().body(Map.of("message", "Đã thêm đánh giá thành công!", "data", dg));
+        } catch (IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("error", "Lỗi hệ thống: " + ex.getMessage()));
+        }
+    }
 }
