@@ -58,7 +58,7 @@ public class HoaDonController {
     }
     //datphong
     @PostMapping("/")
-    public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
+    public ResponseEntity<?> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
         try{
             return hds.taoHD(hoaDonDTO);
         }

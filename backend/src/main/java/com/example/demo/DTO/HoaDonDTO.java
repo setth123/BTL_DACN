@@ -19,6 +19,8 @@ public class HoaDonDTO {
     private String maPhong;
     private String maKhuyenMai;
     private String hoTenKH;
+    private String email;
+    private String soDienThoai;
     private BigDecimal tongChiPhi;
     private String loaiPhong;
     private String hinhAnh;

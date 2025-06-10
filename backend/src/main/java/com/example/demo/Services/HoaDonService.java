@@ -1,20 +1,20 @@
 package com.example.demo.Services;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.Objects;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.example.demo.DTO.HoaDonDTO;
 import com.example.demo.Entities.ApDungKhuyenMai;
 import com.example.demo.Entities.HoaDon;
-import com.example.demo.Entities.KhuyenMai;
 import com.example.demo.Entities.Phong;
 import com.example.demo.Repositories.ApDungKhuyenMaiRepository;
 import com.example.demo.Repositories.HoaDonRepository;
@@ -39,78 +39,61 @@ public class HoaDonService {
         return pr.isEmptyRoom(maPhong, ngayNhanPhong, ngayTraPhong).equals(1);
     }
 
-    public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
-        try{
-        if (hoaDonDTO.getHoTenKH() == null || !hoaDonDTO.getHoTenKH().matches("/^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Họ tên không hợp lệ");
-        }
-
-        // 2. Kiểm tra email
-        if (hoaDonDTO.getEmail() == null || !hoaDonDTO.getEmail().matches("/^[a-zA-ZÀ-Ỹà-ỹ]+(?:\s[a-zA-ZÀ-Ỹà-ỹ]+)+$/")) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email không hợp lệ");
-        }
-
-        // 3. Kiểm tra số điện thoại (10 chữ số, bắt đầu bằng 0)
-        if (hoaDonDTO.getSoDienThoai() == null || !hoaDonDTO.getSoDienThoai().matches("^0\\d{9}$")) {
-            hoaDonDTO.setSoDienThoai("0123456789")
-        }
-        Phong p = pr.findById(hoaDonDTO.getMaPhong()).orElse(null);
-        if (p == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mã phòng không hợp lệ");
-        }
-
-        // 4. Kiểm tra ngày nhận phòng và trả phòng
-        if (hoaDonDTO.getNgayNhanPhong() == null || hoaDonDTO.getNgayTraPhong() == null ||
+    @PostMapping("/hoa-don")
+    public ResponseEntity<?> taoHD(@RequestBody HoaDonDTO hoaDonDTO) {
+        try {
+            // Validate dữ liệu
+            if (hoaDonDTO.getHoTenKH() == null || !hoaDonDTO.getHoTenKH().matches("^[\\p{L} .'-]+$")) {
+                return ResponseEntity.badRequest().body(Collections.singletonMap("error", "Họ tên không hợp lệ"));
+            }
+            if (hoaDonDTO.getEmail() == null || !hoaDonDTO.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+                return ResponseEntity.badRequest().body(Collections.singletonMap("error", "Email không hợp lệ"));
+            }
+            if (hoaDonDTO.getSoDienThoai() == null || !hoaDonDTO.getSoDienThoai().matches("^0\\d{9}$")) {
+                hoaDonDTO.setSoDienThoai("0123456789");
+            }
+            
+            // Kiểm tra phòng
+            Phong phong = pr.findById(hoaDonDTO.getMaPhong())
+                           .orElse(null);
+            if (phong == null) {
+                return ResponseEntity.badRequest().body(Collections.singletonMap("error", "Phòng không tồn tại"));
+            }
+            
+            // Kiểm tra ngày
+            if (hoaDonDTO.getNgayNhanPhong() == null || hoaDonDTO.getNgayTraPhong() == null ||
                 hoaDonDTO.getNgayNhanPhong().isAfter(hoaDonDTO.getNgayTraPhong()) ||
                 hoaDonDTO.getNgayNhanPhong().isBefore(LocalDate.now())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ngày nhận/trả phòng không hợp lệ");
-        }
-            if(!isEmptyRoom(hoaDonDTO.getMaPhong(), hoaDonDTO.getNgayNhanPhong(), hoaDonDTO.getNgayTraPhong())){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                return ResponseEntity.badRequest().body(Collections.singletonMap("error", "Ngày nhận/trả phòng không hợp lệ"));
             }
-            HoaDon hd=new HoaDon();
+            
+            // Kiểm tra phòng trống
+            if (!isEmptyRoom(hoaDonDTO.getMaPhong(), hoaDonDTO.getNgayNhanPhong(), hoaDonDTO.getNgayTraPhong())) {
+                return ResponseEntity.badRequest().body(Collections.singletonMap("error", "Phòng đã được đặt trong khoảng thời gian này"));
+            }
+            
+            // Tạo hóa đơn
+            HoaDon hd = new HoaDon();
             hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
             hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
             hd.setHoTenKH(hoaDonDTO.getHoTenKH());
-            hd.setNguoiDung(ndr.findById(hoaDonDTO.getMaNguoiDung()).orElse(null));
-            hd.setPhong(pr.findById(hoaDonDTO.getMaPhong()).orElse(null));
-            Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
-            hd.setChiPhiDuTinh(p.getGiaPhong().multiply(BigDecimal.valueOf(ChronoUnit.DAYS.between(hd.getNgayNhanPhong(),hd.getNgayTraPhong()))));
-
-            KhuyenMai km=kr.findById(hoaDonDTO.getMaKhuyenMai()).orElse(null);
-            if(km!=null){
-                Boolean dk1=true;
-                Boolean dk2=true;
-                Boolean dk3=true;
-                if(LocalDate.now().isBefore(km.getNgayBD())||LocalDate.now().isAfter(km.getNgayKT())){
-                    dk1=false;
-                }
-                if(hd.getChiPhiDuTinh().compareTo(km.getGiaoDichToiThieu())<0){
-                    dk2=false;
-                }
-
-                Integer isUsed=kmhdr.existsByNguoiDungAndKhuyenMai(hoaDonDTO.getMaNguoiDung(),hoaDonDTO.getMaKhuyenMai());
-                if(Objects.equals(isUsed, 1))dk3=false;
-                BigDecimal discount = BigDecimal.ZERO;
-                if (dk1 && dk2 && dk3) {
-                    discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-                }
-                hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
-
-                hdr.save(hd);
-                ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
-                kmhd.setHoaDon(hd);
-                kmhd.setKhuyenMai(km);
-                kmhdr.save(kmhd);
-                pr.save(p);
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(hd);
-        }
-        catch(Exception e){
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            hd.setNguoiDung(ndr.findById("NDa1b2C3d4E5f6G7").orElse(null));
+            hd.setPhong(phong);
+            
+            // Tính toán chi phí
+            long soNgay = ChronoUnit.DAYS.between(hd.getNgayNhanPhong(), hd.getNgayTraPhong());
+            hd.setChiPhiDuTinh(phong.getGiaPhong().multiply(BigDecimal.valueOf(soNgay)));
+            hd.setTongChiPhi(hd.getChiPhiDuTinh()); // Giả sử chưa có giảm giá
+            
+            // Lưu dữ liệu
+            hdr.save(hd);
+            return ResponseEntity.status(HttpStatus.CREATED).body(hd);
+            
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(Collections.singletonMap("error", "Lỗi hệ thống khi tạo hóa đơn: " + e.getMessage()));
         }
     }
+
 
     //huy phong
     public ResponseEntity<String> huyPhong(Integer maHoaDon,String maPhong){
