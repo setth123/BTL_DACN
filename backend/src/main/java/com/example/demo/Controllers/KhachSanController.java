@@ -41,7 +41,7 @@ public class KhachSanController {
 
     @Autowired
     QLKhachSanService qlks;
-    @GetMapping("/")
+    @GetMapping("")
     public ResponseEntity<List<KhachSan>> getAll(){
         try{
             List<KhachSan> ks=ksr.findAll();
@@ -55,15 +55,29 @@ public class KhachSanController {
     }
 
     @GetMapping("/{maKhachSan}")
-    public ResponseEntity<KhachSan> getByID(@PathVariable String maKhachSan) {
+    public ResponseEntity<?> getByID(@PathVariable String maKhachSan) {
         try {
-            Optional<KhachSan> ks = qlks.getByMaKhachSan(maKhachSan);
-            if (ks.isPresent()) {
-                return new ResponseEntity<>(ks.get(), HttpStatus.OK);
+            // Trường hợp chuỗi rỗng
+            if (maKhachSan == null || maKhachSan.trim().isEmpty()) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "Lỗi: ID nhận vào không được để trống");
+                return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(ks.get(), HttpStatus.NOT_FOUND);
+
+            // Kiểm tra ký tự đặc biệt
+            if (!maKhachSan.matches("^[a-zA-Z0-9]+$")) {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "ID không hợp lệ");
+                return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+            }
+
+            Optional<KhachSan> ks = qlks.getByMaKhachSan(maKhachSan);
+            return new ResponseEntity<>(ks.orElse(null), HttpStatus.OK);
+
         } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            Map<String, String> serverError = new HashMap<>();
+            serverError.put("error", "Lỗi hệ thống: " + e.getMessage());
+            return new ResponseEntity<>(serverError, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
