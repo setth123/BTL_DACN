@@ -12,6 +12,7 @@ import RoomForm from './Components/RoomForm/RoomForm';
 import HotelDetail from './Pages/HotelDetail/HotelDetail';
 import SearchResult from './Pages/SearchResult/SearchResult';
 import AuthForm from './Components/AuthForm/AuthForm';
+import AdminKhuyenMai from './Pages/Admin/AdminKhuyenMai/AdminKhuyenMai';
 import { useEffect } from 'react';
 import { checkAndRemoveExpiredToken } from './utils/auth';
 
@@ -32,6 +33,7 @@ const App=()=>{
         <Route path="/datPhong/:phongID" element={<DatPhong/>}/>
         <Route path="/dptc/:hoaDonID" element={<DPTC/>}/>
         <Route path="/search-result" element={<SearchResult/>}/>
+        <Route path="/admin/khuyenMai" element={<AdminKhuyenMai/>}/>
         <Route path="/admin" element={<AHomePage/>}/>
         <Route path="/admin/login" element={<AuthForm isLogin={true} isUser={false}/>}/>
         <Route path="/register" element={<AuthForm isLogin={false} isUser={true}/>}/>
