@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import SearchBar from "../../Components/SearchBar/SearchBar";
 
 const SearchResult = () => {
   const [hotels, setHotels] = useState([]);
@@ -30,7 +31,18 @@ const SearchResult = () => {
 
         const res = await fetch(`http://localhost:8080/api/hotels/search?${params.toString()}`);
         if (!res.ok) throw new Error("Network response was not ok");
-        const hotelData = await res.json();
+
+        const contentType = res.headers.get("content-type");
+        let hotelData;
+
+        if (contentType && contentType.includes("application/json")) {
+          hotelData = await res.json();
+        } else {
+          // Nếu backend trả về chuỗi không phải JSON, coi như không có khách sạn
+          setHotels([]);
+          setLoading(false);
+          return;
+        }
 
         // Với mỗi khách sạn, gọi POST /api/rooms/by-ids để lấy thông tin phòng
         const hotelsWithPrices = await Promise.all(
@@ -78,6 +90,7 @@ const SearchResult = () => {
 
   return (
     <div style={{ padding: 20 }}>
+      <SearchBar/>
       <div style={{ width: "60%", margin: "auto" }}>
         <h5 style={{ marginTop: "40px" }}>
           Kết quả tìm kiếm cho khu vực {searchParams.get("location")}
@@ -87,6 +100,7 @@ const SearchResult = () => {
         ) : (
           <ul style={{ listStyle: "none", padding: 0 }}>
             {hotels.map((hotel, index) => (
+              console.log(hotel),
               <li
               onClick={() => navigate(`/hotel/${hotel.maKhachSan}`, { state: { dateAndQuantity , roomIds: hotel.roomIds, id: hotel.maKhachSan } })}
                 key={hotel.maKhachSan || index}
@@ -105,8 +119,7 @@ const SearchResult = () => {
                 <div style={{ flex: "0 0 240px", marginRight: 32 }}>
                   <img
                     src={
-                      hotel.imageUrl ||
-                      "https://a25hotel.com/files/images/khach-san-tai-ha-noi/khach-san-tai-quan-hai-ba-trung/khach-san-minh-khai/NHH_4395.jpg"
+                      hotel.hinhAnh
                     }
                     alt={hotel.tenKhachSan}
                     style={{
@@ -128,7 +141,7 @@ const SearchResult = () => {
                   </div>
 
                   <div style={{ color: "#444", marginBottom: 16 }}>
-                    ⭐ <strong>Điểm đánh giá:</strong> {hotel.diemSoTB} / 10
+                    ⭐ <strong>Điểm đánh giá:</strong> {hotel.diemSoTB} / 5
                   </div>
 
                   {hotel.tienIch.length > 0 && (

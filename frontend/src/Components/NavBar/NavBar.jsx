@@ -32,7 +32,7 @@ const NavBar = () => {
                     }}>{user?"Đăng xuất":"Đăng nhập"}</button>
                 </div>
                 ):(
-                    <button>Đăng nhập</button>
+                    <button onClick={()=>navigate("/login")}>Đăng nhập</button>
                 )
             }
         </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Select from "react-select";
+import { useNavigate } from "react-router-dom";
 import "./SearchBar.css";
 import search from "../../../assets/search.svg";
 
@@ -9,6 +10,7 @@ const SearchBar = () => {
   const [checkOut, setCheckOut] = useState("");
   const [guests, setGuests] = useState(1);
 
+  const navigate = useNavigate();
   const locations = [
     "An Giang", "Bà Rịa - Vũng Tàu", "Bắc Giang", "Bắc Kạn", "Bạc Liêu",
     "Bắc Ninh", "Bến Tre", "Bình Định", "Bình Dương", "Bình Phước",
@@ -107,7 +109,7 @@ const SearchBar = () => {
             checkOut,
             guests
           }).toString();
-          window.open(`/search-result?${params}`, '_blank');
+          navigate(`/search-result?${params}`);
         }}
       >
         <img src={search} alt="search" />
