@@ -5,7 +5,7 @@
   justify-content: center;
   border-radius: 5px;
   overflow: hidden; /* giữ bo tròn và không cho dropdown tràn ra */
-  gap: 8px; /* khoảng cách giữa các box */
+  gap: 4px; /* khoảng cách giữa các box */
 }
 
 /* Box tổng quan */
@@ -14,14 +14,14 @@
   flex-direction: column;
   padding: 8px 16px;
   background: white;
-  border: 1px solid #ccc;
+  border: 0px solid #ccc;
   box-sizing: border-box;
   /* Đặt border-radius cho từng phần tử bên trong */
 }
 
 /* Bo tròn góc trái cho box đầu */
 .search-box:first-child {
-  border-radius: 5px 0 0 5px;
+  border-radius: 10px 0 0 10px;
   width: 250px;
   min-width: 250px;
   max-width: 250px;
@@ -29,7 +29,7 @@
 
 /* Bo tròn góc phải cho box cuối */
 .search-box:last-child {
-  border-radius: 0 5px 5px 0;
+  border-radius: 0 10px 10px 0;
 }
 
 /* Tiêu đề các phần */

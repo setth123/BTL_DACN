@@ -32,9 +32,9 @@ const HomePage = () => {
     return (
         <div id="home">
             <SearchBar/>
-            <div style={{display:"flex"}}>
-                <h1>Khuyến mãi mới</h1>
-                <a href="/khuyenmai">Xem thêm &#8594;</a>
+            <div style={{display:"flex",justifyContent:"space-between"}}>
+                <h1  style={{ margin: 0, whiteSpace: "nowrap" }}>Khuyến mãi mới</h1>
+                <a href="/khuyenmai" style={{margin:0,marginRight:"1vw",whiteSpace: "nowrap" }}>Xem thêm &#8594;</a>
             </div>
             <div id="kmBoxs">
                 {
@@ -48,7 +48,7 @@ const HomePage = () => {
                     ))
                 }
             </div>
-            <div id="hotel">
+            <div id="hotel" style={{marginTop:"3vh"}}>
                 <h1>Khách sạn nổi bật</h1>
                 <div id="htBoxs">
                     {

@@ -1,4 +1,5 @@
 import { dateConnect } from "../../utils/dtOutput";
+import { useNavigate } from "react-router-dom";
 import "./MyDC.css";
 import {useQuery, useQueryClient} from "@tanstack/react-query"
 const MyDC = () => {
