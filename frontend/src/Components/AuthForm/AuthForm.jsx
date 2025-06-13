@@ -1,9 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import './AuthForm.css'
+import { useEffect } from 'react';
 const AuthForm = ({isLogin=true,isUser=true}) => {
     const navigate=useNavigate();
-    const token=JSON.parse(localStorage.getItem('accessToken'));
-    
+    useEffect(()=>{
+        if (!localStorage.getItem('accessToken')) return;
+        const token=JSON.parse(localStorage.getItem('accessToken'));
+        if(token){
+            if(isUser){
+                navigate("/");
+            }
+            else{
+                navigate("/admin");
+            }
+        }
+    },[])   
     const handleSubmit=async(e)=>{
         e.preventDefault();
         const validateEmail = (email) => /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email);

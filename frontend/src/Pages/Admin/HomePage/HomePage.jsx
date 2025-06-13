@@ -5,6 +5,7 @@ import ANavBar from "../../../Components/ANavBar/ANavBar";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchData = async (url) => {
+    const token = JSON.parse(localStorage.getItem('accessToken'))?.token;
     try {
         const res = await fetch(url,{
             headers:{
@@ -24,7 +25,7 @@ const fetchData = async (url) => {
 const AHomePage = () => {
     const { data: hotelData, error: errorHT, isLoading: isLoadingHT } = useQuery({
         queryKey: ["adminHotels"],
-        queryFn: () => fetchData("http://localhost:8080/api/khach-san/")
+        queryFn: () => fetchData("http://localhost:8080/api/khach-san")
     });
 
     const { data: kmData, error: errorKM, isLoading: isLoadingKM } = useQuery({
@@ -39,7 +40,7 @@ const AHomePage = () => {
 
     const { data: ndData, error: errorNd, isLoading: isLoadingNd } = useQuery({
         queryKey: ["adminNDs"],
-        queryFn: () => fetchData("http://localhost:8080/api/nguoi-dung/")
+        queryFn: () => fetchData("http://localhost:8080/api/nguoi-dung")
     });
 
     if (isLoadingHT || isLoadingKM || isLoadingRoom || isLoadingNd) {

@@ -15,6 +15,7 @@ function parseJwt(token) {
     }
   }
   export const checkAndRemoveExpiredToken = () => {
+    if (!localStorage.getItem('accessToken')) return;
     const token=JSON.parse(localStorage.getItem('accessToken')).token;
     if (!token) return;
   
