@@ -14,4 +14,5 @@ public class DanhGiaDTO{
     private String maKhachSan;
     private String noiDungDanhGia;
     private BigDecimal soDiem;
+    private String tenDangNhap;
 }

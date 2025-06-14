@@ -17,4 +17,6 @@ public interface NguoiDungRepository extends JpaRepository<NguoiDung,String>{
 
     @Query(value = "SELECT EXISTS(SELECT 1 FROM nguoidung WHERE email = :email OR tendangnhap = :tenDangNhap)", nativeQuery = true)
     boolean existsNguoiDungByEmailOOrTenDangNhap(String email, String tenDangNhap);
+
+    public Optional<NguoiDung> findById(String maNguoiDung);
 }

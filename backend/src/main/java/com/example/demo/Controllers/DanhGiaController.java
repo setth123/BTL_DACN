@@ -22,7 +22,7 @@ public class DanhGiaController {
     private DanhGiaService danhGiaService;
 
     @GetMapping("/khachsan/{maKhachSan}")
-    public List<DanhGia> getDanhGiaByKhachSan(@PathVariable String maKhachSan) {
+    public List<DanhGiaDTO> getDanhGiaByKhachSan(@PathVariable String maKhachSan) {
         return danhGiaService.getDanhGiaByKhachSan(maKhachSan);
     }
 

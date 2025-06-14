@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
+import DanhGia from "../../Components/DanhGia/DanhGia.jsx";
 import './HotelDetail.css'; // Assuming you have a CSS file for styling
 
 // const fetchHotel = async (id) => {
@@ -142,7 +143,7 @@ const HotelDetail = () => {
                 <p>Chưa có thông tin phòng.</p>
             )}
         </div>
-
+        <div style={{maxWidth: "95%", margin: "auto"}}><DanhGia maKhachSan = {id}/></div>
     </div>
 );
 

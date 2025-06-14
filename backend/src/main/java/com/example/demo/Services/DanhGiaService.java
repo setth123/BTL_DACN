@@ -1,6 +1,7 @@
 package com.example.demo.Services;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,19 @@ public class DanhGiaService {
     @Autowired
     private NguoiDungRepository ndr;
     
-    public List<DanhGia> getDanhGiaByKhachSan(String maKhachSan) {
-        return danhGiaRepository.findByKhachSan_MaKhachSan(maKhachSan);
+    public List<DanhGiaDTO> getDanhGiaByKhachSan(String maKhachSan) {
+        List<DanhGia> danhgias = danhGiaRepository.findByKhachSan_MaKhachSan(maKhachSan);
+        return danhgias.stream()
+                .map(dg -> {
+                    DanhGiaDTO dto = new DanhGiaDTO();
+                    dto.setMaDanhGia(dg.getMaDanhGia());
+                    dto.setMaKhachSan(dg.getKhachSan().getMaKhachSan());
+                    dto.setMaNguoiDung(dg.getNguoiDung().getMaNguoiDung());
+                    dto.setNoiDungDanhGia(dg.getNoiDungDanhGia());
+                    dto.setSoDiem(dg.getSoDiem());
+                    dto.setTenDangNhap(dg.getNguoiDung().getTenDangNhap());
+                    return dto;
+                }).collect(Collectors.toList());
     }
 
     public DanhGia themDanhGia(DanhGiaDTO danhGia) {
