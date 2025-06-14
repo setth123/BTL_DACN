@@ -1,6 +1,6 @@
 import './App.css'
 import NavBar from './Components/NavBar/NavBar'
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import HomePage from './Pages/HomePage/HomePage';
 import KhuyenMai from './Pages/KhuyenMai/KhuyenMai';
 import MyDC from './Pages/MyDC/MyDC';
@@ -14,7 +14,7 @@ import SearchResult from './Pages/SearchResult/SearchResult';
 import AuthForm from './Components/AuthForm/AuthForm';
 import AdminKhuyenMai from './Pages/Admin/AdminKhuyenMai/AdminKhuyenMai';
 import { useEffect } from 'react';
-import { checkAndRemoveExpiredToken } from './utils/auth';
+import { checkAndRemoveExpiredToken } from './helper/auth';
 
 const App=()=>{
   useEffect(()=>{

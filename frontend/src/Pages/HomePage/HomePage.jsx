@@ -1,10 +1,17 @@
 import './HomePage.css'
 import SearchBar from '../../Components/SearchBar/SearchBar'
 import { useEffect, useState } from 'react'
-import { dateConnect } from '../../utils/dtOutput'
+import { dateConnect } from '../../helper/dtOutput'
+import { toDatetimeLocalString } from '../../helper/dtOutput';
+
 const HomePage = () => {
     const [htData,setHtData]=useState([]);
     const [vData,setVData]=useState([]);
+
+    //search default params
+    const now = new Date();
+    const tomorrow = new Date(now); 
+    tomorrow.setDate(now.getDate() + 1);
     useEffect(()=>{
         const fetchData=async()=>{
             try{
@@ -31,9 +38,9 @@ const HomePage = () => {
     },[])
     return (
         <div id="home">
-            <SearchBar/>
+             <SearchBar ddiaChi={"Hà Nội"} dcheckIn={toDatetimeLocalString(now)} dcheckOut={toDatetimeLocalString(tomorrow)} dsoNguoi={"1"}/>
             <div style={{display:"flex",justifyContent:"space-between"}}>
-                <h1  style={{ margin: 0, whiteSpace: "nowrap" }}>Khuyến mãi mới</h1>
+                <h2  style={{ margin: 0, whiteSpace: "nowrap",marginBottom:"2vh" }}>Khuyến mãi mới</h2>
                 <a href="/khuyenmai" style={{margin:0,marginRight:"1vw",whiteSpace: "nowrap" }}>Xem thêm &#8594;</a>
             </div>
             <div id="kmBoxs">
@@ -49,7 +56,7 @@ const HomePage = () => {
                 }
             </div>
             <div id="hotel" style={{marginTop:"3vh"}}>
-                <h1>Khách sạn nổi bật</h1>
+                <h2 style={{marginBottom:"3vh",textAlign: "left",margin:0 }}>Khách sạn nổi bật</h2>
                 <div id="htBoxs">
                     {
                         htData.map((item,index)=>(
