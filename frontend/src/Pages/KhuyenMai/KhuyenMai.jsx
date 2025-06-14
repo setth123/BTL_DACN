@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from 'react'
 import './KhuyenMai.css'
-import { dateConnect, splitKMArr } from '../../utils/dtOutput';
+import { dateConnect, splitKMArr } from '../../helper/dtOutput';
 import { useQuery } from '@tanstack/react-query';
 const KhuyenMai = () => {
     const [oldKM,setOldKM]=useState([])
@@ -30,7 +30,7 @@ const KhuyenMai = () => {
     if(error)return <p>Error while fetching: {error.message}</p>
     return (
         <div>
-            <h2 style={{marginBottom:"2vh",marginTop:"1vh"}}>Khuyến mãi mới nhất</h2>
+            <h2 style={{marginBottom:"2vh",marginTop:"2vh"}}>Khuyến mãi mới nhất</h2>
             <div id="kmBoxs">
                 {
                     newKM.map((item,index)=>(
@@ -53,7 +53,7 @@ const KhuyenMai = () => {
                 }
             </div>
    
-            <h2 style={{marginBottom:"2vh"}}>Khuyến mãi sắp hết hạn</h2>
+            <h2 style={{marginTop:"3vh",marginBottom:"2vh"}}>Khuyến mãi sắp hết hạn</h2>
             <div id="kmBoxs">
                 {
                     oldKM.map((item,index)=>(

@@ -10,15 +10,16 @@ const SearchResult = () => {
   const [searchParams] = useSearchParams();
   const [dateAndQuantity, setDQ] = useState([]);
 
+  const diaChi = searchParams.get("location");
+  const checkIn = searchParams.get("checkIn");
+  const checkOut = searchParams.get("checkOut");
+  const soNguoi = searchParams.get("guests");
   useEffect(() => {
     const fetchHotels = async () => {
       setLoading(true);
       setError(null);
+      
       try {
-        const diaChi = searchParams.get("location");
-        const checkIn = searchParams.get("checkIn");
-        const checkOut = searchParams.get("checkOut");
-        const soNguoi = searchParams.get("guests");
 
         const formatDate = (dateString) => dateString?.split("T")[0];
         setDQ([formatDate(checkIn), formatDate(checkOut), soNguoi]);
@@ -90,7 +91,7 @@ const SearchResult = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <SearchBar/>
+      <SearchBar ddiaChi={diaChi} dcheckIn={checkIn} dcheckOut={checkOut} dsoNguoi={soNguoi}/>
       <div style={{ width: "60%", margin: "auto" }}>
         <h5 style={{ marginTop: "40px" }}>
           Kết quả tìm kiếm cho khu vực {searchParams.get("location")}

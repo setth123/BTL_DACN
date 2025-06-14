@@ -4,11 +4,12 @@ import { useNavigate } from "react-router-dom";
 import "./SearchBar.css";
 import search from "../../../assets/search.svg";
 
-const SearchBar = () => {
-  const [location, setLocation] = useState("");
-  const [checkIn, setCheckIn] = useState("");
-  const [checkOut, setCheckOut] = useState("");
-  const [guests, setGuests] = useState(1);
+const SearchBar = ({ddiaChi,dcheckIn,dcheckOut,dsoNguoi}) => {
+
+  const [location, setLocation] = useState(ddiaChi);
+  const [checkIn, setCheckIn] = useState(dcheckIn);
+  const [checkOut, setCheckOut] = useState(dcheckOut);
+  const [guests, setGuests] = useState(Number(dsoNguoi));
 
   const navigate = useNavigate();
   const locations = [
@@ -38,6 +39,7 @@ const SearchBar = () => {
         <h4>Địa điểm</h4>
         <Select
           options={locationOptions}
+          value={locationOptions.find(option => option.value === location)} 
           placeholder="Chọn địa điểm"
           onChange={(selected) => setLocation(selected.value)}
           menuPortalTarget={document.body}
