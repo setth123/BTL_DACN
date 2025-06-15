@@ -63,7 +63,7 @@ const Room = () => {
     return (
         <div style={{display:"flex",height:"100vh",gap:"1vw"}}>
             <ANavBar/>
-            <div style={{marginTop:"10vh"}}>
+            <div style={{marginTop:"10vh",marginLeft:"280px"}}>
             <div style={{marginBottom:"5vh"}}>
                 <EditBtn color={"green"} text={"Thêm mới"} hoverColor={"rgb(2, 82, 2)"} func={handleAdd}/>
             </div>

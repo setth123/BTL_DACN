@@ -7,10 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 const fetchData = async (url) => {
     const token = JSON.parse(localStorage.getItem('accessToken'))?.token;
     try {
-        const res = await fetch(url,{
-            headers:{
+        const res = await fetch(url, {
+            headers: {
                 "Content-Type": "application/json",
-                "Authorization":`Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             },
         });
         if (!res.ok) {
@@ -52,28 +52,52 @@ const AHomePage = () => {
     }
     return (
         <div id="adminHome">
-            <ANavBar/>
-            <div >
-                <div style={{display:"flex",gap:"5vw"}}>
-                    <StaticNum icon={"./Assets/user-blue.svg"} number={ndData.length} description={"Số người dùng"}/>
-                    <StaticNum icon={"./Assets/hotel.svg"}number={hotelData.length} description={"Số khách sạn"}/>
-                    <StaticNum icon={"./Assets/room.svg"} number={roomData.length} description={"Số phòng"}/>
-                    <StaticNum icon={"./Assets/voucher.svg"} number={kmData.length} description={"Số khuyến mãi"}/>
+            <ANavBar />
+            <div className="mainContent">
+                {/* Section thống kê số lượng */}
+                <div className="statRow">
+                    <StaticNum icon={"./Assets/user-blue.svg"} number={ndData.length} description={"Số người dùng"} />
+                    <StaticNum icon={"./Assets/hotel.svg"} number={hotelData.length} description={"Số khách sạn"} />
+                    <StaticNum icon={"./Assets/room.svg"} number={roomData.length} description={"Số phòng"} />
+                    <StaticNum icon={"./Assets/voucher.svg"} number={kmData.length} description={"Số khuyến mãi"} />
                 </div>
-                <div id="tableBox">
-                    <div style={{display:"flex",gap:"5vw",marginBottom:"2vh"}}>
-                        <StaticTable title={"Số người dùng"} col={["Mã người dùng","Tên đăng nhập","Email","Số điện thoại"]} data={ndData}/>
-                        <StaticTable title={"Số phòng"} col={["Mã phòng","Loại phòng","Hình ảnh","Số người","Diện tích","Tiện ích","Giá phòng","Số phòng trống"]} data={roomData}/>
-                    </div>
-                    <div style={{display:"flex",gap:"5vw",marginBottom:"5vh"}}>
-                        <StaticTable title={"Số khách sạn"} col={["Mã khách sạn","Tên khách sạn","Hình ảnh","Điểm số trung bình","Địa chị chi tiết","Thông tin giới thiệu","Tiện ích"]} data={hotelData}/>
-                        <StaticTable title={"Số khuyến mãi"} col={["Mã khuyến mãi","Ngày bắt đầu","Ngày kết thúc","Mức khuyến mãi","Giao dịch tối thiểu"]} data={kmData}/>
-                    </div>
+
+                {/* Section bảng */}
+                <div id="tableGrid">
+                    <StaticTable
+                        title={"Số người dùng"}
+                        col={["Mã người dùng", "Tên đăng nhập", "Email", "Số điện thoại"]}
+                        data={ndData}
+                    />
+                    <StaticTable
+                        title={"Số phòng"}
+                        col={["Mã phòng", "Loại phòng", "Số phòng trống"]}
+                        data={roomData.map(room => ({
+                            maPhong: room.maPhong,
+                            loaiPhong: room.loaiPhong,
+                            soPhongTrong: room.soPhongTrong
+                        }))}
+                    />
+                    <StaticTable
+                        title={"Số khách sạn"}
+                        col={["Mã khách sạn", "Tên khách sạn", "Địa chỉ chi tiết"]}
+                        data={hotelData.map(hotel => ({
+                            maKhachSan: hotel.maKhachSan,
+                            tenKhachSan: hotel.tenKhachSan,
+                            diaChiCT: hotel.diaChiCT
+                        }))}
+                    />
+                    <StaticTable
+                        title={"Số khuyến mãi"}
+                        col={["Mã khuyến mãi", "Ngày bắt đầu", "Ngày kết thúc", "Mức khuyến mãi", "Giao dịch tối thiểu"]}
+                        data={kmData}
+                    />
                 </div>
 
             </div>
         </div>
-    )
+    );
+
 }
 
 export default AHomePage;

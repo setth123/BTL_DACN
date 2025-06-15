@@ -105,7 +105,7 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
             <ANavBar/>
             <div>
                 <h1>{title}</h1>
-                <div style={{display:"flex",gap:"3vw"}}>
+                <div style={{display:"flex",gap:"3vw", marginLeft:"290px"}}>
                     <div id="rooms1">
                         <div id="rInp">
                             <label for="loaiPhong">Loại phòng</label>

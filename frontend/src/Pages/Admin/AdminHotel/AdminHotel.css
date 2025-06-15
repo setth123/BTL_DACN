@@ -1,0 +1,45 @@
+.btn-edit {
+  margin-right: 10px;
+  background-color: #1976D2;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-edit:hover {
+  background-color: #125a9c;
+}
+
+.btn-add {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #1976D2; 
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-add:hover {
+    background-color: #125a9c;
+}
+
+.btn-delete {
+  margin-right: 10px;
+  margin-top: 2px;
+  background-color: #ffebee;
+  color: #FF0000;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.btn-delete:hover {
+  background-color: #ffcdd2;
+}

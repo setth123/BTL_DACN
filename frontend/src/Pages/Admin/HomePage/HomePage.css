@@ -1,9 +1,33 @@
-#adminHome{
+#adminHome {
     display: flex;
-    height:100vh;
-    gap:5vw;
-    margin-left: 290px; 
+    flex-direction: row;
 }
-#tableBox{
-    margin-top: 5vh;
+
+.mainContent {
+    flex: 1;
+    padding: 2vh 3vw;
+    margin-left: 260px;
+    box-sizing: border-box;
+}
+
+.statRow {
+    display: flex;
+    flex-direction: row;
+    gap: 3vw;
+    margin-bottom: 8vh;
+    flex-wrap: wrap;
+}
+
+#tableGrid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3vw;
+    justify-content: center;
+    margin-top: 4vh;
+}
+
+#tableGrid > div {
+    flex: 0 1 calc(50% - 1.5vw);
+    box-sizing: border-box;
+    min-width: 300px;
 }

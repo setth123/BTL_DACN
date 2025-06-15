@@ -1,6 +1,8 @@
 import ANavBar from "../../../Components/ANavBar/ANavBar";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";    
+import { useState } from "react";  
+import { useNavigate } from "react-router-dom";  
+import "./AdminHotel.css";
 
 function AdminHotel() {
     const [hotelId, setHotelId] = useState(null);
@@ -12,6 +14,7 @@ function AdminHotel() {
         tienIch: "",
         hinhAnh: ""
     });
+    const navigate = useNavigate();
     
     const accessTokenData = JSON.parse(localStorage.getItem("accessToken"));
     const accessToken = accessTokenData?.token;
@@ -129,7 +132,7 @@ function AdminHotel() {
                             step={0.1} required
                         />
                     </div>
-                    <button type="submit" style={{ marginTop: "20px", padding: "10px 20px", backgroundColor: "#1976D2", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+                    <button className = "btn-add" type="submit">
                         {hotelId ? "Cập nhật khách sạn" : "Thêm khách sạn"}
                     </button>
                 </form>
@@ -150,7 +153,8 @@ function AdminHotel() {
                         {hotels.sort((a,b) => {
                             return b.maKhachSan.localeCompare(a.maKhachSan);
                         }).map((hotel) => (
-                            <tr key={hotel.maKhachSan} style={{ textAlign: "center", borderBottom: "1px solid #ddd" }}>
+                            <tr key={hotel.maKhachSan} onClick={() => navigate(`/admin/hotel/${hotel.maKhachSan}/room`) }
+                                style={{ textAlign: "center", borderBottom: "1px solid #ddd", cursor: "pointer" }}>
                                 <td>
                                     <img
                                         src={hotel.hinhAnh}
@@ -164,15 +168,13 @@ function AdminHotel() {
                                 <td>{hotel.thongTinGT}</td>
                                 <td>{hotel.tienIch}</td>
                                 <td>
-                                    <button
-                                        style={{ marginRight: "10px", backgroundColor: "#1976D2", color: "white", padding: "5px 10px", border: "none", borderRadius: "4px", cursor: "pointer" }}
-                                        onClick={() => handleEdit(hotel)}
+                                    <button className = "btn-edit"
+                                        onClick={(e) => {e.stopPropagation();handleEdit(hotel);}}
                                     >
                                         Sửa
                                     </button>
-                                    <button
-                                        style={{ marginRight: "10px", marginTop: "2px",backgroundColor: "red", color: "white", padding: "5px 10px", border: "none", borderRadius: "4px", cursor: "pointer" }}
-                                        onClick={() => handleDelete(hotel.maKhachSan)}
+                                    <button className="btn-delete"
+                                        onClick={(e) => {e.stopPropagation();handleDelete(hotel.maKhachSan);}}
                                     >
                                         Xóa
                                     </button>
