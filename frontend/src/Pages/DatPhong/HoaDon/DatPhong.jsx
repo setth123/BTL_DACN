@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "./DatPhong.css"
 import { useEffect, useState } from "react";
-
+import { formatDate } from "../../../helper/dtOutput";
 
 const DatPhong = () => {
     const hotelInfor = JSON.parse(localStorage.getItem("hotelInfor"));
@@ -12,11 +12,11 @@ const DatPhong = () => {
     useEffect(() => {
         if (!user) {
           alert("Vui lòng đăng nhập");
-          navigate("/login"); // ✅ Sử dụng được vì đã khai báo
+          navigate("/login"); 
         }
       }, [user,navigate]);
     if (!user) return null;
-    const room=JSON.parse(localStorage.getItem('datPhongInfor'))||{maPhong: datPhongInfo.maPhong 
+    const room={maPhong: datPhongInfo.maPhong 
         ,tenKhachSan: datPhongInfo.tenKhachSan 
         ,ngayNhanPhong: datPhongInfo.ngayNhan
         ,ngayTraPhong:  datPhongInfo.ngayTra
@@ -61,13 +61,13 @@ const DatPhong = () => {
             alert(errors.join("\n"));
             return;
         }
-        const dpForm={ngayNhanPhong:room.ngayNhanPhong,ngayTraPhong:room.ngayTraPhong,hoTenKH:userDT.hoTen,maPhong:room.maPhong,maKhuyenMai:userDT.maKhuyenMai,maNguoiDung:user.maNguoiDung};
+        const dpForm={ngayNhanPhong:formatDate(room.ngayNhanPhong),ngayTraPhong:formatDate(room.ngayTraPhong),hoTenKH:userDT.hoTen,maPhong:room.maPhong,maKhuyenMai:userDT.maKhuyenMai,maNguoiDung:user.maNguoiDung};
         try{
-            const res=await fetch(`http://localhost:8080/api/hoa-don/`,{
+            const res=await fetch(`http://localhost:8080/api/hoa-don`,{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
-                    "Authorization":`Bearer ${token}`
+                    "Authorization":`Bearer ${token.token}`
                 },
                 body:JSON.stringify(dpForm)
             })
@@ -88,7 +88,7 @@ const DatPhong = () => {
     
     return (
         <div>
-            <h2>Đặt phòng khách sạn</h2>
+            <h2 style={{marginTop:"2vh",marginBottom:"3vh"}}>Đặt phòng khách sạn</h2>
             <i style={{marginLeft:"1vw"}}>*Hãy chắc chắn tất cả thông tin trên trang này là chính xác trước khi tiến hành đặt phòng</i>
 
             <div id="dpContainer">

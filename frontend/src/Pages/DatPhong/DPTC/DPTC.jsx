@@ -14,8 +14,8 @@ const DPTC = () => {
                 Phòng Loại phòng: ${ttHD.loaiPhong}, Ngày nhận phòng: ${ttHD.ngayNhanPhong}, Ngày trả phòng: ${ttHD.ngayTraPhong}, Chi phí 1 ngày :${ttHD.chiPhi}\n
                 Chi phí Chi phí dự tính: ${ttHD.chiPhiDuTinh}, Mức khuyến mãi: ${ttHD.chiPhiDuTinh-ttHD.tongChiPhi}, Tổng chi phí: ${ttHD.tongChiPhi}`
     return (
-        <div id="dptc">
-            <h1>Hoá đơn thanh toán</h1>
+        <div id="dptc" style={{marginTop:"3vh"}}>
+            <h1 >Hoá đơn thanh toán</h1>
             <i>*Sử dụng mã QR để check-in tại khách sạn</i>
 
             <div id="bill">

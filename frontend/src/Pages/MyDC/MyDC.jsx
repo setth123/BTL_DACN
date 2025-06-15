@@ -16,7 +16,7 @@ const MyDC = () => {
             const res=await fetch(`http://localhost:8080/api/hoa-don/${user.maNguoiDung}`,{
                 headers:{
                     "Content-Type": "application/json",
-                    "Authorization":`Bearer ${token}`
+                    "Authorization":`Bearer ${token.token}`
                 },
             });
             if(!res.ok){
@@ -37,14 +37,14 @@ const MyDC = () => {
     })
      
     const handleDel=async(hoaDonID,maPhong)=>{
-        var isDel=confirm("Are you sure you want to delete");
+        var isDel=confirm("Bạn có chắc chắn muốn huỷ ?");
         if(isDel){
             try{
                 const res=await fetch(`http://localhost:8080/api/hoa-don/${hoaDonID}/${maPhong}`,{
                     method:"DELETE",
                     headers:{
                         "Content-Type": "application/json",
-                        "Authorization":`Bearer ${token}`
+                        "Authorization":`Bearer ${token.token}`
                     },
                 })
                 if(!res.ok){
@@ -66,16 +66,14 @@ const MyDC = () => {
     if(isLoading) return <p>Loading...</p>
     if(error)return <p>Error while fetching: {error.message}</p>
     return (
-        <div>
+        <div style={{marginTop:"3vh"}}>
             <h2>Các phòng đã đặt</h2>
             <i style={{marginTop:"1vh",marginLeft:"1vw"}}>*Các phòng có thể được huỷ miễn phí trước 1 tuần</i>
             <div id="roomContainer">
                 {data.map((item,index)=>(<div key={index} id="room">
-                        {/* <div id="rp1"> */}
                             <img src={item.hinhAnh} alt="room" />
-                        {/* </div> */}
                         <div id="rp2">
-                            <h2>{item.loaiPhong}</h2>
+                            <h2 style={{marginTop:"2vh"}}>{item.loaiPhong}</h2>
                             <div >
                                 <span><img src="/assets/area.svg" alt="area" /></span>
                                 Diện tích: <span style={{fontWeight:"bold",color:"rgb(0, 140, 255)"}}>{item.dienTich}</span>
