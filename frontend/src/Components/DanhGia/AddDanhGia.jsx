@@ -48,14 +48,14 @@ function AddDanhGia({ maKhachSan, onAddSuccess }) {
     return (
         <form
             onSubmit={handleSubmit}
-            style={{border: "1px solid #ddd",borderRadius: "8px",padding: "12px 16px",backgroundColor: "#fff",margin: "auto",boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",fontFamily: "Arial, sans-serif",maxWidth: "95%",}}>
+            style={{padding: "12px 16px",backgroundColor: "#fff",margin: "auto",boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",fontFamily: "Arial, sans-serif",maxWidth: "95%",}}>
             <textarea
                 value={noiDung}
                 onChange={(e) => setNoiDung(e.target.value)}
                 placeholder="Viết cảm nhận của bạn về khách sạn..."
                 required
                 rows={3}
-                style={{width: "98%",padding: "10px",borderRadius: "6px",border: "1px solid #ccc",resize: "vertical",fontSize: "14px",marginBottom: "12px",}}
+                style={{width: "98%",padding: "10px",borderRadius: "6px",border: "1px solid #ccc",resize: "vertical",fontSize: "14px",marginBottom: "12px",fontFamily:'inherit',fontSize:'inherit'}}
             />
 
             <div

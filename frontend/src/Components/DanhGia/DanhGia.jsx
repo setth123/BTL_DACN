@@ -24,20 +24,22 @@ function DanhGia({ maKhachSan }) {
     };
 
     return (
-        <div>
-            <h2>Đánh giá</h2>
-            {accessToken && (
-                <AddDanhGia maKhachSan={maKhachSan} onAddSuccess={refetchDanhGia} />
-            )}
+        <div style={{width:"90%",margin:"0 auto",padding:"5vh"}}>
+            <h2 style={{marginBottom:"3vh"}}>Đánh giá</h2>
+            <div style={{border: "1px solid #ddd",borderRadius: "8px"}}>
+                {accessToken && (
+                    <AddDanhGia maKhachSan={maKhachSan} onAddSuccess={refetchDanhGia} />
+                )}
 
 
-            {isLoading ? (
-                <p>Đang tải đánh giá...</p>
-            ) : error ? (
-                <p>Đã xảy ra lỗi khi tải đánh giá.</p>
-            ) : (
-                <DisplayDanhGia ratings={danhgias} />
-            )}
+                {isLoading ? (
+                    <p>Đang tải đánh giá...</p>
+                ) : error ? (
+                    <p>Đã xảy ra lỗi khi tải đánh giá.</p>
+                ) : (
+                    <DisplayDanhGia ratings={danhgias} />
+                )}
+            </div>
         </div>
     );
 }
