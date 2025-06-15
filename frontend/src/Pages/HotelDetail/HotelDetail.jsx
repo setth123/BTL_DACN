@@ -22,18 +22,27 @@ const fetchHotelInfo = async (id) => {
     return res.json();
 };
 
-const fetchHotel = async (roomIds) => {
-    const res = await fetch("http://localhost:8080/api/phong/searchDSPhongTheoTimKiem", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(roomIds),
-    });
-    if (!res.ok) throw new Error("Không tìm thấy danh sách phòng");
-    console.log("Received hotel data:", roomIds);
-    return res.json();
+const fetchHotel = async (roomIds, hotelId) => {
+    if (Array.isArray(roomIds) && roomIds.length > 0) {
+        // Trường hợp tìm kiếm theo danh sách phòng
+        const res = await fetch("http://localhost:8080/api/phong/searchDSPhongTheoTimKiem", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(roomIds),
+        });
+        if (!res.ok) throw new Error("Không tìm thấy danh sách phòng theo tìm kiếm");
+        return res.json();
+    } else if (hotelId) {
+        // Trường hợp lấy tất cả phòng theo mã khách sạn
+        const res = await fetch(`http://localhost:8080/api/phong/${hotelId}`);
+        if (!res.ok) throw new Error("Không tìm thấy danh sách phòng theo khách sạn");
+        return res.json();
+    }
+    return []; // Không có dữ liệu nếu không đủ điều kiện
 };
+
 
 const HotelDetail = () => {
     const location = useLocation();
@@ -49,9 +58,9 @@ const HotelDetail = () => {
     });
 
     const { data, isLoading, error } = useQuery({
-        queryKey: ["hotelDetail", roomIds],
-        queryFn: () => fetchHotel(roomIds),
-        enabled: Array.isArray(roomIds) && roomIds.length > 0,
+        queryKey: ["hotelDetail", roomIds, id],
+        queryFn: () => fetchHotel(roomIds, id),
+        enabled: !!id,
     });
 
     useEffect(() => {
@@ -96,8 +105,9 @@ const HotelDetail = () => {
     
     if (loadingHotel) return <p>Đang tải thông tin khách sạn...</p>;
     if (errorHotel) return <p>Lỗi khi tải thông tin khách sạn.</p>;
-    if (isLoading) return <p>Đang tải...</p>;
-    if (error) return <p>Lỗi khi tải dữ liệu khách sạn.</p>;
+    if (isLoading) return <p>Đang tải danh sách phòng...</p>;
+    if (error) return <p>Lỗi khi tải danh sách phòng.</p>;
+
 
     console.log("Data : " , data);
     console.log("Thông tin khách sạn : ", hotelInfo);
