@@ -8,7 +8,8 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     const navigate=useNavigate();
     const queryClient=useQueryClient();
     const {hotelId,roomId}=useParams();
-    let curRoom={maPhong:"",loaiPhong:"",hinhAnh:"",soNguoi:0,dienTich:0,tienIch:"",giaPhong:0,soPhongTrong:0,maKhachSan:""};
+    const token=JSON.parse(localStorage.getItem('adminToken'))?.token;
+    let curRoom={maPhong:"",loaiPhong:"",hinhAnh:"",soNguoi:0,dienTich:0,tienIch:"",giaPhong:0,soPhongTrong:0,maKhachSan:hotelId};
     if(type==="t2"){
         const room=JSON.parse(localStorage.getItem("adminCurRoom"));
         curRoom=room;
@@ -35,13 +36,13 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     }
     const handleAdd=async(e)=>{
         e.preventDefault();
-        const token=localStorage.getItem("adminToken").token;
+        formDT.maKhachSan=hotelId;
         try{
             const res=await fetch("http://localhost:8080/api/phong/",{
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",
-                    "Authorization":`Bearer ${token.token}`
+                    "Authorization":`Bearer ${token}`
                 },
                 body:JSON.stringify(formDT)
             })
@@ -62,7 +63,6 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
         }
         catch(e){
             console.log("Error while fetching: ",e);
-            restart();
         }
     }
     const handleUpdate=async()=>{
@@ -96,7 +96,6 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
         }
         catch(e){
             console.log("Error while fetching: ",e);
-            restart();
         }
     }
     return (
@@ -126,7 +125,6 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
                     <div id="rooms2">
                         <div id="rInp">
                             <label for="hinhAnh">URL Hình ảnh</label>
-                            {type=="t2"&& <img src={formDT.hinhAnh} alt="room image"/>}
                             <input type="text" name='hinhAnh' value={formDT.hinhAnh} onChange={handleChange}/>
                         </div>
                         <div id="rInp">
@@ -139,12 +137,13 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
                         </div>
                         {type==='t2'&&<div id="rInp">
                             <label>Mã phòng</label>
-                            <label><b>{data.maPhong}</b></label>
+                            <label><b>{roomId}</b></label>
                         </div>}
                     </div>
                     <div id="rInp">
-                            <label for="tienIch">Tiện ích</label>
-                            <textarea name="tienIch" value={formDT.tienIch} onChange={handleChange} rows={5}  style={{width:"25vw",resize:"vertical"}}/>
+                        {type=="t2"&& <img src={formDT.hinhAnh} alt="room image"/>}
+                        <label for="tienIch" style={{marginTop:"2vh"}} >Tiện ích</label>
+                        <textarea style={{fontFamily:'inherit',fontSize:'inherit',width:"25vw",resize:"vertistylecal"}} name="tienIch" value={formDT.tienIch} onChange={handleChange} rows={5}/>
                     </div>
             </div>
                 <div style={{display:"flex", gap:"3vw",marginTop:"3vh",marginLeft:"23vw",paddingBottom:"2vh"}}>
