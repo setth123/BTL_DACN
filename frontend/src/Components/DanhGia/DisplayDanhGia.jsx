@@ -1,6 +1,6 @@
 function DisplayDanhGia({ ratings }) {
   return (
-    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+    <ul style={{ listStyle: "none", padding: 0, margin: 0,padding: "12px 16px",backgroundColor: "#fff",}}>
       {ratings.map((r, index) => (
         <li key={index} style={{ display: "flex", alignItems: "flex-start", borderBottom: "1px solid #ddd", padding: "16px 0", gap: "16px" }}>
           <div style={{ width: 80, textAlign: "center" }}>

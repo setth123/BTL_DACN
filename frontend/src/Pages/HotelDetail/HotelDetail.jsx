@@ -72,26 +72,29 @@ const HotelDetail = () => {
     console.log("Thông tin khách sạn : ", hotelInfo);
 
     return (
-        <div>
-            <h2>{hotelInfo.tenKhachSan}</h2>
+        <div style={{marginTop:"5vh",backgroundColor:"#fff",width:"70%",margin:"0 auto",marginTop:"5vh",marginBottom:"5vh",borderRadius: "30px",width:"70%"}}>
+            <h2 style={{padding:"5vh"}}>{hotelInfo.tenKhachSan}</h2>
             <div className="hotel-detail-row">
-                <img src={hotelInfo.hinhAnh} alt={hotelInfo.tenKhachSan} />
-                <div className="hotel-detail-info diaChiCT">
-                    <p>Địa chỉ: <span>{hotelInfo.diaChiCT}</span></p>
+                <div className="hotel-detail-image">
+                    <img src={hotelInfo.hinhAnh} alt={hotelInfo.tenKhachSan} />
                 </div>
-                <div className="hotel-detail-info diemSoTB">
-                    <p>Điểm số TB: <span>{hotelInfo.diemSoTB}</span></p>
-                </div>
-                <div className="hotel-detail-info tienIch">
-                    <p>Tiện ích: <span>{hotelInfo.tienIch}</span></p>
+                <div className="hotel-detail-text">
+                    <div className="hotel-detail-info diaChiCT" style={{marginTop:"7vh"}}>
+                        <p>Địa chỉ: <span>{hotelInfo.diaChiCT}</span></p>
+                    </div>
+                    <div className="hotel-detail-info diemSoTB">
+                        <p>Điểm số TB: <span>{hotelInfo.diemSoTB}</span></p>
+                    </div>
+                    <div className="hotel-detail-info tienIch">
+                        <p>Tiện ích: <span>{hotelInfo.tienIch}</span></p>
+                    </div>
+                    <div className="hotel-detail-info thongTinGT">
+                        <p>Thông tin giới thiệu: <span>{hotelInfo.thongTinGT}</span></p>
+                    </div>
                 </div>
             </div>
-            <div className="hotel-detail-intro">
-                Thông tin giới thiệu: {hotelInfo.thongTinGT}
-            </div>
-
             {/* Hiển thị danh sách phòng */}
-            <h2>Danh sách phòng</h2>
+            <h2 style={{marginTop:"5vh"}}>Danh sách phòng</h2>
             <div className="hotel-rooms-list">
                 {data && data.length > 0 ? (
                     data.map((phong) => (
@@ -103,12 +106,12 @@ const HotelDetail = () => {
                             />
                             <div className="hotel-room-info">
                                 <div className="room-info-col">
-                                    <p><strong>Loại phòng:</strong> {phong.loaiPhong}</p>
+                                    <p>Loại phòng: <strong>{phong.loaiPhong}</strong></p>
                                     <p><strong>Số người:</strong> {phong.soNguoi}</p>
                                 </div>
                                 <div className="room-info-col">
-                                    <p><strong>Diện tích:</strong> {phong.dienTich} m²</p>
-                                    <p><strong>Tiện ích:</strong> {phong.tienIch}</p>
+                                    <p>Diện tích: <strong>{phong.dienTich}</strong> m²</p>
+                                    <p>Tiện ích: <strong>{phong.tienIch}</strong></p>
                                 </div>
                                 <div className="room-info-col">
                                     <p><strong>Giá phòng:</strong> {phong.giaPhong.toLocaleString()} VNĐ</p>
