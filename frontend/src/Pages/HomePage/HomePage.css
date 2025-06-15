@@ -1,31 +1,36 @@
-#home{
-    margin-top: 2vh;
-    margin-left: 2vw;
+#kmBoxs, #htBoxs {
+    display: flex;
+    gap:20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+}
 
+#kmBoxs > div, #htBoxs > div {
+    width: calc(25% - 20px);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 250px;
 }
-#home a{
-    color:rgb(0, 140, 255);
-    font-size: x-large;
-    margin-left:70vw;
-    margin-top:5vh;
-    font-size: 1.5vw;
+
+#kmBoxs > div:hover, #htBoxs > div:hover {
+    transform: translateY(-5px);
+    cursor: pointer;
 }
-#home a:hover{
-    color: rgb(1, 34, 63);
+
+#kmBoxs img, #htBoxs img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
 }
-#kmBoxs{
-    display:flex;
-    gap:2vw;
-}
-#kmBoxs img{
-    width: 22vw;
-    height:25vh;
-}
-#htBoxs{
-    display:flex;
-    gap:2vw;
-}
-#hotel img{
-    width: 22vw;
-    height:25vh;
+
+#kmBoxs p, #htBoxs p {
+    margin: 4px 12px;
+    font-size: 14px;
 }

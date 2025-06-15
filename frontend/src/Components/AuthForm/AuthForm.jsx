@@ -4,14 +4,14 @@ import { useEffect } from 'react';
 const AuthForm = ({isLogin=true,isUser=true}) => {
     const navigate=useNavigate();
     useEffect(()=>{
-        if(isUser){
+        if(isUser&& isLogin){
             if (!localStorage.getItem('accessToken')) return;
             const token=JSON.parse(localStorage.getItem('accessToken'));
             if(token){
                 navigate("/");
             }
         }
-        else{
+        else if(!isUser && isLogin){
             if (!localStorage.getItem('adminToken')) return;
             const token=JSON.parse(localStorage.getItem('adminToken'));
             if(token)navigate("/admin");
