@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./DatPhong.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const DatPhong = () => {
@@ -9,10 +9,13 @@ const DatPhong = () => {
     const token=JSON.parse(localStorage.getItem('accessToken'));
     const user=token?token.claims:null;
     const navigate=useNavigate();
-    if(user===null){
-        alert("Vui lòng đăng nhập");
-        navigate("/login");
-    }
+    useEffect(() => {
+        if (!user) {
+          alert("Vui lòng đăng nhập");
+          navigate("/login"); // ✅ Sử dụng được vì đã khai báo
+        }
+      }, [user,navigate]);
+    if (!user) return null;
     const room=JSON.parse(localStorage.getItem('datPhongInfor'))||{maPhong: datPhongInfo.maPhong 
         ,tenKhachSan: datPhongInfo.tenKhachSan 
         ,ngayNhanPhong: datPhongInfo.ngayNhan

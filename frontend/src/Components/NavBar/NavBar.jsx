@@ -31,9 +31,9 @@ const NavBar = () => {
             </ul>
             {user?(
                 <div style={{display:"flex",gap:"2vw",alignItems: "center" }}>
-                    <div id="avatar">
+                    <div id="avatar" style={{display: "flex",flexDirection: "column", alignItems: "center",justifyContent: "center"}}>
                         <img src={userAvatar} alt="User Logo"/>
-                        <div>{user.tenDangNhap}</div>
+                        <div style={{textAlign:"center"}}>{user.tenDangNhap}</div>
                     </div>
                     <button onClick={()=>{
                         if(user){
