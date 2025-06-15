@@ -1,44 +1,125 @@
+#adminKhuyenMai {
+    min-height: 100vh;
+    background: #f4f6fa;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
 .admin-km-container {
     max-width: 900px;
-    margin: 32px auto;
+    margin: 40px auto 0 auto;
     background: #fff;
-    border-radius: 8px;
-    padding: 24px;
-    box-shadow: 0 2px 8px #0001;
+    border-radius: 10px;
+    padding: 32px 28px 24px 28px;
+    box-shadow: 0 4px 24px #0002;
 }
+
+.admin-km-container h2 {
+    margin-bottom: 24px;
+    color: #1976d2;
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
 .admin-km-form {
     display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 32px;
+    align-items: center;
+    justify-content: center;
 }
+
 .admin-km-form input {
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border: 1px solid #bfc9d1;
+    font-size: 1rem;
+    min-width: 170px;
+    background: #f8fafc;
+    transition: border 0.2s;
 }
+
+.admin-km-form input:focus {
+    border: 1.5px solid #1976d2;
+    outline: none;
+    background: #fff;
+}
+
 .admin-km-form button {
-    padding: 8px 16px;
-    border-radius: 4px;
+    padding: 10px 22px;
+    border-radius: 6px;
     border: none;
     background: #1976d2;
     color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
+    transition: background 0.2s;
 }
+
+.admin-km-form button[type="button"] {
+    background: #e0e0e0;
+    color: #333;
+    margin-left: 8px;
+}
+
+.admin-km-form button:hover {
+    background: #1251a3;
+}
+
 .admin-km-table {
     width: 100%;
     border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px #0001;
 }
+
 .admin-km-table th, .admin-km-table td {
-    border: 1px solid #eee;
-    padding: 8px 12px;
-    text-align: left;
+    border: 1px solid #e3e8ee;
+    padding: 12px 10px;
+    text-align: center;
+    font-size: 1rem;
 }
+
 .admin-km-table th {
-    background: #f5f5f5;
+    background: #e3f0fb;
+    color: #1976d2;
+    font-weight: 600;
 }
+
+.admin-km-table tr:nth-child(even) {
+    background: #f8fafc;
+}
+
 .admin-km-table button {
-    padding: 4px 10px;
+    padding: 6px 14px;
     border-radius: 4px;
     border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
+    margin: 0 2px;
+    transition: background 0.2s;
+}
+
+.admin-km-table button:first-child {
+    background: #1976d2;
+    color: #fff;
+}
+
+.admin-km-table button:first-child:hover {
+    background: #1251a3;
+}
+
+.admin-km-table button:last-child {
+    background: #ffebee;
+    color: #d32f2f;
+}
+
+.admin-km-table button:last-child:hover {
+    background: #ffcdd2;
 }
