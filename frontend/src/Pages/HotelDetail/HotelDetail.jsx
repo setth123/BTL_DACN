@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "react-router-dom";
+
+import { useEffect } from "react";
+import { useState } from "react";
 import DanhGia from "../../Components/DanhGia/DanhGia.jsx";
 import './HotelDetail.css'; // Assuming you have a CSS file for styling
 
@@ -33,13 +36,10 @@ const fetchHotel = async (roomIds) => {
 };
 
 const HotelDetail = () => {
-    const navigate = useNavigate();
     const location = useLocation();
     const dqReceived = location.state?.dateAndQuantity || [];
     const roomIds = location.state?.roomIds || null;
-    console.log("Received hotel data:", roomIds);
     
-
     const id = location.state?.id || null;
     console.log("Received hotel ID:", id);
     const { data: hotelInfo, isLoading: loadingHotel, error: errorHotel } = useQuery({
@@ -53,13 +53,54 @@ const HotelDetail = () => {
         queryFn: () => fetchHotel(roomIds),
         enabled: Array.isArray(roomIds) && roomIds.length > 0,
     });
+
+    useEffect(() => {
+        if (hotelInfo) {
+            localStorage.setItem("hotelInfor", JSON.stringify(hotelInfo));
+        }
+    }, [hotelInfo]);
+
+
+    // const [state, setState] = useState();
+    //     useEffect(() => {
+    //     if (hotelInfo) {
+    //         localStorage.setItem("datPhongInfo", JSON.stringify(hotelInfo));
+    //     }
+    // }, [hotelInfo]);
+
+    //     useEffect(() => {
+    //     if (data) {
+    //         localStorage.setItem("hotelRoomList", JSON.stringify(data));
+    //     }
+    // }, [data]);
+
+    const navigate = useNavigate();
+    
+    
+    console.log("Received hotel data:", roomIds);
+    
+
+    // const id = location.state?.id || null;
+    // console.log("Received hotel ID:", id);
+    // const { data: hotelInfo, isLoading: loadingHotel, error: errorHotel } = useQuery({
+    //     queryKey: ["hotelInfo", id],
+    //     queryFn: () => fetchHotelInfo(id),
+    //     enabled: !!id,
+    // });
+
+    // const { data, isLoading, error } = useQuery({
+    //     queryKey: ["hotelDetail", roomIds],
+    //     queryFn: () => fetchHotel(roomIds),
+    //     enabled: Array.isArray(roomIds) && roomIds.length > 0,
+    // });
     
     if (loadingHotel) return <p>Đang tải thông tin khách sạn...</p>;
     if (errorHotel) return <p>Lỗi khi tải thông tin khách sạn.</p>;
     if (isLoading) return <p>Đang tải...</p>;
     if (error) return <p>Lỗi khi tải dữ liệu khách sạn.</p>;
 
-    console.log(data);
+    console.log("Data : " , data);
+    console.log("Thông tin khách sạn : ", hotelInfo);
 
     return (
     <div>
@@ -130,6 +171,8 @@ const HotelDetail = () => {
                                     ngayTra: dqReceived? dqReceived[1] : new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10),
                                     soNgay: soNgay,
                                 };
+                                // Lưu vào localStorage
+                                localStorage.setItem("datPhongInfor", JSON.stringify(datPhongInfo));
                                 // Chuyển trang
                                 navigate(`/datPhong/${phong.maPhong}`, {state: { datPhongInfo }});
                             }}

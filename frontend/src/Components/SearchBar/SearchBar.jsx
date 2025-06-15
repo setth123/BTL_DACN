@@ -105,6 +105,8 @@ const SearchBar = ({ddiaChi,dcheckIn,dcheckOut,dsoNguoi}) => {
       <button
         className="search-box search-button"
         onClick={() => {
+          localStorage.setItem("checkIn", checkIn);
+          localStorage.setItem("checkOut", checkOut);
           const params = new URLSearchParams({
             location,
             checkIn,

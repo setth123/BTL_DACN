@@ -4,7 +4,8 @@ import { useState } from "react";
 
 
 const DatPhong = () => {
-    const datPhongInfo = JSON.parse(localStorage.getItem("datPhongInfo") || "{}");
+    const hotelInfor = JSON.parse(localStorage.getItem("hotelInfor"));
+    const datPhongInfo = JSON.parse(localStorage.getItem("datPhongInfor") || "{}");
     const token=JSON.parse(localStorage.getItem('accessToken'));
     const user=token?token.claims:null;
     const navigate=useNavigate();
@@ -12,15 +13,15 @@ const DatPhong = () => {
         alert("Vui lòng đăng nhập");
         navigate("/login");
     }
-    const room=JSON.parse(localStorage.getItem('datPhongInfo'))||{maPhong: datPhongInfo.maPhong 
+    const room=JSON.parse(localStorage.getItem('datPhongInfor'))||{maPhong: datPhongInfo.maPhong 
         ,tenKhachSan: datPhongInfo.tenKhachSan 
-        ,ngayNhanPhong:"" 
-        ,ngayTraPhong:"" 
+        ,ngayNhanPhong: datPhongInfo.ngayNhan
+        ,ngayTraPhong:  datPhongInfo.ngayTra
         ,hinhAnh: datPhongInfo.hinhAnh 
         ,loaiPhong: datPhongInfo.loaiPhong 
         ,tienNghi:datPhongInfo.tienNghi
         ,soNguoi: datPhongInfo.soNguoi
-        ,soNgay: ""
+        ,soNgay: datPhongInfo.soNgay
         ,giaPhong: datPhongInfo.giaPhong };
     const [filled,setFilled]=useState({
         soDienThoai:true,
@@ -130,10 +131,10 @@ const DatPhong = () => {
                 <div id="sec2">
                     <div id="dpHt">
                         <h3><span><img src="/Assets/hotel.svg" alt="hotel" /></span>
-                            {room.tenKhachSan}
+                            {hotelInfor.tenKhachSan}
                         </h3>
-                            <div>Ngày nhận phòng: <b>{room.ngayNhanPhong}</b></div>
-                            <div>Ngày trả phòng: <b>{room.ngayTraPhong}</b></div>
+                            <div>Ngày nhận phòng: <b>{room.ngayNhan}</b></div>
+                            <div>Ngày trả phòng: <b>{room.ngayTra}</b></div>
                     </div>
                     <img style={{width:"30vw",height:"25vh"}} src={room.hinhAnh} alt="room" />
                     <div id="dpR">
