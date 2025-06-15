@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 function DanhGia({ maKhachSan }) {
     const queryClient = useQueryClient();
-
+    const accessToken = localStorage.getItem("accessToken");
     const {
         data: danhgias = [],
         isLoading,
@@ -26,9 +26,10 @@ function DanhGia({ maKhachSan }) {
     return (
         <div>
             <h2>Đánh giá</h2>
+            {accessToken && (
+                <AddDanhGia maKhachSan={maKhachSan} onAddSuccess={refetchDanhGia} />
+            )}
 
-            {/* Form thêm đánh giá */}
-            <AddDanhGia maKhachSan={maKhachSan} onAddSuccess={refetchDanhGia} />
 
             {isLoading ? (
                 <p>Đang tải đánh giá...</p>

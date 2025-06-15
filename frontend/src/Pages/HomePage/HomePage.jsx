@@ -62,7 +62,7 @@ const HomePage = () => {
                     {
                         htData.map((item,index)=>(
                             <div key={index} id="ht" style={{cursor:"pointer"}} onClick={()=>{
-                                navigate(`/hotel/${item.maKhachSan}`);
+                                navigate(`/hotel/${item.maKhachSan}`, {state: {id: item.maKhachSan} });
                             }}>
                                 <img src={item.hinhAnh} alt="khachsan" />
                                 <p style={{fontWeight:"bold"}}>{item.tenKhachSan}</p>
