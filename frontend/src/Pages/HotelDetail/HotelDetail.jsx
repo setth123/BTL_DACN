@@ -65,7 +65,7 @@ const HotelDetail = () => {
     <div>
         <h2>{hotelInfo.tenKhachSan}</h2>
         <div className="hotel-detail-row">
-            <img src="/assets/khuyenmai.webp" alt={hotelInfo.tenKhachSan} />
+            <img src={hotelInfo.hinhAnh} alt={hotelInfo.tenKhachSan} />
             <div className="hotel-detail-info diaChiCT">
                 <p>Địa chỉ: <span>{hotelInfo.diaChiCT}</span></p>
             </div>
