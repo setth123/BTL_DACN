@@ -15,6 +15,7 @@ import AuthForm from './Components/AuthForm/AuthForm';
 import AdminKhuyenMai from './Pages/Admin/AdminKhuyenMai/AdminKhuyenMai';
 import { useEffect } from 'react';
 import { checkAndRemoveExpiredToken } from './helper/auth';
+import AdminHotel from './Pages/Admin/AdminHotel/AdminHotel';
 
 const App=()=>{
   useEffect(()=>{
@@ -41,6 +42,7 @@ const App=()=>{
         <Route path="/admin/hotel/:hotelId/room" element={<Room/>}/>
         <Route path="/admin/hotel/:hotelId/room/add" element={<RoomForm title={"Thêm phòng mới"} btn={"Thêm"}/>}/>
         <Route path="/admin/hotel/:hotelId/room/update/:roomId" element={<RoomForm title={"Cập nhật thông tin phòng"} btn={"Lưu"} type='t2'/>}/>
+        <Route path="/admin/hotel/manager" element={<AdminHotel/>}></Route>
       </Routes>
     </>
   )

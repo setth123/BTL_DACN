@@ -7,10 +7,10 @@ const AuthForm = ({isLogin=true,isUser=true}) => {
         if (!localStorage.getItem('accessToken')) return;
         const token=JSON.parse(localStorage.getItem('accessToken'));
         if(token){
-            if(isUser){
+            if(token.claims.role==="USER"&&isUser){
                 navigate("/");
             }
-            else{
+            else if(token.claims.role==="ADMIN"&&!isUser){
                 navigate("/admin");
             }
         }
