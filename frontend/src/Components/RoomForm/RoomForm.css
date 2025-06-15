@@ -10,12 +10,12 @@
 }
 #roomForm #rInp label{
     display:block;
-    font-size: x-large;
+    font-size: large;
     margin-bottom: 1vh;
 }
 #roomForm #rInp input,#roomForm #rInp textarea{
     padding: 2vh;
-    font-size: x-large;
+    font-size: large;
     border: 1px solid #ccc;
     border-radius: 10px;
 }

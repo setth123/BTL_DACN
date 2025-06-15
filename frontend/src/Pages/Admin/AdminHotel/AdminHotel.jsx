@@ -16,7 +16,7 @@ function AdminHotel() {
     });
     const navigate = useNavigate();
     
-    const accessTokenData = JSON.parse(localStorage.getItem("accessToken"));
+    const accessTokenData = JSON.parse(localStorage.getItem("adminToken"));
     const accessToken = accessTokenData?.token;
     
     const { data: hotels, isLoading, error, refetch } = useQuery({

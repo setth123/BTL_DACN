@@ -4,15 +4,17 @@ import { useEffect } from 'react';
 const AuthForm = ({isLogin=true,isUser=true}) => {
     const navigate=useNavigate();
     useEffect(()=>{
-        if (!localStorage.getItem('accessToken')) return;
-        const token=JSON.parse(localStorage.getItem('accessToken'));
-        if(token){
-            if(token.claims.role==="USER"&&isUser){
+        if(isUser){
+            if (!localStorage.getItem('accessToken')) return;
+            const token=JSON.parse(localStorage.getItem('accessToken'));
+            if(token){
                 navigate("/");
             }
-            else if(token.claims.role==="ADMIN"&&!isUser){
-                navigate("/admin");
-            }
+        }
+        else{
+            if (!localStorage.getItem('adminToken')) return;
+            const token=JSON.parse(localStorage.getItem('adminToken'));
+            if(token)navigate("/admin");
         }
     },[])   
     const handleSubmit=async(e)=>{
@@ -81,7 +83,8 @@ const AuthForm = ({isLogin=true,isUser=true}) => {
                     throw new Error(`Error API: ${res.status} ${res.statusText}`);
                 }
                 const token=await res.json();
-                localStorage.setItem("accessToken",JSON.stringify(token));
+                if(isUser)localStorage.setItem("accessToken",JSON.stringify(token));
+                else localStorage.setItem("adminToken",JSON.stringify(token));
                 alert("Đăng nhập thành công");
                 navigate(isUser?"/":"/admin/");
             }

@@ -3,7 +3,7 @@ import ANavBar from "../../../Components/ANavBar/ANavBar";
 import "./AdminKhuyenMai.css";
 
 const AdminKhuyenMai = () => {
-    const token = JSON.parse(localStorage.getItem('accessToken'))?.token;
+    const token = JSON.parse(localStorage.getItem('adminToken'))?.token;
     const admin = token ? token.claims : null;
     const [list, setList] = useState([]);
     const [form, setForm] = useState({
@@ -103,64 +103,6 @@ const AdminKhuyenMai = () => {
             }
         }
     };
-
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     if (isEdit) {
-    //         // Sửa khuyến mãi
-    //         await fetch(`http://localhost:8080/api/khuyen-mai/${form.maKhuyenMai}`, {
-    //             method: "PUT",
-    //             body: JSON.stringify(form),
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
-    //             }
-    //         });
-    //     } else {
-    //         // Thêm mới khuyến mãi
-    //         await fetch("http://localhost:8080/api/khuyen-mai/addKM", {
-    //             method: "POST",
-    //             body: JSON.stringify(form),
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
-    //             }
-    //         });
-    //     }
-    //     setForm({
-    //         maKhuyenMai: "",
-    //         ngayBD: "",
-    //         ngayKT: "",
-    //         mucKhuyenMai: "",
-    //         giaoDichToiThieu: "",
-    //     });
-    //     setIsEdit(false);
-    //     fetchList();
-    // };
-
-    // const handleEdit = (km) => {
-    //     setForm({
-    //         maKhuyenMai: km.maKhuyenMai,
-    //         ngayBD: km.ngayBD,
-    //         ngayKT: km.ngayKT,
-    //         mucKhuyenMai: km.mucKhuyenMai,
-    //         giaoDichToiThieu: km.giaoDichToiThieu,
-    //     });
-    //     setIsEdit(true);
-    // };
-
-    // const handleDelete = async (maKhuyenMai) => {
-    //     if (window.confirm("Bạn chắc chắn muốn xóa?")) {
-    //         await fetch(`http://localhost:8080/api/khuyen-mai/${maKhuyenMai}`, { 
-    //             method: "DELETE" , 
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //                 "Authorization": `Bearer ${token}`
-    //             }
-    //          });
-    //         fetchList();
-    //     }
-    // };
     
     const handleEdit = (km) => {
         setForm({

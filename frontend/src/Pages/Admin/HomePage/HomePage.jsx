@@ -5,7 +5,7 @@ import ANavBar from "../../../Components/ANavBar/ANavBar";
 import { useQuery } from "@tanstack/react-query";
 
 const fetchData = async (url) => {
-    const token = JSON.parse(localStorage.getItem('accessToken'))?.token;
+    const token = JSON.parse(localStorage.getItem('adminToken'))?.token;
     try {
         const res = await fetch(url, {
             headers: {

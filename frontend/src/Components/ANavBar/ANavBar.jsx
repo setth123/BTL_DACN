@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import "./ANavBar.css"
 const ANavBar = () => {
     const navigate=useNavigate();
-    const token=JSON.parse(localStorage.getItem('accessToken'));
+    const token=JSON.parse(localStorage.getItem('adminToken'));
     const admin=token?token.claims:null;
     console.log(admin)
     if(admin===null){
@@ -19,7 +19,7 @@ const ANavBar = () => {
                 <span><img src="/assets/voucher.svg" alt="km" /></span>Khuyến mãi
             </p>
             <p onClick={()=>{
-                localStorage.removeItem('accessToken');
+                localStorage.removeItem('adminToken');
                 navigate("/admin/login");
                 window.location.reload();
             }}><span><img src="/assets/logout.svg" alt="logout"/>Đăng xuất</span></p>

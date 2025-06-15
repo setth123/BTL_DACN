@@ -31,7 +31,7 @@ const Room = () => {
         var cDel=confirm("Bạn có chắc chắn muốn xoá phòng này");
         if(cDel){
             try{
-                const token=JSON.parse(localStorage.getItem('accessToken'))?.token;
+                const token=JSON.parse(localStorage.getItem('adminToken'))?.token;
                 const res=await fetch(`http://localhost:8080/api/phong/${row.maPhong}`,{
                     method: "DELETE",
                     headers:{

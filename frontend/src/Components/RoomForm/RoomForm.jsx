@@ -18,7 +18,6 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
         setFormData({
             ...formDT,
             [e.target.name]:e.target.value,
-            maKhachSan:"KS45600000000001"
         })
     }
     const restart=()=>{
@@ -36,13 +35,13 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     }
     const handleAdd=async(e)=>{
         e.preventDefault();
-        const token=localStorage.getItem("accessToken").token;
+        const token=localStorage.getItem("adminToken").token;
         try{
             const res=await fetch("http://localhost:8080/api/phong/",{
                 method: "POST",
                 headers:{
                     "Content-Type": "application/json",
-                    "Authorization":`Bearer ${token}`
+                    "Authorization":`Bearer ${token.token}`
                 },
                 body:JSON.stringify(formDT)
             })
@@ -103,9 +102,9 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
     return (
         <div id="roomForm">
             <ANavBar/>
-            <div>
+            <div style={{marginLeft:"290px"}}>
                 <h1>{title}</h1>
-                <div style={{display:"flex",gap:"3vw", marginLeft:"290px"}}>
+                <div style={{display:"flex",gap:"3vw"}}>
                     <div id="rooms1">
                         <div id="rInp">
                             <label for="loaiPhong">Loại phòng</label>
@@ -121,13 +120,13 @@ const RoomForm = ({title,btn,data={},type="t1"}) => {
                         </div>
                         <div id="rInp">
                             <label>Mã khách sạn</label>
-                            <label><b>{data.maKhachSan}</b></label>
+                            <label><b>{hotelId}</b></label>
                         </div>
                     </div>
                     <div id="rooms2">
                         <div id="rInp">
                             <label for="hinhAnh">URL Hình ảnh</label>
-                            <img src={formDT.hinhAnh} alt="room image"/>
+                            {type=="t2"&& <img src={formDT.hinhAnh} alt="room image"/>}
                             <input type="text" name='hinhAnh' value={formDT.hinhAnh} onChange={handleChange}/>
                         </div>
                         <div id="rInp">
