@@ -15,7 +15,7 @@ import com.example.demo.Entities.KhachSan;
 
 @Repository
 public interface KhachSanRepository extends JpaRepository<KhachSan,String> , CrudRepository<KhachSan, String> {
-    @Query(value="SELECT maKhachSan, hinhAnh,tenKhachSan, diemSoTB FROM KhachSan ks ORDER BY diemSoTB DESC LIMIT 4",nativeQuery=true)
+    @Query(value="SELECT maKhachSan, hinhAnh,tenKhachSan, diemSoTB FROM KhachSan ks ORDER BY diemSoTB DESC LIMIT 8",nativeQuery=true)
     List<Object[]> findHighestRateKS();
 
     // query tìm khách sạn có id

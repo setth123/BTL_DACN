@@ -66,7 +66,7 @@ const MyDC = () => {
     if(isLoading) return <p>Loading...</p>
     if(error)return <p>Error while fetching: {error.message}</p>
     return (
-        <div style={{marginTop:"3vh"}}>
+        <div style={{marginTop:"3vh", marginBottom:"10vh"}}>
             <h2>Các phòng đã đặt</h2>
             <i style={{marginTop:"1vh",marginLeft:"1vw"}}>*Các phòng có thể được huỷ miễn phí trước 1 tuần</i>
             <div id="roomContainer">

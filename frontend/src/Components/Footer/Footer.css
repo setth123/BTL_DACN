@@ -1,0 +1,96 @@
+/* Footer.css */
+
+.footer {
+  background-color: #1C2930;
+  color: #687176;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.footer-top {
+  margin-bottom: 20px;
+}
+
+.footer-top .logo-row {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.logo {
+  height: 40px;
+}
+
+.cert-icon {
+  height: 35px;
+}
+
+.footer-columns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-top: 20px;
+  border-top: 1px solid #2a3a44;
+  margin-bottom: 20px;
+}
+
+.footer-column {
+  flex: 1 1 200px;
+  margin: 10px;
+}
+
+.footer-column h4 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-column ul li {
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.footer-column ul li:hover {
+  text-decoration: underline;
+}
+
+.social-icons {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.social-icons img {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.title {
+  margin: 10px 0 5px;
+  color: #fff;
+}
+
+.store-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.store-buttons img {
+  height: 40px;
+  cursor: pointer;
+}
+
+.footer-bottom {
+  border-top: 1px solid #2a3a44;
+  padding-top: 15px;
+  text-align: center;
+  font-size: 12px;
+}

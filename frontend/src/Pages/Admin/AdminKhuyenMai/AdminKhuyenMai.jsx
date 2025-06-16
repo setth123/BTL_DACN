@@ -204,7 +204,7 @@ const AdminKhuyenMai = () => {
                                 <td>{km.giaoDichToiThieu?.toLocaleString("vi-VN")}</td>
                                 <td>
                                     <button onClick={() => handleEdit(km)}>Sửa</button>
-                                    <button onClick={() => handleDelete(km.maKhuyenMai)} style={{ marginLeft: 8, color: "red" }}>Xóa</button>
+                                    <button onClick={() => handleDelete(km.maKhuyenMai)} style={{ marginTop: "3px", color: "red" }}>Xóa</button>
                                 </td>
                             </tr>
                         ))}

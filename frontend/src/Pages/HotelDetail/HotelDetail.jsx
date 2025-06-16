@@ -37,6 +37,7 @@ const fetchHotel = async (roomIds, hotelId) => {
 const HotelDetail = () => {
     const location = useLocation();
     const dqReceived = location.state?.dateAndQuantity || [];
+    console.log("Received date and quantity:", dqReceived);
     const roomIds = location.state?.roomIds || null;
 
     const accessToken = localStorage.getItem("accessToken");
@@ -122,10 +123,11 @@ const HotelDetail = () => {
                             <button
                                 className="btn-dat-phong"
                                 onClick={() => {
-                                    const ngayNhan = dqReceived ? dqReceived[0] : new Date().toISOString().slice(0, 10);
-                                    const ngayTra = dqReceived ? dqReceived[1] : new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10);
+                                    const ngayNhan = dqReceived.length !=0 ? dqReceived[0] : new Date().toISOString().slice(0, 10);
+                                    const ngayTra = dqReceived.length !=0 ? dqReceived[1] : new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10);
                                     const soNgay = Math.ceil(
                                         (new Date(ngayTra) - new Date(ngayNhan)) / (1000 * 60 * 60 * 24));
+                                    console.log("Ngày nhận:", ngayNhan);
                                     const datPhongInfo = {
                                         makhachSan: data.maKhachSan,
                                         maPhong: phong.maPhong,
@@ -137,10 +139,10 @@ const HotelDetail = () => {
                                         loaiPhong: phong.loaiPhong,
                                         tenPhong: phong.loaiPhong,
                                         tienNghi: phong.tienIch,
-                                        soNguoi: dqReceived ? +dqReceived[2] : 1,
+                                        soNguoi: dqReceived.length !=0 ? dqReceived[2] : 1,
                                         giaPhong: phong.giaPhong,
-                                        ngayNhan: dqReceived ? dqReceived[0] : new Date().toISOString().slice(0, 10),
-                                        ngayTra: dqReceived ? dqReceived[1] : new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10),
+                                        ngayNhan: ngayNhan,
+                                        ngayTra: ngayTra,
                                         soNgay: soNgay,
                                     };
                                     // Lưu vào localStorage

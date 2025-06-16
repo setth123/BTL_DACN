@@ -45,7 +45,7 @@ const HomePage = () => {
                     <h4 style={{margin: "2vh 0 2vh 2vh" , whiteSpace: "nowrap", color: "#168FFE" }}>Khuyến mãi mới</h4>
                     <a href="/khuyenmai" style={{ textDecoration: "none", margin: 0, marginRight: "1vw", whiteSpace: "nowrap" }}>Xem thêm &#8594;</a>
                 </div>
-                <div id="kmBoxs">
+                <div id="kmBox">
                     {vData.map((item, index) => (
                         <div key={index}>
                             <img src="/assets/sales-promotion-poster.jpg" alt="km" />
@@ -57,7 +57,7 @@ const HomePage = () => {
                 </div>
             </div>
 
-            <div style={{ maxWidth: "90%", margin: "auto", marginTop: "6vh" }}>
+            <div style={{ maxWidth: "90%", margin: "auto", marginTop: "6vh" , marginBottom: "6vh" }}>
                 <h4 style={{ textAlign: "left", margin: "2vh 0 2vh 2vh", color: "#168FFE" }}>Khách sạn nổi bật</h4>
                 <div id="htBoxs">
                     {htData.map((item, index) => (
@@ -66,13 +66,13 @@ const HomePage = () => {
                         }}>
                             <img src={item.hinhAnh} alt="khachsan" />
                             <p style={{ fontWeight: "bold" }}>{item.tenKhachSan}</p>
-                            <p>Điểm số trung bình</p>
-                            <p style={{ fontWeight: "bold" }}>{item.diemSoTB}</p>
+                            <p>Đánh giá: <span style={{ fontWeight: "bold" }}>{item.diemSoTB}⭐</span></p>
+                            
                         </div>
                     ))}
                 </div>
             </div>
-
+            
         </div>
     )
 }

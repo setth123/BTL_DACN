@@ -1,4 +1,4 @@
-#kmBoxs, #htBoxs {
+#kmBox, #htBoxs {
     display: flex;
     gap:20px;
     flex-wrap: wrap;
@@ -6,7 +6,7 @@
     padding: 0;
 }
 
-#kmBoxs > div, #htBoxs > div {
+#kmBox > div, #htBoxs > div {
     width: calc(25% - 20px);
     border-radius: 12px;
     overflow: hidden;
@@ -19,18 +19,18 @@
     min-width: 250px;
 }
 
-#kmBoxs > div:hover, #htBoxs > div:hover {
+#kmBox > div:hover, #htBoxs > div:hover {
     transform: translateY(-5px);
     cursor: pointer;
 }
 
-#kmBoxs img, #htBoxs img {
+#kmBox img, #htBoxs img {
     width: 100%;
-    height: 140px;
+    height: 160px;
     object-fit: cover;
 }
 
-#kmBoxs p, #htBoxs p {
+#kmBox p, #htBoxs p {
     margin: 4px 12px;
     font-size: 14px;
 }

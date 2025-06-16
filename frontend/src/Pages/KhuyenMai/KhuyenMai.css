@@ -1,19 +1,109 @@
-#kmBoxs{
-    margin-left: 1vw;
-    display:flex;
-    gap:2vw;
-    overflow-x: auto;
-    white-space: nowrap;
-    margin-right: 1vw;
-    margin-bottom: 5vh;
+/* Container của cả dãy khuyến mãi */
+#kmBoxs {
+    margin: 0 2vw 5vh 2vw;
+    display: flex;
+    gap: 2vw;
+    overflow-x: scroll; /* vẫn cho phép cuộn */
+    scroll-behavior: smooth;
+    padding: 1vh 0;
+
+    scrollbar-width: none;      /* Firefox */
+    -ms-overflow-style: none;   /* IE/Edge */
 }
-#km{
-    margin-bottom: 3vh;
+
+#kmBoxs::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
-#kmBoxs img{
-    width: 22vw;
-    height:25vh;
+
+
+/* Wrapper để bao quanh cả phần khuyến mãi và mũi tên */
+.kmWrapper {
+    position: relative;
 }
-h2{
-    margin-left: 2vw;
+
+/* Từng khuyến mãi item */
+#km {
+    flex: 0 0 auto;
+    width: 23vw;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    padding: 0vh 0vw;
+    box-sizing: border-box;
+}
+
+/* Hình ảnh khuyến mãi */
+#kmBoxs img {
+    width: 100%;
+    height: 25vh;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* Mã khuyến mãi */
+.kmCode {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 1vh 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #01223f;
+}
+
+/* Thông tin thời gian và giao dịch */
+.kmInfo {
+    display: flex;
+    gap: 1vw;
+    margin-bottom: 1vh; 
+    padding: 5px;
+}
+
+.kmInfo p {
+    margin: 0.2vh 0;
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* In đậm thông tin */
+.bold {
+    font-weight: bold;
+}
+
+/* Mức khuyến mãi */
+.kmPercent {
+    font-weight: bolder;
+    font-size: 1.2rem;
+    color: rgb(1, 34, 63);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* Mũi tên chuyển */
+.arrowBtn {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0.3em;
+    border-radius: 50%;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.arrowBtn.left {
+    left: -10px;
+}
+
+.arrowBtn.right {
+    right: -10px;
+}
+
+/* Tiêu đề h2 */
+h2 {
+    margin: 0 2vw 1vh;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1.5rem;
+    color: #01223f;
 }

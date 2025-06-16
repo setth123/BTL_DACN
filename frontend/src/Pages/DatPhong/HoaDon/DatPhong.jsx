@@ -136,10 +136,10 @@ const DatPhong = () => {
                         <h3><span><img src="/Assets/hotel.svg" alt="hotel" /></span>
                             {hotelInfor.tenKhachSan}
                         </h3>
-                            <div>Ngày nhận phòng: <b>{room.ngayNhan}</b></div>
-                            <div>Ngày trả phòng: <b>{room.ngayTra}</b></div>
+                            <div>Ngày nhận phòng: <b>{datPhongInfo.ngayNhan}</b></div>
+                            <div>Ngày trả phòng: <b>{datPhongInfo.ngayTra}</b></div>
                     </div>
-                    <img style={{width:"30vw",height:"25vh"}} src={room.hinhAnh} alt="room" />
+                    <img style={{width:"35vw",height:"25vh"}} src={room.hinhAnh} alt="room" />
                     <div id="dpR">
                         <h3 style={{backgroundColor:""}}>{room.loaiPhong}</h3>
                         <p><span><img src="/Assets/comfort.svg" alt="comfort" /></span>Tiện nghi: <b>{room.tienNghi}</b></p>
