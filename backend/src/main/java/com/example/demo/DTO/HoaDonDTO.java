@@ -26,4 +26,5 @@ public class HoaDonDTO {
     private BigDecimal dienTich;
     private String tienIch;
     private Boolean khuyenMaiState;
+    private String paymentType;
 }

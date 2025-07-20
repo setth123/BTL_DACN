@@ -48,7 +48,7 @@ const DatPhong = () => {
             [id]: false, 
         }));
     }
-    const handleDP=async()=>{
+    const handleDP=async(paymentType="paylater")=>{
         const validateEmail = (email) => /^[\w.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/.test(email);
         const validatePhone = (phone) => /^(0|\+84)[0-9]{9}$/.test(phone);
         const validateName = (name) => /^[a-zA-ZÀ-Ỹà-ỹ]+(?:\s[a-zA-ZÀ-Ỹà-ỹ]+)+$/.test(name);
@@ -61,7 +61,8 @@ const DatPhong = () => {
             alert(errors.join("\n"));
             return;
         }
-        const dpForm={ngayNhanPhong:formatDate(room.ngayNhanPhong),ngayTraPhong:formatDate(room.ngayTraPhong),hoTenKH:userDT.hoTen,maPhong:room.maPhong,maKhuyenMai:userDT.maKhuyenMai,maNguoiDung:user.maNguoiDung};
+        const dpForm={ngayNhanPhong:formatDate(room.ngayNhanPhong),ngayTraPhong:formatDate(room.ngayTraPhong),hoTenKH:userDT.hoTen,maPhong:room.maPhong,maKhuyenMai:userDT.maKhuyenMai,maNguoiDung:user.maNguoiDung,paymentType:paymentType};
+        console.log(dpForm);
         try{
             const res=await fetch(`http://localhost:8080/api/hoa-don`,{
                 method:"POST",
@@ -75,11 +76,16 @@ const DatPhong = () => {
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
             let data=await res.json();
-            data.loaiPhong=room.loaiPhong;
-            data.soNgay=room.soNgay;
-            data.chiPhi=room.giaPhong;
-            alert("Đặt phòng thành công");
-            navigate(`/dptc/${data.hoaDonID}`,{state:data});
+            if(data.paymentUrl){
+                window.location.href=data.paymentUrl; 
+            }
+            else{
+                data.loaiPhong=room.loaiPhong;
+                data.soNgay=room.soNgay;
+                data.chiPhi=room.giaPhong;
+                alert("Đặt phòng thành công, thanh toán sau");
+                navigate(`/dptc/${data.hoaDonID}`,{state:data});
+            }
         }
         catch(err){
             console.log("Error while fetching: ",err);
@@ -127,8 +133,16 @@ const DatPhong = () => {
                             </div>
                         </div>
                     </div>
-
-                    <button id="dpBtn" onClick={handleDP}>Đặt phòng</button>
+                    <div style={{display:"flex",justifyContent: "space-between",padding: "0 2vw",marginTop:"3vh"}}>
+                        <div style={{display:"flex",flexDirection:"column"}}>
+                            <i >*Thanh toán ngay, giảm giá 15%, không hoàn tiền</i>
+                            <button id="dpBtn" style={{margin:"1vh"}}onClick={()=>handleDP("prepaid")}>Thanh toán online</button>
+                        </div>
+                        <div style={{display:"flex",flexDirection:"column"}}>
+                            <i>*Hủy miễn phí, thanh toán tại khách sạn</i>
+                            <button id="dpBtn" style={{backgroundColor:"#27bfdf",margin:"1vh"}} onClick={()=>handleDP("paylater")}>Trả sau</button>
+                        </div>
+                    </div>
                 </div>
                 {/* sec2 */}
                 <div id="sec2">

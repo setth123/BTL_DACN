@@ -22,6 +22,7 @@ import com.example.demo.Repositories.KhuyenMaiRepository;
 import com.example.demo.Repositories.NguoiDungRepository;
 import com.example.demo.Repositories.PhongRepository;
 
+
 @Service
 public class HoaDonService {
     @Autowired
@@ -39,7 +40,7 @@ public class HoaDonService {
         return pr.isEmptyRoom(maPhong, ngayNhanPhong, ngayTraPhong).equals(1);
     }
 
-    public ResponseEntity<HoaDon> taoHD(HoaDonDTO hoaDonDTO){
+    public ResponseEntity<?> taoHD(HoaDonDTO hoaDonDTO){
         try{
             if(!isEmptyRoom(hoaDonDTO.getMaPhong(), hoaDonDTO.getNgayNhanPhong(), hoaDonDTO.getNgayTraPhong())){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -48,6 +49,7 @@ public class HoaDonService {
             hd.setNgayNhanPhong(hoaDonDTO.getNgayNhanPhong());
             hd.setNgayTraPhong(hoaDonDTO.getNgayTraPhong());
             hd.setHoTenKH(hoaDonDTO.getHoTenKH());
+            hd.setPaymentType(hoaDonDTO.getPaymentType());
             hd.setNguoiDung(ndr.findById(hoaDonDTO.getMaNguoiDung()).orElse(null));
             hd.setPhong(pr.findById(hoaDonDTO.getMaPhong()).orElse(null));
             Phong p=pr.findById(hoaDonDTO.getMaPhong()).orElseThrow();
@@ -74,14 +76,19 @@ public class HoaDonService {
                 discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
             }
             hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
-            hdr.save(hd);
             if (dk1 && dk2 && dk3) {
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
                 kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);
             }
-           
+            if(hd.getPaymentType().equals("prepaid")){
+                PaymentService ps=new PaymentService();
+                hd.setTongChiPhi(hd.getTongChiPhi().multiply(BigDecimal.valueOf(0.85)).setScale(2, RoundingMode.HALF_UP));
+                //hdr.save(hd); 
+                return ps.createPaymentLink(hd);
+            }
+            //hdr.save(hd);
             pr.save(p);
             return ResponseEntity.status(HttpStatus.OK).body(hd);
         }

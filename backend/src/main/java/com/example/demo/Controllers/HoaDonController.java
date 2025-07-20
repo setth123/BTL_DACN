@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.HoaDonDTO;
-import com.example.demo.Entities.HoaDon;
 import com.example.demo.Repositories.HoaDonRepository;
 import com.example.demo.Services.HoaDonService;
 
@@ -62,7 +61,7 @@ public class HoaDonController {
     //datphong
     @PostMapping()
     @PreAuthorize("hasAuthority('USER')")
-    public ResponseEntity<HoaDon> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
+    public ResponseEntity<?> createHoaDon(@RequestBody HoaDonDTO hoaDonDTO){
         try{
             return hds.taoHD(hoaDonDTO);
         }

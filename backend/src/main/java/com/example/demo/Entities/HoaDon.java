@@ -37,4 +37,5 @@ public class HoaDon {
     private BigDecimal chiPhiDuTinh;
     private BigDecimal tongChiPhi;
     private String hoTenKH;
+    private String paymentType;
 }
