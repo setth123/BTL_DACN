@@ -83,10 +83,10 @@ public class HoaDonService {
                 kmhdr.save(kmhd);
             }
             if(hd.getPaymentType().equals("prepaid")){
-                PaymentService ps=new PaymentService();
-                hd.setTongChiPhi(hd.getTongChiPhi().multiply(BigDecimal.valueOf(0.85)).setScale(2, RoundingMode.HALF_UP));
+                //PaymentService ps=new PaymentService();
+                //hd.setTongChiPhi(hd.getTongChiPhi().multiply(BigDecimal.valueOf(0.85)).setScale(2, RoundingMode.HALF_UP));
                 //hdr.save(hd); 
-                return ps.createPaymentLink(hd);
+                //return ps.createPaymentLink(hd);
             }
             //hdr.save(hd);
             pr.save(p);
