@@ -35,7 +35,7 @@ const App = () => {
         <Route path="/khuyenMai" element={<KhuyenMai />} />
         <Route path="/mydc" element={<MyDC />} />
         <Route path="/datPhong/:phongID" element={<DatPhong />} />
-        <Route path="/dptc/:hoaDonID" element={<DPTC paymentType={"Paylater"} />} />
+        <Route path="/dptc/:hoaDonID" element={<DPTC paymentType="Paylater" />} />
         <Route path="/search-result" element={<SearchResult />} />
         <Route path="/admin/khuyenMai" element={<AdminKhuyenMai />} />
         <Route path="/admin" element={<AHomePage />} />
@@ -46,7 +46,7 @@ const App = () => {
         <Route path="/admin/hotel/:hotelId/room/add" element={<RoomForm title={"Thêm phòng mới"} btn={"Thêm"} />} />
         <Route path="/admin/hotel/:hotelId/room/update/:roomId" element={<RoomForm title={"Cập nhật thông tin phòng"} btn={"Lưu"} type='t2' />} />
         <Route path="/admin/hotel/manager" element={<AdminHotel />} />
-        <Route path="/checkout-success/:hoaDonID" element={<DPTC paymentType={"Prepaid"}/>}/>
+        <Route path="/checkout-success/:hoaDonID" element={<DPTC paymentType="Prepaid"/>}/>
         <Route path="/checkout-fail" element={<PaymentReturn/>}/>
       </Routes>
       {!hide && <Footer />}

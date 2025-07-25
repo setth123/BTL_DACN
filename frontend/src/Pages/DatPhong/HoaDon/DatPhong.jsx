@@ -62,7 +62,7 @@ const DatPhong = () => {
             return;
         }
         const dpForm={ngayNhanPhong:formatDate(room.ngayNhanPhong),ngayTraPhong:formatDate(room.ngayTraPhong),hoTenKH:userDT.hoTen,maPhong:room.maPhong,maKhuyenMai:userDT.maKhuyenMai,maNguoiDung:user.maNguoiDung,paymentType:paymentType};
-        localStorage.setItem("phongInfo",{loaiPhong:room.loaiPhong,soNgay:room.soNgay,chiPhi:room.chiPhi});
+        localStorage.setItem("phongInfo",JSON.stringify({loaiPhong:room.loaiPhong,soNgay:room.soNgay,chiPhi:room.chiPhi}));
         try{
             const res=await fetch(`http://localhost:8080/api/hoa-don`,{
                 method:"POST",

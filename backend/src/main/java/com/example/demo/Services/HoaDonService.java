@@ -80,6 +80,15 @@ public class HoaDonService {
                 discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
             }
             BigDecimal tongChiPhi = hd.getChiPhiDuTinh().subtract(discount);
+            hd.setTongChiPhi(tongChiPhi);
+            hdr.save(hd);
+            if (dk1 && dk2 && dk3) {
+                ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
+                kmhd.setHoaDon(hd);
+                kmhd.setKhuyenMai(km);
+                kmhdr.save(kmhd);
+            }
+            pr.save(p);
             if(hd.getPaymentType().equals("prepaid")){
                 tongChiPhi = tongChiPhi.subtract(hd.getChiPhiDuTinh().multiply(BigDecimal.valueOf(0.1)));
                 hd.setTongChiPhi(tongChiPhi);
@@ -93,15 +102,6 @@ public class HoaDonService {
                 String vnpUrl=vnPayService.createPaymentUrl(vnpParams);
                 return ResponseEntity.ok(Map.of("vnpUrl",vnpUrl));
             }
-            hd.setTongChiPhi(tongChiPhi);
-            hdr.save(hd);
-            if (dk1 && dk2 && dk3) {
-                ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
-                kmhd.setHoaDon(hd);
-                kmhd.setKhuyenMai(km);
-                kmhdr.save(kmhd);
-            }
-            pr.save(p);
             return ResponseEntity.status(HttpStatus.OK).body(hd);
         }
         catch(Exception e){

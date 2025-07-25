@@ -36,7 +36,12 @@ const MyDC = () => {
         refetchOnWindowFocus:true
     })
      
-    const handleDel=async(hoaDonID,maPhong)=>{
+    const handleDel=async(hoaDonID,maPhong,paymentType)=>{
+        console.log(paymentType);
+        if(paymentType==="prepaid"){   
+            alert("Không thể huỷ phòng trả trước");
+            return;
+        }
         var isDel=confirm("Bạn có chắc chắn muốn huỷ ?");
         if(isDel){
             try{
@@ -98,7 +103,7 @@ const MyDC = () => {
                             <h3>{item.tongChiPhi.toLocaleString("vi-VN")} VNĐ</h3>
                         </div>
                         <div id="rp4">
-                            <button onClick={()=>handleDel(item.hoaDonID,item.maPhong)}>Huỷ đặt phòng</button>
+                            <button onClick={()=>handleDel(item.hoaDonID,item.maPhong,item.paymentType)}>Huỷ đặt phòng</button>
                         </div>
                     </div>
                 ))}

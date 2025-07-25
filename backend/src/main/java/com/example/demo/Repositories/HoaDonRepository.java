@@ -15,7 +15,7 @@ public interface HoaDonRepository extends JpaRepository<HoaDon,Integer>{
     Optional<HoaDon> findByHoaDonID(Integer hoaDonID);
     @Query(value="""
             SELECT DISTINCT p.maPhong, p.loaiPhong, p.hinhAnh, p.soNguoi, p.dienTich, p.tienIch,
-            hd.ngayNhanPhong, hd.ngayTraPhong,hd.tongChiPhi,hd.maNguoiDung,hd.hoaDonID,
+            hd.ngayNhanPhong, hd.ngayTraPhong,hd.tongChiPhi,hd.maNguoiDung,hd.hoaDonID,hd.paymentType,
             CASE 
             WHEN EXISTS (SELECT 1 FROM ApDungKhuyenMai akm WHERE akm.hoaDonID = hd.hoaDonID) 
             THEN 1 ELSE 0 END AS khuyenMaiState

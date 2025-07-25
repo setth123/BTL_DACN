@@ -49,6 +49,7 @@ public class HoaDonController {
                 dto.setMaNguoiDung((String) obj[9]);
                 dto.setKhuyenMaiState(obj[11].equals(1));
                 dto.setHoaDonID((Integer) obj[10]);
+                dto.setPaymentType((String)obj[11]);
                 return dto;
             }).collect(Collectors.toList());
             return ResponseEntity.status(HttpStatus.OK).body(hd);
