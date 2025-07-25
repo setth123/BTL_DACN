@@ -1,27 +1,35 @@
 import "./DPTC.css"
 import {QRCodeSVG} from "qrcode.react";
+import { useEffect, useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 const DPTC =async ({paymentType}) => {
     const {hoaDonID}=useParams();
     const[ttHD,setTTHD]=useState(null);
-    try{
-        const res=await fetch(`http://localhost:8080/api/hoa-don/HD/${hoaDonID}`,{
-            method:"GET",
-            headers:{
-                "Content-Type":"application/json",
-                "Authorization":`Bearer ${token.token}`
+    const token=localStorage.getItem('accessToken');
+    useEffect(()=>{
+        const fetchData = async () => {
+            try {
+                const res = await fetch(`http://localhost:8080/api/hoa-don/HD/${hoaDonID}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token.token}`,
+                    },
+                });
+                if (!res.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                const hdDt = await res.json();
+                setTTHD(hdDt);
+            } catch (err) {
+                console.log("Error while fetching", err);
             }
-        })
-        const hdDt=await res.json();
-        setTTHD(hdDt);
-    }
-    catch(err){
-        console.log("Error while fetching ",err);
-    }
+        };
+        fetchData();
+    },[])
     const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
     const additionalInfo=localStorage.getItem("phongInfo");
-    localStorage.removeItem("phongInfo");
     const text=`Mã hoá đơn: ${ttHD.maHD} \n
                 Khách hàng Họ tên: ${ttHD.hoTen}, Số điện thoại: ${user.soDienThoai}, Email: ${user.email}\n
                 Phòng Loại phòng: ${additionalInfo.loaiPhong}, Ngày nhận phòng: ${ttHD.ngayNhanPhong}, Ngày trả phòng: ${ttHD.ngayTraPhong}, Chi phí 1 ngày :${additionalInfo.chiPhi}\n

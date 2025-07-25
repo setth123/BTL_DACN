@@ -1,6 +1,6 @@
 // PaymentReturn.jsx
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function PaymentReturn() {
   const navigate = useNavigate();

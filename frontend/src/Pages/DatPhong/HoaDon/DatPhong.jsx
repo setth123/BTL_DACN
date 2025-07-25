@@ -132,7 +132,7 @@ const DatPhong = () => {
                     </div>
                     <div style={{display:"flex",justifyContent: "space-between",padding: "0 2vw",marginTop:"3vh"}}>
                         <div style={{display:"flex",flexDirection:"column"}}>
-                            <i >*Thanh toán ngay, giảm giá 15%, không hoàn tiền</i>
+                            <i >*Thanh toán ngay, giảm giá 10%, không hoàn tiền</i>
                             <button id="dpBtn" style={{margin:"1vh"}}onClick={()=>handleDP("prepaid")}>Thanh toán online</button>
                         </div>
                         <div style={{display:"flex",flexDirection:"column"}}>

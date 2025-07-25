@@ -32,7 +32,7 @@ public class PaymentController {
     @GetMapping("/return")
     public void handleReturn(@RequestParam Map<String, String> queryParams, HttpServletResponse response) throws IOException {
         String responseCode=queryParams.get("vnp_ResponseCode");
-        int hoaDonID=Integer.parseInt(queryParams.get("orderInfo"));
+        int hoaDonID=Integer.parseInt(queryParams.get("vnp_OrderInfo"));
         
         HoaDon hd=hdr.findByHoaDonID(hoaDonID).orElse(null);
         if(!vnPayService.isValidChecksum(queryParams, queryParams.get("vnp_SecureHash"))){
@@ -40,7 +40,7 @@ public class PaymentController {
             return;
         }
         if("00".equals(responseCode)){
-            response.sendRedirect(successUrl+"?invoiceId="+hd.getHoaDonID());
+            response.sendRedirect(successUrl+"/"+hd.getHoaDonID());
         }
         else{
             hdr.delete(hd);
