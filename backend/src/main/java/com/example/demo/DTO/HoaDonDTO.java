@@ -27,4 +27,8 @@ public class HoaDonDTO {
     private String tienIch;
     private Boolean khuyenMaiState;
     private String paymentType;
+
+    private String bankCode;
+    private String locale;
+    private String maGiaoDich;
 }

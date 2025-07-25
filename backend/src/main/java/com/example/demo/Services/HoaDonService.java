@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import com.example.demo.Repositories.PhongRepository;
 
 @Service
 public class HoaDonService {
+    @Autowired
+    private VNPayService vnPayService;
     @Autowired
     PhongRepository pr;
     @Autowired
@@ -75,20 +79,27 @@ public class HoaDonService {
             if (dk1 && dk2 && dk3) {
                 discount = hd.getChiPhiDuTinh().multiply(km.getMucKhuyenMai()).divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
             }
-            hd.setTongChiPhi(hd.getChiPhiDuTinh().subtract(discount));
+            BigDecimal tongChiPhi = hd.getChiPhiDuTinh().subtract(discount);
+            if(hd.getPaymentType().equals("prepaid")){
+                tongChiPhi = tongChiPhi.subtract(hd.getChiPhiDuTinh().multiply(BigDecimal.valueOf(0.1)));
+
+                String txnRef = String.valueOf(System.currentTimeMillis());
+                Map<String, String> vnpParams = new HashMap<>();
+                vnpParams.put("amount", String.valueOf(tongChiPhi.intValue()));
+                vnpParams.put("orderInfo",String.valueOf(hd.getHoaDonID()));
+                vnpParams.put("txnRef", txnRef);
+                
+                String vnpUrl=vnPayService.createPaymentUrl(vnpParams);
+                return ResponseEntity.ok(Map.of("vnpUrl",vnpUrl));
+            }
+            hd.setTongChiPhi(tongChiPhi);
             if (dk1 && dk2 && dk3) {
                 ApDungKhuyenMai kmhd=new ApDungKhuyenMai();
                 kmhd.setHoaDon(hd);
                 kmhd.setKhuyenMai(km);
                 kmhdr.save(kmhd);
             }
-            if(hd.getPaymentType().equals("prepaid")){
-                //PaymentService ps=new PaymentService();
-                //hd.setTongChiPhi(hd.getTongChiPhi().multiply(BigDecimal.valueOf(0.85)).setScale(2, RoundingMode.HALF_UP));
-                //hdr.save(hd); 
-                //return ps.createPaymentLink(hd);
-            }
-            //hdr.save(hd);
+            hdr.save(hd);
             pr.save(p);
             return ResponseEntity.status(HttpStatus.OK).body(hd);
         }

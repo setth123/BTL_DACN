@@ -62,7 +62,7 @@ const DatPhong = () => {
             return;
         }
         const dpForm={ngayNhanPhong:formatDate(room.ngayNhanPhong),ngayTraPhong:formatDate(room.ngayTraPhong),hoTenKH:userDT.hoTen,maPhong:room.maPhong,maKhuyenMai:userDT.maKhuyenMai,maNguoiDung:user.maNguoiDung,paymentType:paymentType};
-        console.log(dpForm);
+        localStorage.setItem("phongInfo",{loaiPhong:room.loaiPhong,soNgay:room.soNgay,chiPhi:room.chiPhi});
         try{
             const res=await fetch(`http://localhost:8080/api/hoa-don`,{
                 method:"POST",
@@ -76,15 +76,12 @@ const DatPhong = () => {
                 throw new Error(`Error API: ${res.status} ${res.statusText}`);
             }
             let data=await res.json();
-            if(data.paymentUrl){
-                window.location.href=data.paymentUrl; 
+            if(data.vnpUrl){
+                window.location.href=data.vnpUrl; 
             }
             else{
-                data.loaiPhong=room.loaiPhong;
-                data.soNgay=room.soNgay;
-                data.chiPhi=room.giaPhong;
                 alert("Đặt phòng thành công, thanh toán sau");
-                navigate(`/dptc/${data.hoaDonID}`,{state:data});
+                navigate(`/dptc/${data.hoaDonID}`);
             }
         }
         catch(err){

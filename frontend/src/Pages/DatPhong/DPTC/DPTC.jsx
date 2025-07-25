@@ -2,17 +2,30 @@ import "./DPTC.css"
 import {QRCodeSVG} from "qrcode.react";
 import { useLocation, useParams } from "react-router-dom";
 
-const DPTC = () => {
+const DPTC =async ({paymentType}) => {
     const {hoaDonID}=useParams();
-    const location=useLocation();
+    const[ttHD,setTTHD]=useState(null);
+    try{
+        const res=await fetch(`http://localhost:8080/api/hoa-don/HD/${hoaDonID}`,{
+            method:"GET",
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${token.token}`
+            }
+        })
+        const hdDt=await res.json();
+        setTTHD(hdDt);
+    }
+    catch(err){
+        console.log("Error while fetching ",err);
+    }
     const user=localStorage.getItem('user')||{maNguoiDung:"ND10000000000001",email:"user1@example.com",soDienThoai:"0123456789",tenDangNhap:"user1"};
-    const hd=location.state||{};
-    const ttHD={maHD:hoaDonID,hoTen:hd.hoTenKH,soDienThoai:user.soDienThoai,email:user.email,loaiPhong:hd.loaiPhong,ngayNhanPhong:hd.ngayNhanPhong,ngayTraPhong:hd.ngayTraPhong,soNgay:hd.soNgay,chiPhi:hd.chiPhi,chiPhiDuTinh:hd.chiPhiDuTinh,tongChiPhi:hd.tongChiPhi}
-
+    const additionalInfo=localStorage.getItem("phongInfo");
+    localStorage.removeItem("phongInfo");
     const text=`Mã hoá đơn: ${ttHD.maHD} \n
-                Khách hàng Họ tên: ${ttHD.hoTen}, Số điện thoại: ${ttHD.soDienThoai}, Email: ${ttHD.email}\n
-                Phòng Loại phòng: ${ttHD.loaiPhong}, Ngày nhận phòng: ${ttHD.ngayNhanPhong}, Ngày trả phòng: ${ttHD.ngayTraPhong}, Chi phí 1 ngày :${ttHD.chiPhi}\n
-                Chi phí Chi phí dự tính: ${ttHD.chiPhiDuTinh}, Mức khuyến mãi: ${ttHD.chiPhiDuTinh-ttHD.tongChiPhi}, Tổng chi phí: ${ttHD.tongChiPhi}`
+                Khách hàng Họ tên: ${ttHD.hoTen}, Số điện thoại: ${user.soDienThoai}, Email: ${user.email}\n
+                Phòng Loại phòng: ${additionalInfo.loaiPhong}, Ngày nhận phòng: ${ttHD.ngayNhanPhong}, Ngày trả phòng: ${ttHD.ngayTraPhong}, Chi phí 1 ngày :${additionalInfo.chiPhi}\n
+                Chi phí Chi phí dự tính: ${ttHD.chiPhiDuTinh}, Mức khuyến mãi: ${ttHD.chiPhiDuTinh-ttHD.tongChiPhi}, Tổng chi phí: ${ttHD.tongChiPhi} (${paymentType})`
     return (
         <div id="dptc" style={{marginTop:"3vh"}}>
             <h1 >Hoá đơn thanh toán</h1>
@@ -23,8 +36,8 @@ const DPTC = () => {
                 <h3>Khách hàng</h3>
                 <div id="customer">
                     <p>Tên đầy đủ: <b>{ttHD.hoTen}</b></p>
-                    <p>Số điện thoại: <b>{ttHD.soDienThoai}</b></p>
-                    <p>Email: <b>{ttHD.email}</b></p>
+                    <p>Số điện thoại: <b>{user.soDienThoai}</b></p>
+                    <p>Email: <b>{user.email}</b></p>
                 </div>
                 <table id="roomBill" style={{marginTop: "5vh"}} >
                     <tr>
@@ -35,11 +48,11 @@ const DPTC = () => {
                         <th>Chi phí 1 ngày</th>
                     </tr>
                     <tr>
-                        <td>{ttHD.loaiPhong}</td>
+                        <td>{additionalInfo.loaiPhong}</td>
                         <td>{ttHD.ngayNhanPhong}</td>
                         <td>{ttHD.ngayTraPhong}</td>
                         <td>{ttHD.soNgay}</td>
-                        <td>{ttHD.chiPhi.toLocaleString("vn-VN")} VNĐ</td>
+                        <td>{additionalInfo.chiPhi.toLocaleString("vn-VN")} VNĐ</td>
                     </tr>
                 </table>
                 <div id="billPrice" style={{marginTop:"5vh",marginBottom:"5vh"}}>
@@ -53,6 +66,7 @@ const DPTC = () => {
                     </div>
                     <div id="bp">
                         <p>Tổng chi phí:</p>
+                        {paymentType==="Prepaid"&&<i>Giảm giá 10% khi trả trước</i>}
                         <b><p>{ttHD.tongChiPhi.toLocaleString("vn-VN")} VNĐ</p></b> 
                     </div>
                 </div>

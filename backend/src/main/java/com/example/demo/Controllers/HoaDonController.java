@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.DTO.HoaDonDTO;
+import com.example.demo.Entities.HoaDon;
 import com.example.demo.Repositories.HoaDonRepository;
 import com.example.demo.Services.HoaDonService;
 
@@ -29,7 +30,6 @@ public class HoaDonController {
     @Autowired
     HoaDonRepository hdr;
     //get all
-
     @GetMapping("/{maNguoiDung}")
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<List<HoaDonDTO>> getAllHD(@PathVariable String maNguoiDung){
@@ -54,6 +54,17 @@ public class HoaDonController {
             return ResponseEntity.status(HttpStatus.OK).body(hd);
         }
         catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+    @GetMapping("/HD/{hoaDonID}")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<HoaDon> getHoaDon(@PathVariable String hoaDonID){
+        try{
+            return ResponseEntity.status(HttpStatus.OK).body(hdr.findByHoaDonID(Integer.parseInt(hoaDonID)).orElse(null));
+        }
+        catch(Exception e){
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

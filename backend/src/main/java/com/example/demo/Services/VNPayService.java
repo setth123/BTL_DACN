@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -73,6 +74,28 @@ public class VNPayService {
 
         } catch (Exception e) {
             throw new RuntimeException("Create VNPay URL failed", e);
+        }
+    }
+
+    public boolean isValidChecksum(Map<String, String> params, String receivedHash) {
+        Map<String, String> sortedParams = new TreeMap<>();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (!entry.getKey().equals("vnp_SecureHash") && !entry.getKey().equals("vnp_SecureHashType")) {
+                sortedParams.put(entry.getKey(), entry.getValue());
+            }
+        }
+
+        StringBuilder data = new StringBuilder();
+        for (Map.Entry<String, String> entry : sortedParams.entrySet()) {
+            data.append(entry.getKey()).append('=').append(entry.getValue()).append('&');
+        }
+        data.setLength(data.length() - 1); 
+
+        try {
+            String hash = hmacSHA512(config.getHashSecret(), data.toString());
+            return hash.equalsIgnoreCase(receivedHash);
+        } catch (Exception e) {
+            return false;
         }
     }
 
