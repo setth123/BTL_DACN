@@ -1,20 +1,27 @@
 import { useNavigate } from 'react-router-dom';
 import './AuthForm.css'
 import { useEffect } from 'react';
+import { jwtDecode } from "jwt-decode";
 const AuthForm = ({isLogin=true,isUser=true}) => {
     const navigate=useNavigate();
     useEffect(()=>{
         if(isUser&& isLogin){
             if (!localStorage.getItem('accessToken')) return;
             const token=JSON.parse(localStorage.getItem('accessToken'));
-            if(token){
+            const decoded=jwtDecode(token);
+            const expTime=decoded.exp;
+            const curTime=Math.floor(Date.now()/1000);
+            if(token&&expTime>curTime){
                 navigate("/");
             }
         }
         else if(!isUser && isLogin){
             if (!localStorage.getItem('adminToken')) return;
-            const token=JSON.parse(localStorage.getItem('adminToken'));
-            if(token)navigate("/admin");
+            const token=JSON.parse(localStorage.getItem('adminToken')).token;
+            const decoded=jwtDecode(token);
+            const expTime=decoded.exp;
+            const curTime=Math.floor(Date.now()/1000);
+            if(token&&expTime>curTime)navigate("/admin");
         }
     },[])   
     const handleSubmit=async(e)=>{

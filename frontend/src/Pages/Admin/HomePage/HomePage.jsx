@@ -3,9 +3,11 @@ import StaticNum from "../../../Components/StatticNum/StaticNum";
 import StaticTable from "../../../Components/StaticTable/StaticTable";
 import ANavBar from "../../../Components/ANavBar/ANavBar";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const fetchData = async (url) => {
-    const token = JSON.parse(localStorage.getItem('adminToken'))?.token;
+    const token=JSON.parse(localStorage.getItem('adminToken')).token;
     try {
         const res = await fetch(url, {
             headers: {
@@ -14,6 +16,8 @@ const fetchData = async (url) => {
             },
         });
         if (!res.ok) {
+            alert("Cần đăng nhập");
+            navigate("/admin/login");
             throw new Error(`Error API: ${res.status} ${res.statusText}`);
         }
         return res.json();
@@ -23,7 +27,16 @@ const fetchData = async (url) => {
     }
 };
 const AHomePage = () => {
-    const { data: hotelData, error: errorHT, isLoading: isLoadingHT } = useQuery({
+    const token=JSON.parse(localStorage.getItem('adminToken')).token;
+    const navigate=useNavigate();
+    const decoded=jwtDecode(token);
+    const expTime=decoded.exp;
+    const curTime=Math.floor(Date.now()/1000);
+    if(!token||expTime<curTime){
+        alert("Vui lòng đăng nhập");
+        navigate("/admin/login");
+    }
+        const { data: hotelData, error: errorHT, isLoading: isLoadingHT } = useQuery({
         queryKey: ["adminHotels"],
         queryFn: () => fetchData("http://localhost:8080/api/khach-san")
     });
@@ -56,10 +69,10 @@ const AHomePage = () => {
             <div className="mainContent">
                 {/* Section thống kê số lượng */}
                 <div className="statRow">
-                    <StaticNum icon={"./Assets/user-blue.svg"} number={ndData.length} description={"Số người dùng"} />
-                    <StaticNum icon={"./Assets/hotel.svg"} number={hotelData.length} description={"Số khách sạn"} />
-                    <StaticNum icon={"./Assets/room.svg"} number={roomData.length} description={"Số phòng"} />
-                    <StaticNum icon={"./Assets/voucher.svg"} number={kmData.length} description={"Số khuyến mãi"} />
+                    <StaticNum icon={"/assets/user-blue.svg"} number={ndData.length} description={"Số người dùng"} />
+                    <StaticNum icon={"/assets/hotel.svg"} number={hotelData.length} description={"Số khách sạn"} />
+                    <StaticNum icon={"/assets/room.svg"} number={roomData.length} description={"Số phòng"} />
+                    <StaticNum icon={"/assets/voucher.svg"} number={kmData.length} description={"Số khuyến mãi"} />
                 </div>
 
                 {/* Section bảng */}
