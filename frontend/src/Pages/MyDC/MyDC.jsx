@@ -75,7 +75,7 @@ const MyDC = () => {
             <h2>Các phòng đã đặt</h2>
             <i style={{marginTop:"1vh",marginLeft:"1vw"}}>*Các phòng có thể được huỷ miễn phí trước 1 tuần</i>
             <div id="roomContainer">
-                {data.map((item,index)=>(<div key={index} id="room">
+                {data.map((item,index)=>(<div key={index} id="room" onClick={()=>navigate(`/dptc/${item.hoaDonID}`)}>
                             <img src={item.hinhAnh} alt="room" />
                         <div id="rp2">
                             <h2 style={{marginTop:"2vh"}}>{item.loaiPhong}</h2>
